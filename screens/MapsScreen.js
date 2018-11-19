@@ -1,13 +1,22 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 import { MapView } from 'expo'
 
 import { mapStyle } from '../constants/styles'
 
 export default class MapsScreen extends Component {
-  static navigationOptions = {
-    title: 'Map'
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Map',
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Home')}
+          title="Home"
+          color="#000"
+        />
+      )
+    }
   }
 
   render() {

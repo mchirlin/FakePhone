@@ -1,14 +1,23 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableHighlight, Button } from 'react-native';
 
 import MessageItem from '../../components/Messages/MessageItem'
 
 import styles from '../../constants/styles'
 
 export default class MessagesScreen extends Component {
-  static navigationOptions = {
-    title: 'Messages',
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Messages',
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Home')}
+          title="Home"
+          color="#000"
+        />
+      )
+    }
+  }
 
   renderSeparator = () => {
     return (

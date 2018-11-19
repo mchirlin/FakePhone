@@ -1,15 +1,23 @@
 import React, { Component } from 'react';
-import { Text, View, FlatList, TouchableHighlight, StyleSheet } from 'react-native';
+import { Text, View, FlatList, TouchableHighlight, StyleSheet, Button } from 'react-native';
 
 import MailItem from '../../components/Mail/MailItem'
 
 import styles from '../../constants/styles'
 
 export default class MailScreen extends Component {
-  static navigationOptions = {
-    title: 'All Mail',
-  };
-
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Mail',
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Home')}
+          title="Home"
+          color="#000"
+        />
+      )
+    }
+  }
   renderSeparator = () => {
     return (
       <View style={styles.listSeparator} />

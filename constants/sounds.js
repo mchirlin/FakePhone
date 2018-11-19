@@ -13,5 +13,6 @@ export const tones = [
   require('../assets/sounds/p.wav')
 ]
 export const rings = [
-  require('../assets/sounds/ring.mp3')
+  require('../assets/sounds/ring.mp3'),
+  require('../assets/sounds/hello-with-ring.mp3')
 ]

@@ -1,10 +1,15 @@
-import React from 'react';
 import { createSwitchNavigator } from 'react-navigation';
 
-import MainTabNavigator from './MainTabNavigator';
+import HomeStack from './HomeStack'
+import PhoneStack from './PhoneStack'
+import MessagesStack from './MessagesStack'
+import MailStack from './MailStack'
+import MapsStack from './MapsStack'
 
 export default createSwitchNavigator({
-  // You could add another route here for authentication.
-  // Read more at https://reactnavigation.org/docs/en/auth-flow.html
-  Main: MainTabNavigator,
+  Home: HomeStack,
+  PhoneApp: PhoneStack,
+  MessagesApp: MessagesStack,
+  MailApp: MailStack,
+  MapsApp: MapsStack
 });

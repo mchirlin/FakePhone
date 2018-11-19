@@ -21,6 +21,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: colors.lightBackground
   },
+  contentContainer: {
+    flex: 1,
+    backgroundColor: '#f0f',
+    alignItems: 'stretch'
+  },
   listSeparator: {
     width: '100%',
     height: 1,
@@ -29,6 +34,9 @@ const styles = StyleSheet.create({
   rowLayout: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+  },
+  columnLayout: {
+    flexDirection: 'column'
   },
   buttonLayout: {
     flex: 1,
@@ -146,6 +154,26 @@ const styles = StyleSheet.create({
   },
   avatar: {
     marginRight: 20
+  },
+  tabBar: {
+    borderTopWidth: 2,
+    borderColor: '#000',
+    width: '100%',
+    height: 100,
+    backgroundColor: '#ccc',
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center'
+  },
+  appButton: {
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#000',
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    alignItems: 'center',
+    justifyContent: 'center'
   }
 })
 

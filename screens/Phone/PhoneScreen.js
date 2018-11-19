@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { Text, View } from 'react-native';
+import { Text, View, Button } from 'react-native';
 import { connect } from 'react-redux';
-import { createSelector } from 'reselect'
 import { Audio } from 'expo'
 
 import PhoneNumber from '../../components/Phone/PhoneNumber'
@@ -15,9 +14,18 @@ import { onNumberAdd, onNumberDelete, onCallStart, onSoundEnd } from '../../redu
 import styles from '../../constants/styles'
 
 class PhoneScreen extends Component {
-  static navigationOptions = {
-    header: null
-  };
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Phone',
+      headerLeft: (
+        <Button
+          onPress={() => navigation.navigate('Home')}
+          title="Home"
+          color="#000"
+        />
+      )
+    }
+  }
 
   constructor(props) {
     super(props)
@@ -96,6 +104,7 @@ const mapAudioTrackToSound = (audioTrack) => {
     case '*': return tones[9]
     case '0': return tones[10]
     case '#': return tones[11]
+    case '999': return rings[1]
     default: return rings[0]
   }
 }
