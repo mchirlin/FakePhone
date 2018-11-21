@@ -2,13 +2,15 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Message from '../../components/Messages/Message'
-
 import styles from '../../constants/styles'
 
 export default class MessagesScreen extends Component {
-  static navigationOptions = {
-    title: 'Particular Message'
-  };
+  static navigationOptions = () => {
+    return {
+      title: 'Particular Message',
+      headerTitleStyle: styles.textLarge
+    }
+  }
 
   render() {
     return (

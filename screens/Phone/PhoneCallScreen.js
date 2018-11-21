@@ -46,8 +46,8 @@ const formatSeconds = (sec) => {
 
 const mapStateToProps = state => {
   return {
-    phoneNumber: state.phoneNumber,
-    timer: formatSeconds(state.timerSeconds)
+    phoneNumber: state.phone.phoneNumber,
+    timer: formatSeconds(state.phone.timerSeconds)
    };
 };
 

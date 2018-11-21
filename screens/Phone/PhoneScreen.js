@@ -1,16 +1,14 @@
 import React, {Component} from 'react';
-import { Text, View, Button } from 'react-native';
+import { Text, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { Audio } from 'expo'
+import { Entypo } from '@expo/vector-icons';
 
 import PhoneNumber from '../../components/Phone/PhoneNumber'
 import PhoneButtonRow from '../../components/Phone/PhoneButtonRow'
 import PhoneButtonLastRow from '../../components/Phone/PhoneButtonLastRow'
-
 import { tones, rings } from '../../constants/sounds'
-
 import { onNumberAdd, onNumberDelete, onCallStart, onSoundEnd } from '../../reducers/phoneReducer'
-
 import styles from '../../constants/styles'
 
 class PhoneScreen extends Component {
@@ -18,12 +16,11 @@ class PhoneScreen extends Component {
     return {
       title: 'Phone',
       headerLeft: (
-        <Button
-          onPress={() => navigation.navigate('Home')}
-          title="Home"
-          color="#000"
-        />
-      )
+        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
+          <Entypo name="home" size={30} color="#000" />
+        </TouchableOpacity>
+      ),
+      headerTitleStyle: styles.textLarge
     }
   }
 
@@ -111,9 +108,9 @@ const mapAudioTrackToSound = (audioTrack) => {
 
 const mapStateToProps = state => {
   return {
-    phoneNumber: state.phoneNumber,
-    audioTrack: mapAudioTrackToSound(state.audioTrack),
-    isPlaying: state.isPlaying
+    phoneNumber: state.phone.phoneNumber,
+    audioTrack: mapAudioTrackToSound(state.phone.audioTrack),
+    isPlaying: state.phone.isPlaying
   }
 };
 

@@ -17,11 +17,8 @@ export default class AppButtonGrid extends Component {
       // Start counter at 0,
       // For each button, increment counter
       // When counter = numColumns, set back to zero and increment row
-      <View style={{backgroundColor: '#fff', flex: 1}}>
-        <AppButton icon="phone" app="PhoneApp" navigation={navigation} />
-        <AppButton icon="phone" app="PhoneApp" navigation={navigation} />
-        <AppButton icon="phone" app="PhoneApp" navigation={navigation} />
-        <AppButton icon="phone" app="PhoneApp" navigation={navigation} />
+      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+        <Text>Apps will go here</Text>
       </View>
     )
   }

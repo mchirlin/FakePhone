@@ -23,7 +23,6 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    backgroundColor: '#f0f',
     alignItems: 'stretch'
   },
   listSeparator: {
@@ -174,6 +173,9 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  homeIcon: {
+    marginLeft: 10
   }
 })
 

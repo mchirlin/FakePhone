@@ -4,11 +4,12 @@ import { connect, Provider } from 'react-redux'
 import { createStore } from 'redux'
 
 import AppNavigator from './navigation/AppNavigator';
-import { reducer } from './reducers/phoneReducer'
+import reducer from './reducers/index'
 
 import { Font, AppLoading, Icon } from 'expo';
 
 const store = createStore(reducer);
+console.log(store.getState())
 
 class App extends Component {
   state = {

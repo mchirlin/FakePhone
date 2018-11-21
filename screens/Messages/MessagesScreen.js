@@ -1,8 +1,8 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableHighlight, Button } from 'react-native';
+import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Entypo } from '@expo/vector-icons';
 
 import MessageItem from '../../components/Messages/MessageItem'
-
 import styles from '../../constants/styles'
 
 export default class MessagesScreen extends Component {
@@ -10,12 +10,11 @@ export default class MessagesScreen extends Component {
     return {
       title: 'Messages',
       headerLeft: (
-        <Button
-          onPress={() => navigation.navigate('Home')}
-          title="Home"
-          color="#000"
-        />
-      )
+        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
+          <Entypo name="home" size={30} color="#000" />
+        </TouchableOpacity>
+      ),
+      headerTitleStyle: styles.textLarge
     }
   }
 

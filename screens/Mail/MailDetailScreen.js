@@ -4,9 +4,12 @@ import { StyleSheet, Text, View, FlatList, TouchableHighlight } from 'react-nati
 import styles from '../../constants/styles'
 
 export default class MailDetailScreen extends Component {
-  static navigationOptions = {
-    title: 'Particular Email',
-  };
+  static navigationOptions = () => {
+    return {
+      title: 'Particular Email',
+      headerTitleStyle: styles.textLarge
+    }
+  }
 
   render() {
     return (

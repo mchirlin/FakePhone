@@ -7,7 +7,7 @@ import MailStack from './MailStack'
 import MapsStack from './MapsStack'
 
 export default createSwitchNavigator({
-  Home: HomeStack,
+  HomeStack: HomeStack,
   PhoneApp: PhoneStack,
   MessagesApp: MessagesStack,
   MailApp: MailStack,

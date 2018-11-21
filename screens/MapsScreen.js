@@ -1,21 +1,20 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
-
+import { View, TouchableOpacity } from 'react-native';
 import { MapView } from 'expo'
+import { Entypo } from '@expo/vector-icons';
 
-import { mapStyle } from '../constants/styles'
+import styles, { mapStyle } from '../constants/styles'
 
 export default class MapsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Map',
       headerLeft: (
-        <Button
-          onPress={() => navigation.navigate('Home')}
-          title="Home"
-          color="#000"
-        />
-      )
+        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
+          <Entypo name="home" size={30} color="#000" />
+        </TouchableOpacity>
+      ),
+      headerTitleStyle: styles.textLarge
     }
   }
 
@@ -31,6 +30,7 @@ export default class MapsScreen extends Component {
           latitudeDelta: 0.0922,
           longitudeDelta: 0.0421,
         }}
+        showsUserLocation
       >
         <MapView.Marker
           coordinate={{
