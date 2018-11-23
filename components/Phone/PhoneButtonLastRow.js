@@ -8,14 +8,25 @@ import styles from '../../constants/styles'
 
 export default class PhoneButtonRow extends Component {
   render() {
-    const {onCallPress} = this.props
-    const {onBackPress} = this.props
-    const {navigation} = this.props
+    const {
+      onCallPress,
+      onBackPress,
+      onEventActivate,
+      navigation,
+      number,
+      numbers
+    } = this.props
 
     return (
       <View style={styles.buttonLayout}>
         <View style={styles.buttonLeftContainer} />
-        <PhoneCallButton onPressItem={onCallPress} navigation={navigation} />
+        <PhoneCallButton
+          onPress={onCallPress}
+          navigation={navigation}
+          number={number}
+          numbers={numbers}
+          onEventActivate={onEventActivate}
+        />
         <View style={styles.buttonRightContainer}>
           <PhoneBackButton onPressItem={onBackPress}/>
         </View>

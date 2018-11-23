@@ -11,7 +11,12 @@
     "badgeNumber": 0,
     "phoneNumbers": [{
       "uri": "http://www.largesound.com/ashborytour/sound/brobob.mp3",
-      "number": "000"
+      "number": "000",
+      "triggers": [
+        {
+          "id": "MARKER1"
+        }
+      ]
     }]
   },
   "message": {
@@ -29,6 +34,11 @@
         "time": "Fri",
         "subject": "Here is the subject line",
         "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "image": {
+          "uri": "https://upload.wikimedia.org/wikipedia/commons/thumb/4/4b/What_Is_URL.jpg/800px-What_Is_URL.jpg",
+          "width": 200,
+          "height": 200
+        },
         "read": true
       },
       {
@@ -38,6 +48,11 @@
         "to": "me",
         "subject": "This is another subject line",
         "body": "Is it me you're looking for?",
+        "video": {
+          "uri": "https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4",
+          "height": 180,
+          "width": 320
+        },
         "read": true
       }
     ]
@@ -46,10 +61,10 @@
     "badgeNumber": 0,
     "markers": [
       {
-        "title": "Marker Title",
-        "description": "Description",
+        "title": "Come to this location",
+        "description": "Arriving at this location will trigger and email",
         "latitude": -33.889,
-        "longitude": 151.197834
+        "longitude": 151.195834
       }
     ],
     "regions": [
@@ -62,36 +77,47 @@
         "id": "EMAIL1",
         "status": "active",
         "startTime": null,
-        "delay": 10000,
+        "delay": 30000,
         "action": {
           "type": "MAIL_ADD",
-          "payload": "{\"to\": \"Michael\", \"from\": \"Timer\", \"time\": \"TIME\", \"subject\": \"Email triggered by timer\", \"body\": \"This email triggers 10 seconds after opening the app\"}"
+          "payload": "{\"to\": \"Michael\", \"from\": \"Timer\", \"time\": \"TIME\", \"subject\": \"Email triggered by timer\", \"body\": \"This email triggers 30 seconds after opening the app\"}"
         }
       },
       {
         "id": "EMAIL2",
         "status": "pending",
         "startTime": null,
-        "delay": 5000,
+        "delay": 10000,
         "action": {
           "type": "MAIL_ADD",
-          "payload": "{\"to\": \"Michael\", \"from\": \"Lock Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by lock screen\", \"body\": \"This email triggers 5 seconds after completing the lock screen\"}"
+          "payload": "{\"to\": \"Michael\", \"from\": \"Lock Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by lock screen\", \"body\": \"This email triggers 10 seconds after completing the lock screen\"}"
         }
       },
       {
         "id": "EMAIL3",
         "status": "pending",
         "delay": 0,
+        "startTime": null,
         "location": {
           "latitude": -33.889,
-          "longitude": 151.197834
+          "longitude": 151.195834
         },
         "distance": 20,
         "action": {
           "type": "MAIL_ADD",
           "payload": "{\"to\": \"Michael\", \"from\": \"Map Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by location\", \"body\": \"This email triggers after reaching a location\"}"
-        }
+        },
       },
+      {
+        "id": "MARKER1",
+        "status": "pending",
+        "delay": 6000,
+        "startTime": null,
+        "action": {
+          "type": "MARKER_ADD",
+          "payload": "{\"title\":\"Added Marker\", \"description\":\"This was added by making a phone call\", \"latitude\": -33.889,\"longitude\": 151.195834}"
+        }
+      }
     ]
   }
 }

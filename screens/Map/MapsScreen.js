@@ -5,6 +5,7 @@ import { connect } from 'react-redux'
 import { Entypo } from '@expo/vector-icons';
 
 import styles, { mapStyle } from '../../constants/styles'
+import { onLocationViewAll } from '../../reducers/mapReducer'
 
 class MapsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -17,6 +18,12 @@ class MapsScreen extends Component {
       ),
       headerTitleStyle: styles.textLarge
     }
+  }
+
+  componentDidMount() {
+    const {onLocationViewAll} = this.props
+
+    onLocationViewAll()
   }
 
   render() {
@@ -64,4 +71,8 @@ const mapStateToProps = state => {
   }
 };
 
-export default connect(mapStateToProps)(MapsScreen);
+const mapDispatchToProps = {
+  onLocationViewAll
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MapsScreen);

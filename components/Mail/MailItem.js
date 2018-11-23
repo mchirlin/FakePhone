@@ -24,7 +24,7 @@ export default class MailItem extends Component {
             <Text style={[item.read?styles.textMedium:styles.textMediumBold, styles.blueText]}>{item.time}</Text>
           </View>
           <Text style={item.read?styles.textMedium:styles.textMediumBold}>{item.subject}</Text>
-          <Text style={styles.textSmall}>{item.body.substr(0, 45)}</Text>
+          <Text style={styles.textSmall}>{item.body.substr(0, 45)}...</Text>
         </View>
       </TouchableHighlight>
     )

@@ -9,6 +9,7 @@ import PhoneButtonRow from '../../components/Phone/PhoneButtonRow'
 import PhoneButtonLastRow from '../../components/Phone/PhoneButtonLastRow'
 import { tones, rings } from '../../constants/sounds'
 import { onNumberAdd, onNumberDelete, onCallStart, onSoundEnd } from '../../reducers/phoneReducer'
+import { onEventActivate } from '../../reducers/eventReducer'
 import styles from '../../constants/styles'
 
 class PhoneScreen extends Component {
@@ -27,12 +28,12 @@ class PhoneScreen extends Component {
   constructor(props) {
     super(props)
 
-    this._onPlaybackStatusUpdate = this._onPlaybackStatusUpdate.bind(this);
+    this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
   }
 
   componentDidMount() {
     this.soundObject = new Audio.Sound()
-    this.soundObject.setOnPlaybackStatusUpdate(this._onPlaybackStatusUpdate);
+    this.soundObject.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
   }
 
   async componentDidUpdate() {
@@ -57,12 +58,10 @@ class PhoneScreen extends Component {
 
   render() {
     /* Props */
-    const {phoneNumber} = this.props
+    const {phoneNumber, phoneNumbers} = this.props
 
     /* Dispatches */
-    const {onNumberAdd} = this.props
-    const {onNumberDelete} = this.props
-    const {onCallStart} = this.props
+    const {onNumberAdd, onNumberDelete, onCallStart, onEventActivate} = this.props
 
     /* Navigation */
     const {navigation} = this.props
@@ -74,12 +73,18 @@ class PhoneScreen extends Component {
         <PhoneButtonRow values={['4','5','6']} letters= {['GHI','JKL','MNO']} onPressItem={onNumberAdd} />
         <PhoneButtonRow values={['7','8','9']} letters= {['PQRS','TUV','WXYZ']} onPressItem={onNumberAdd} />
         <PhoneButtonRow values={['*','0','#']} letters= {['','+','']} onPressItem={onNumberAdd} />
-        <PhoneButtonLastRow navigation={navigation} onBackPress={onNumberDelete} onCallPress={onCallStart} />
+        <PhoneButtonLastRow
+          numbers={phoneNumbers}
+          number={phoneNumber}
+          navigation={navigation}
+          onBackPress={onNumberDelete}
+          onCallPress={onCallStart}
+          onEventActivate={onEventActivate} />
       </View>
     );
   }
 
-  _onPlaybackStatusUpdate (playbackStatus) {
+  onPlaybackStatusUpdate (playbackStatus) {
     const {onSoundEnd} = this.props
     if (playbackStatus.didJustFinish) {
       onSoundEnd()
@@ -87,7 +92,16 @@ class PhoneScreen extends Component {
   }
 }
 
-const mapAudioTrackToSound = (audioTrack) => {
+const mapAudioTrackToSound = (audioTrack, phoneNumbers) => {
+
+  const mappedNumber = phoneNumbers.find((phoneNumber) => {
+    if (phoneNumber.number === audioTrack) {
+      return phoneNumber
+    }
+  })
+
+  if (mappedNumber) return mappedNumber
+
   switch (audioTrack) {
     case '1': return tones[0]
     case '2': return tones[1]
@@ -110,8 +124,9 @@ const mapStateToProps = state => {
   const phoneNumber = state.phone.phoneNumber?state.phone.phoneNumber:''
   return {
     phoneNumber: phoneNumber,
-    audioTrack: mapAudioTrackToSound(state.phone.audioTrack),
-    isPlaying: state.phone.isPlaying
+    audioTrack: mapAudioTrackToSound(state.phone.audioTrack, state.phone.phoneNumbers),
+    isPlaying: state.phone.isPlaying,
+    phoneNumbers: state.phone.phoneNumbers
   }
 };
 
@@ -119,7 +134,8 @@ const mapDispatchToProps = {
   onNumberAdd,
   onNumberDelete,
   onCallStart,
-  onSoundEnd
+  onSoundEnd,
+  onEventActivate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhoneScreen);

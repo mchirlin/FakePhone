@@ -38,8 +38,8 @@ class App extends Component {
         //   Notifications.setBadgeNumberAsync(badgeNumber + actions.length);
         // });
         Alert.alert(
-          'New Messages',
-          'You have received new messages, check your phone',
+          'New Updates',
+          'You have received updates, check your home screen',
           [
             {text: 'OK'},
           ],

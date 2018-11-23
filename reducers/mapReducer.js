@@ -3,7 +3,8 @@ import {updateObjectInArray} from './functions'
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
   MARKER_ADD: 'MARKER_ADD',
-  LOCATION_UPDATE: 'LOCATION_UPDATE'
+  LOCATION_UPDATE: 'LOCATION_UPDATE',
+  LOCATION_VIEW_ALL: 'LOCATION_VIEW_ALL'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
@@ -19,6 +20,9 @@ export const actionCreators = {
   },
   locationUpdate: (payload) => {
     return {type: types.LOCATION_UPDATE, payload: payload}
+  },
+  locationViewAll: () => {
+    return {type: types.LOCATION_VIEW_ALL}
   }
 }
 
@@ -35,23 +39,30 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const map = (state = initialState, action) => {
-  const {markers} = state
+  const {markers, badgeNumber} = state
   const {type, payload} = action
 
   switch (type) {
     case types.MARKER_ADD: {
       return {
-        ...state
+        ...state,
+        badgeNumber: badgeNumber + 1,
+        markers: [...markers, payload]
       }
     }
     case types.LOCATION_UPDATE: {
-      console.log('Location Update', payload)
       return {
         ...state,
         currentLocation: {
           latitude: payload.coords.latitude,
           longitude: payload.coords.longitude
         }
+      }
+    }
+    case types.LOCATION_VIEW_ALL: {
+      return {
+        ...state,
+        badgeNumber: 0
       }
     }
   }
@@ -64,4 +75,8 @@ export function onMarkerAdd(from, to, time, subject, body) {
 
 export function onLocationUpdate(payload) {
   return actionCreators.locationUpdate(payload)
+}
+
+export function onLocationViewAll() {
+  return actionCreators.locationViewAll()
 }

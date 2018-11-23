@@ -17,6 +17,7 @@ export const actionCreators = {
     return {type: types.NUMBER_DELETE}
   },
   callStart: (phoneNumber) => {
+    console.log(phoneNumber)
     return {type: types.CALL_START, payload: phoneNumber}
   },
   callEnd: () => {
@@ -53,7 +54,7 @@ export const phone = (state = initialState, action) => {
     case types.NUMBER_ADD: {
       return {
         ...state,
-        phoneNumber: phoneNumber + payload,
+        phoneNumber: (phoneNumber?phoneNumber:'') + payload,
         audioTrack: payload,
         isPlaying: true,
       }
@@ -88,7 +89,7 @@ export const phone = (state = initialState, action) => {
     case types.TIMER_UPDATE: {
       return {
         ...state,
-        timerSeconds: timerSeconds + 1
+        timerSeconds: (timerSeconds?timerSeconds:0) + 1
       }
     }
   }
@@ -105,7 +106,7 @@ export function onNumberDelete() {
 }
 
 export function onCallStart(phoneNumber) {
-  return actionCreators.callStart()
+  return actionCreators.callStart(phoneNumber)
 }
 
 export function onCallEnd() {
