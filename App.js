@@ -1,86 +1,131 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, StyleSheet, Text, View } from 'react-native';
+import { Platform, StatusBar, StyleSheet, Text, View, Button, Alert } from 'react-native';
 import { connect, Provider } from 'react-redux'
-import { createStore } from 'redux'
+import { PersistGate } from 'redux-persist/integration/react'
+import { Font, AppLoading, Icon, Location, Permissions, Notifications } from 'expo';
+import { getDistance} from 'geolib'
 
 import AppNavigator from './navigation/AppNavigator';
-import reducer from './reducers/index'
 import {updateObjectInArray} from './reducers/functions'
+import persistConfig from './reducers/index'
 
-import { Font, AppLoading, Icon } from 'expo';
+const {store, persistor}  = persistConfig()
 
-const store = createStore(reducer);
+import {onEventTimerStart, onEventActivate, onEventComplete} from './reducers/eventReducer'
+import {onLocationUpdate} from './reducers/mapReducer'
 
 class App extends Component {
 
   state = {
-    isLoadingComplete: false,
-    timer: {
-      started: false,
-      startedOn: null
-    },
-    triggers: [
-      {
-        status: 'active',
-        startTime: (new Date()).getTime(),
-        duration: 3000,
-        action: '{"type": "MAIL_ADD", "payload": {"to": "TO", "from": "FROM", "time": "TIME", "subject": "SUBJECT", "body": "BODY"}}'
-      }
-    ]
+    isLoadingComplete: false
   };
 
   constructor(props){
     super(props)
 
     this.calculateActions = this.calculateActions.bind(this)
+    this.activateLocationEvents = this.activateLocationEvents.bind(this)
   }
 
-  componentDidMount() {
-    this.timerID = setInterval(()=> {
+  async componentDidMount() {
+    const {map} = store.getState()
+
+    this.timerID = setInterval(async () => {
       let actions = this.calculateActions(this.state);
+      if (actions.length > 0) {
+        // Notifications.getBadgeNumberAsync().then(badgeNumber => {
+        //   console.log('Badge Number:', badgeNumber)
+        //   Notifications.setBadgeNumberAsync(badgeNumber + actions.length);
+        // });
+        Alert.alert(
+          'New Messages',
+          'You have received new messages, check your phone',
+          [
+            {text: 'OK'},
+          ],
+          { cancelable: false }
+        )
+      }
       actions.forEach((item) => {
-        console.log(item)
+        store.dispatch(item)
       })
     }, 1000); //something short
+
+    let { status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
+      this.setState({
+        errorMessage: 'Permission to access location was denied',
+      });
+    }
+
+    Location.watchPositionAsync({
+      enableHighAccuracy: false,
+      distanceInterval: 100
+    }, (coords) => {
+      let actions = this.activateLocationEvents(coords)
+      actions.forEach((item) => {
+        store.dispatch(item)
+      })
+    })
+  }
+
+  activateLocationEvents (coords) {
+    const {event} = store.getState()
+
+    let actions = []
+
+    event.events.forEach((item, index) => {
+      if(item.location) {
+        if (getDistance(item.location, coords.coords) < item.distance) {
+          actions.push(onEventActivate(item.id))
+        }
+      }
+    })
+
+    actions.push(onLocationUpdate(coords))
+
+    return actions
   }
 
   calculateActions (state) {
-    let { timer, triggers } = state;
-    let actions = [];
-    // If 10 seconds have passed.
-    if (timer.started && (new Date()).getTime() - timer.startedOn > 10 * 1000) {
-      triggers.forEach((item, index) => {
-        if(item.status === 'active' &&
-          (new Date()).getTime() > item.startTime + item.duration
+    const {event} = store.getState()
+
+    let actions = []
+
+    if (event.timer) {
+      event.events.forEach((item, index) => {
+        if(
+          item.status === 'active' &&
+          (new Date()).getTime() > (item.startedOn?item.startedOn:event.timer.startedOn) + item.delay
         ) {
           console.log('Triggering payload', item.action, this.state)
-          this.setState({
-            ...this.state,
-            triggers: updateObjectInArray(triggers, {
-              index: index,
-              item: {
-                ...triggers[index],
-                status: 'completed'
-              }
-            })
-          })
-          store.dispatch(JSON.parse(item.action))
-          console.log('Updated state', this.state)
+          actions.push(onEventComplete(item))
+          actions.push(
+            {
+              type: item.action.type,
+              payload: JSON.parse(item.action.payload)
+            }
+          )
         }
       })
-    } else if (!timer.started) {
-      this.setState({
-        ...this.state,
-        timer: {
-          ...timer,
-          started: true,
-          startedOn: (new Date()).getTime() - 1000
-        }
-      })
+    } else {
+      store.dispatch(onEventTimerStart())
     }
-    // etc...
+
     return actions;
   }
+
+  getLocationAsync = async () => {
+   let { status } = await Permissions.askAsync(Permissions.LOCATION);
+   if (status !== 'granted') {
+     this.setState({
+       errorMessage: 'Permission to access location was denied',
+     });
+   }
+
+   let location = await Location.getCurrentPositionAsync({});
+   store.dispatch(onLocationChage).setState({ location });
+ };
 
   componentWillUnmount() {
     clearInterval(this.timerID);
@@ -101,7 +146,8 @@ class App extends Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator />
+          <AppNavigator/>
+          <Button onPress={() => {persistor.purge()}} title="Purge"/>
         </View>
       );
     }
@@ -138,7 +184,9 @@ export default class RootComponent extends Component {
   render() {
     return (
       <Provider store={store}>
-        <App />
+        <PersistGate loading={null} persistor={persistor}>
+          <App persitor={persistor} />
+        </PersistGate>
       </Provider>
     );
   }

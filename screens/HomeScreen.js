@@ -1,25 +1,39 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { connect } from 'react-redux'
 
 import TabBar from '../components/Common/TabBar'
 import AppButtonGrid from '../components/Common/AppButtonGrid'
 import styles from '../constants/styles'
 
-export default class HomeScreen extends Component {
+class HomeScreen extends Component {
   static navigationOptions = {
     header: null,
   };
 
   render() {
-    const {navigation} = this.props
+    const {navigation, appBadges} = this.props
 
     return (
       <View style={styles.lightContainer}>
         <View style={styles.contentContainer}>
           <AppButtonGrid navigation={navigation} />
         </View>
-        <TabBar navigation={navigation} />
+        <TabBar navigation={navigation} appBadges={appBadges} />
       </View>
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    appBadges: {
+      phone: state.phone.badgeNumber,
+      message: state.message.badgeNumber,
+      mail: state.mail.badgeNumber,
+      map: state.map.badgeNumber
+    }
+  }
+};
+
+export default connect(mapStateToProps)(HomeScreen);

@@ -7,13 +7,13 @@ import styles from '../../constants/styles'
 export default class TabBar extends Component {
 
   render() {
-    const {navigation} = this.props
+    const {navigation, appBadges} = this.props
 
     return <View style={styles.tabBar}>
-      <AppButton navigation={navigation} app="PhoneApp" icon="phone" />
-      <AppButton navigation={navigation} app="MessagesApp" icon="message" />
-      <AppButton navigation={navigation} app="MailApp" icon="mail" />
-      <AppButton navigation={navigation} app="MapsApp" icon="map" />
+      <AppButton navigation={navigation} app="PhoneApp" icon="phone" badgeNumber={appBadges.phone}/>
+      <AppButton navigation={navigation} app="MessagesApp" icon="message" badgeNumber={appBadges.message}/>
+      <AppButton navigation={navigation} app="MailApp" icon="mail" badgeNumber={appBadges.mail}/>
+      <AppButton navigation={navigation} app="MapsApp" icon="map" badgeNumber={appBadges.map}/>
     </View>
   }
 }

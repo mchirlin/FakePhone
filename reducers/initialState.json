@@ -1,0 +1,97 @@
+{
+  "lock": {
+    "lockCode": "1234",
+    "triggers": [
+      {
+        "id": "EMAIL2"
+      }
+    ]
+  },
+  "phone": {
+    "badgeNumber": 0,
+    "phoneNumbers": [{
+      "uri": "http://www.largesound.com/ashborytour/sound/brobob.mp3",
+      "number": "000"
+    }]
+  },
+  "message": {
+    "badgeNumber": 0,
+    "messages": [
+    ]
+  },
+  "mail": {
+    "badgeNumber": 0,
+    "emails": [
+      {
+        "id": "0",
+        "from": "Joe, Bob",
+        "to": "me",
+        "time": "Fri",
+        "subject": "Here is the subject line",
+        "body": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry\"s standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.",
+        "read": true
+      },
+      {
+        "id": "1",
+        "time": "Thu",
+        "from": "Michael",
+        "to": "me",
+        "subject": "This is another subject line",
+        "body": "Is it me you're looking for?",
+        "read": true
+      }
+    ]
+  },
+  "map": {
+    "badgeNumber": 0,
+    "markers": [
+      {
+        "title": "Marker Title",
+        "description": "Description",
+        "latitude": -33.889,
+        "longitude": 151.197834
+      }
+    ],
+    "regions": [
+
+    ]
+  },
+  "event": {
+    "events": [
+      {
+        "id": "EMAIL1",
+        "status": "active",
+        "startTime": null,
+        "delay": 10000,
+        "action": {
+          "type": "MAIL_ADD",
+          "payload": "{\"to\": \"Michael\", \"from\": \"Timer\", \"time\": \"TIME\", \"subject\": \"Email triggered by timer\", \"body\": \"This email triggers 10 seconds after opening the app\"}"
+        }
+      },
+      {
+        "id": "EMAIL2",
+        "status": "pending",
+        "startTime": null,
+        "delay": 5000,
+        "action": {
+          "type": "MAIL_ADD",
+          "payload": "{\"to\": \"Michael\", \"from\": \"Lock Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by lock screen\", \"body\": \"This email triggers 5 seconds after completing the lock screen\"}"
+        }
+      },
+      {
+        "id": "EMAIL3",
+        "status": "pending",
+        "delay": 0,
+        "location": {
+          "latitude": -33.889,
+          "longitude": 151.197834
+        },
+        "distance": 20,
+        "action": {
+          "type": "MAIL_ADD",
+          "payload": "{\"to\": \"Michael\", \"from\": \"Map Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by location\", \"body\": \"This email triggers after reaching a location\"}"
+        }
+      },
+    ]
+  }
+}

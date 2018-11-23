@@ -45,9 +45,10 @@ const formatSeconds = (sec) => {
 }
 
 const mapStateToProps = state => {
+  const timerSeconds = state.phone.timerSeconds?state.phone.timerSeconds:0
   return {
     phoneNumber: state.phone.phoneNumber,
-    timer: formatSeconds(state.phone.timerSeconds)
+    timer: formatSeconds(timerSeconds)
    };
 };
 

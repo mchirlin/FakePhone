@@ -107,8 +107,9 @@ const mapAudioTrackToSound = (audioTrack) => {
 }
 
 const mapStateToProps = state => {
+  const phoneNumber = state.phone.phoneNumber?state.phone.phoneNumber:''
   return {
-    phoneNumber: state.phone.phoneNumber,
+    phoneNumber: phoneNumber,
     audioTrack: mapAudioTrackToSound(state.phone.audioTrack),
     isPlaying: state.phone.isPlaying
   }

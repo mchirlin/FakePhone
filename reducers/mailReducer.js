@@ -1,3 +1,4 @@
+import {PushNotificationIOS} from 'react-native'
 import {updateObjectInArray} from './functions'
 
 // The types of actions that you can dispatch to modify the state of the store
@@ -57,13 +58,14 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const mail = (state = initialState, action) => {
-  const {selectedEmail, emails} = state
+  const {selectedEmail, emails, badgeNumber} = state
   const {type, payload} = action
 
   switch (type) {
     case types.MAIL_ADD: {
       return {
         ...state,
+        badgeNumber: badgeNumber + 1,
         emails: [...emails, {
           id: emails.length.toString(),
           from: payload.from,
@@ -80,6 +82,7 @@ export const mail = (state = initialState, action) => {
       return {
         ...state,
         selectedEmail: index,
+        badgeNumber: badgeNumber - 1,
         emails: updateObjectInArray(emails, {index: index, item: {read: true}})
       }
     }

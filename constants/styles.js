@@ -15,6 +15,12 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#333',
   },
+  darkBackground: {
+    backgroundColor: colors.darkBackground
+  },
+  lightBackground: {
+    backgroundColor: colors.lightBackground
+  },
   lightContainer: {
     flex: 1,
     alignItems: 'center',
