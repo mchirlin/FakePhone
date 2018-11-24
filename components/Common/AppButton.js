@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, TouchableOpacity } from 'react-native'
-import { Entypo } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { Badge } from 'react-native-elements'
 
 import styles from '../../constants/styles'
@@ -14,7 +14,7 @@ export default class AppButton extends Component {
         navigation.navigate(app)
       }}>
         <View style={styles.appButton}>
-          <Entypo name={icon} size={60} color="#000" />
+          <FontAwesome name={icon} size={60} color="#000" />
         </View>
         {badgeNumber === 0?null:(
           <Badge

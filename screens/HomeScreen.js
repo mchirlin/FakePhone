@@ -15,9 +15,14 @@ class HomeScreen extends Component {
     const {navigation, appBadges} = this.props
 
     return (
-      <View style={styles.lightContainer}>
+      <View style={[styles.lightContainer, {alignItems: 'stretch'}]}>
         <View style={styles.contentContainer}>
-          <AppButtonGrid navigation={navigation} />
+          <AppButtonGrid navigation={navigation} buttons={[
+            {icon: "bank", app: "BankApp"},
+            {icon: "calendar", app: "CalendarApp"},
+            {icon: "camera", app: "CameraApp"},
+            {icon: "photo", app: "PhotosApp"}
+          ]}/>
         </View>
         <TabBar navigation={navigation} appBadges={appBadges} />
       </View>

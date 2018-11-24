@@ -11,8 +11,8 @@ export default class TabBar extends Component {
 
     return <View style={styles.tabBar}>
       <AppButton navigation={navigation} app="PhoneApp" icon="phone" badgeNumber={appBadges.phone}/>
-      <AppButton navigation={navigation} app="MessagesApp" icon="message" badgeNumber={appBadges.message}/>
-      <AppButton navigation={navigation} app="MailApp" icon="mail" badgeNumber={appBadges.mail}/>
+      <AppButton navigation={navigation} app="MessagesApp" icon="comment" badgeNumber={appBadges.message}/>
+      <AppButton navigation={navigation} app="MailApp" icon="envelope" badgeNumber={appBadges.mail}/>
       <AppButton navigation={navigation} app="MapsApp" icon="map" badgeNumber={appBadges.map}/>
     </View>
   }

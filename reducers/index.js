@@ -9,9 +9,10 @@ import { mail } from './mailReducer'
 import { phone } from './phoneReducer'
 import { message } from './messageReducer'
 import { map } from './mapReducer'
+import { bank } from './bankReducer'
 import { event } from './eventReducer'
 
-const rootReducer = combineReducers({lock, phone, mail, message, map, event})
+const rootReducer = combineReducers({lock, phone, mail, message, map, bank, event})
 
 const persistConfig = {
   key: 'root',

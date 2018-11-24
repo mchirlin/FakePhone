@@ -9,6 +9,10 @@ const styles = StyleSheet.create({
   baseContainer: {
     flex: 1,
   },
+  centeredContainer: {
+    flex: 1,
+    alignItems: 'stretch'
+  },
   darkContainer: {
     flex: 1,
     justifyContent: 'center',
@@ -29,7 +33,7 @@ const styles = StyleSheet.create({
   },
   contentContainer: {
     flex: 1,
-    alignItems: 'stretch'
+    paddingTop: 35,
   },
   listSeparator: {
     width: '100%',
@@ -38,7 +42,11 @@ const styles = StyleSheet.create({
   },
   rowLayout: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+  },
+  rowLayoutBetween: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
   columnLayout: {
     flexDirection: 'column'
@@ -153,6 +161,9 @@ const styles = StyleSheet.create({
   },
   textBlue: {
     color: '#00f'
+  },
+  textGreen: {
+    color: 'green'
   },
   textBlack: {
     color: '#000'

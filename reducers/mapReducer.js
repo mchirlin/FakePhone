@@ -3,20 +3,18 @@ import {updateObjectInArray} from './functions'
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
   MARKER_ADD: 'MARKER_ADD',
+  MARKER_FOUND: 'MARKER_FOUND',
   LOCATION_UPDATE: 'LOCATION_UPDATE',
   LOCATION_VIEW_ALL: 'LOCATION_VIEW_ALL'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  markerAdd: (from, to, time, subject, body) => {
-    return {type: types.MAIL_ADD, payload: {
-      from: from,
-      to: to,
-      time: time,
-      subject: subject,
-      body: body
-    }}
+  markerAdd: (payload) => {
+    return {type: types.MARKER_ADD, payload: payload}
+  },
+  markerFound: (id) => {
+    return {type: types.MARKER_FOUND, payload: id}
   },
   locationUpdate: (payload) => {
     return {type: types.LOCATION_UPDATE, payload: payload}
@@ -39,7 +37,7 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const map = (state = initialState, action) => {
-  const {markers, badgeNumber} = state
+  const {markers, badgeNumber, locationsFound} = state
   const {type, payload} = action
 
   switch (type) {
@@ -48,6 +46,25 @@ export const map = (state = initialState, action) => {
         ...state,
         badgeNumber: badgeNumber + 1,
         markers: [...markers, payload]
+      }
+    }
+    case types.MARKER_FOUND: {
+      const index = markers.findIndex((marker) => {
+        return marker.id === payload
+      })
+
+      if (markers[index].found) return state
+      
+      return {
+        ...state,
+        locationsFound: locationsFound + 1,
+        markers: updateObjectInArray(
+          markers,
+          {index: index, item: {
+            ...markers[index],
+            found: true
+          }}
+        )
       }
     }
     case types.LOCATION_UPDATE: {
@@ -69,8 +86,12 @@ export const map = (state = initialState, action) => {
   return state
 }
 
-export function onMarkerAdd(from, to, time, subject, body) {
-  return actionCreators.markerAdd(from, to, time, subject, body)
+export function onMarkerAdd(payload) {
+  return actionCreators.markerAdd(payload)
+}
+
+export function onMarkerFound(id) {
+  return actionCreators.markerFound(id)
 }
 
 export function onLocationUpdate(payload) {

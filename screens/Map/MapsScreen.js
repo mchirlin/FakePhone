@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { View, TouchableOpacity, Text } from 'react-native';
 import { MapView } from 'expo'
 import { connect } from 'react-redux'
@@ -27,10 +27,23 @@ class MapsScreen extends Component {
   }
 
   render() {
-    const {markers, currentLocation} = this.props
+    const {
+      markers,
+      currentLocation,
+      locationsFound,
+      locationsTotal
+    } = this.props
 
     return (
       <View style={{flex: 1}}>
+        <View style={{alignItems: 'center', padding: 10}}>
+          <Text>
+            <Text style={styles.textLargeBold}>{locationsFound}</Text>
+            <Text style={styles.textLarge}> of </Text>
+            <Text style={styles.textLargeBold}>{locationsTotal}</Text>
+            <Text style={styles.textLarge}> locations found</Text>
+          </Text>
+        </View>
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           customMapStyle={mapStyle}
@@ -51,23 +64,25 @@ class MapsScreen extends Component {
                   latitude: marker.latitude,
                   longitude: marker.longitude,
                 }}
-                title={marker.title}
+                pinColor={marker.found?'green':'red'}
+                title={marker.found?marker.title + ' (Visited)':marker.title}
                 description={marker.description}
               />
             ))
           }
         </MapView>
-        <Text>Longitude: {currentLocation.longitude.toString().substr(0,10)}, Latitude: {currentLocation.latitude.toString().substr(0,10)}</Text>
+        {/* <Text>Longitude: {currentLocation.longitude.toString().substr(0,10)}, Latitude: {currentLocation.latitude.toString().substr(0,10)}</Text> */}
       </View>
     );
   }
 }
 
 const mapStateToProps = state => {
-  console.log(state)
   return {
     markers: state.map.markers,
-    currentLocation: state.map.currentLocation
+    currentLocation: state.map.currentLocation,
+    locationsFound: state.map.locationsFound,
+    locationsTotal: state.map.locationsTotal
   }
 };
 

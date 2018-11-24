@@ -30,7 +30,7 @@ class MailDetailScreen extends Component {
           <Text style={styles.textLarge}>{email.subject}</Text>
           <View style={styles.listSeparator} />
           <Text style={styles.textMedium}>{email.from}</Text>
-          <View style={styles.rowLayout}>
+          <View style={[styles.rowLayout, {justifyContent: 'space-between'}]}>
             <Text style={styles.textMedium}>to: {email.to}</Text>
             <Text style={[styles.textMedium, styles.textBlue]}>{email.time}</Text>
           </View>

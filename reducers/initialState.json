@@ -14,7 +14,7 @@
       "number": "000",
       "triggers": [
         {
-          "id": "MARKER1"
+          "id": "MARKER2"
         }
       ]
     }]
@@ -59,16 +59,43 @@
   },
   "map": {
     "badgeNumber": 0,
+    "locationsFound": 0,
+    "locationsTotal": 10,
     "markers": [
       {
+        "id": "MARKER1",
         "title": "Come to this location",
-        "description": "Arriving at this location will trigger and email",
+        "description": "Arriving at this location will trigger an email",
         "latitude": -33.889,
-        "longitude": 151.195834
+        "longitude": 151.197834,
+        "distance": 100,
+        "found": false
       }
     ],
-    "regions": [
-
+    "regions": []
+  },
+  "bank": {
+    "username": "",
+    "password": "",
+    "questions": [
+      {
+        "id": "QUESTION1",
+        "question": "What is your mother's maiden name?",
+        "answer": "Smith",
+        "attempt": ""
+      },
+      {
+        "id": "QUESTION2",
+        "question": "What was your first car?",
+        "answer": "Corolla",
+        "attempt": ""
+      },
+      {
+        "id": "QUESTION3",
+        "question": "Who was your first girlfriend?",
+        "answer": "Jenny",
+        "attempt": ""
+      },
     ]
   },
   "event": {
@@ -99,23 +126,24 @@
         "delay": 0,
         "startTime": null,
         "location": {
+          "id": "MARKER1",
           "latitude": -33.889,
-          "longitude": 151.195834
+          "longitude": 151.197834
         },
-        "distance": 20,
+        "distance": 100,
         "action": {
           "type": "MAIL_ADD",
           "payload": "{\"to\": \"Michael\", \"from\": \"Map Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by location\", \"body\": \"This email triggers after reaching a location\"}"
         },
       },
       {
-        "id": "MARKER1",
+        "id": "MARKER2",
         "status": "pending",
         "delay": 6000,
         "startTime": null,
         "action": {
           "type": "MARKER_ADD",
-          "payload": "{\"title\":\"Added Marker\", \"description\":\"This was added by making a phone call\", \"latitude\": -33.889,\"longitude\": 151.195834}"
+          "payload": "{\"id\":\"MARKER2\", \"title\":\"Added Marker\", \"description\":\"This was added by making a phone call\", \"latitude\": -33.889,\"longitude\": 151.196834, \"distance\": 300, \"found\":false}"
         }
       }
     ]

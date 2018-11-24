@@ -12,7 +12,7 @@ import persistConfig from './reducers/index'
 const {store, persistor}  = persistConfig()
 
 import {onEventTimerStart, onEventActivate, onEventComplete} from './reducers/eventReducer'
-import {onLocationUpdate} from './reducers/mapReducer'
+import {onLocationUpdate, onMarkerFound} from './reducers/mapReducer'
 
 class App extends Component {
 
@@ -59,8 +59,8 @@ class App extends Component {
     }
 
     Location.watchPositionAsync({
-      enableHighAccuracy: false,
-      distanceInterval: 100
+      enableHighAccuracy: true,
+      distanceInterval: 5
     }, (coords) => {
       let actions = this.activateLocationEvents(coords)
       actions.forEach((item) => {
@@ -70,7 +70,7 @@ class App extends Component {
   }
 
   activateLocationEvents (coords) {
-    const {event} = store.getState()
+    const {event, map} = store.getState()
 
     let actions = []
 
@@ -78,6 +78,17 @@ class App extends Component {
       if(item.location) {
         if (getDistance(item.location, coords.coords) < item.distance) {
           actions.push(onEventActivate(item.id))
+          if(item.location.id) actions.push(onMarkerFound(item.location.id))
+        }
+      }
+    })
+
+    console.log('Checking location against', map.markers)
+    map.markers.forEach((marker, index) => {
+      console.log(marker)
+      if(!marker.found) {
+        if(getDistance(marker, coords.coords) < marker.distance) {
+          actions.push(onMarkerFound(marker.id))
         }
       }
     })
