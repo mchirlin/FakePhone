@@ -32,8 +32,6 @@ export const photos = (state = initialState, action) => {
   const {photos} = state
   const {type, payload} = action
 
-  console.log(action, state)
-
   switch (type) {
     case types.PHOTO_ADD: {
       return {

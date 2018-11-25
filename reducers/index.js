@@ -47,8 +47,6 @@ export default async (url) => {
   //TODO Uncomment to turn on QR codes
   // const initialState = await loadResource(url)
 
-  console.log("Presisted reducer", persistedReducer)
-
   let store = createStore(persistedReducer, initialState)
   let persistor = persistStore(store)
   return { store, persistor }
