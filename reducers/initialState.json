@@ -98,6 +98,34 @@
       }
     ]
   },
+  "photos": {
+    "images": [
+      {
+        "id": "IMAGE1",
+        "url": "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=2d7b1bd980752bb3ea0a259f528eae78&w=1000&q=80",
+        "width": 1000,
+        "height": 667
+      },
+      {
+        "id": "IMAGE2",
+        "url": "https://news.nationalgeographic.com/content/dam/news/2018/05/17/you-can-train-your-cat/02-cat-training-NationalGeographic_1484324.ngsversion.1526587209178.adapt.1900.1.jpg",
+        "width": 1900,
+        "height": 1266
+      },
+      {
+        "id": "IMAGE3",
+        "url": "https://www.catster.com/wp-content/uploads/2018/07/Savannah-cat-long-body-shot.jpg",
+        "width": 600,
+        "height": 400
+      },
+      {
+        "id": "IMAGE4",
+        "url": "https://r.hswstatic.com/w_907/gif/tesla-cat.jpg",
+        "width": 907,
+        "height": 510
+      }
+    ]
+  },
   "event": {
     "events": [
       {

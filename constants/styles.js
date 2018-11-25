@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     margin: 8,
   },
+  /* PHONE */
   buttonCall: {
     backgroundColor: '#4cd964',
   },
@@ -101,6 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  /* MAIL */
   mailItem: {
     backgroundColor: colors.lightBackground,
     flex: 1,
@@ -127,6 +129,25 @@ const styles = StyleSheet.create({
   },
   mailBody: {
     marginTop: 10
+  },
+  /* PHOTOS */
+  photosContainer: {
+    flex: 1,                            // Take up all available space
+    justifyContent: 'center',           // Center vertically
+    alignItems: 'center',               // Center horizontally
+    backgroundColor: '#000',            // Darker background for content area
+  },
+  photosGridContainer:{
+    flex: 1
+  },
+  photosGrid:{
+    flexDirection: 'row',
+    flexWrap: 'wrap'
+  },
+  photo:{
+    width: 115,
+    height: 150,
+    margin:5
   },
   textXlarge: {
     fontSize: 40,

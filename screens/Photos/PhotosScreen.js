@@ -1,11 +1,12 @@
-import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import React from 'react';
+import { View, Image, ScrollView, TouchableHighlight, TouchableOpacity} from 'react-native';
 import { connect } from 'react-redux'
 import { Entypo } from '@expo/vector-icons';
 
+import { onPhotoOpen } from '../../reducers/photosReducer'
 import styles from '../../constants/styles'
 
-class PhotosScreen extends Component {
+class PhotosScreen extends React.Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Photos',
@@ -18,9 +19,39 @@ class PhotosScreen extends Component {
     }
   }
 
+  constructor() {
+    super()
+
+    this.renderImages = this.renderImages.bind(this);
+  }
+
+  renderImages(images){
+    const {navigation, onPhotoOpen} = this.props
+
+    return images.map((image, index) =>
+      <View key={image.id}>
+        <TouchableHighlight onPress={() => {
+          onPhotoOpen(index)
+          navigation.navigate('PhotosDetail')
+        }}>
+          <Image style={styles.photo} source={{ uri: image.url }} />
+        </TouchableHighlight>
+      </View>
+    );
+  }
+
   render() {
+    const {images} = this.props
+
     return (
-      <View style={styles.lightBackground}>
+      <View style={styles.photosContainer}>
+        <View style={styles.photosGridContainer}>
+          <ScrollView style={styles.photosGridContainer}>
+            <View style={styles.photosGrid}>
+              {this.renderImages(images)}
+            </View>
+          </ScrollView>
+        </View>
       </View>
     );
   }
@@ -28,12 +59,12 @@ class PhotosScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-
+    images: state.photos.images
   }
 };
 
 const mapDispatchToProps = {
-
+  onPhotoOpen
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhotosScreen);

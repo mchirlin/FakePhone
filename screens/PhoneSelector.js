@@ -9,15 +9,16 @@ class PhoneSelector extends Component {
   render() {
     const { url, onScan, persistor } = this.props
 
-    if (url) {
+    // TODO - Comment for QR codes
+    // if (url) {
       return (
         <FakePhone loadingPersistor={persistor} url={url}/>
       )
-    } else {
-      return (
-        <Scanner onScan={onScan} persistor={persistor}/>
-      )
-    }
+    // } else {
+    //   return (
+    //     <Scanner onScan={onScan} persistor={persistor}/>
+    //   )
+    // }
   }
 }
 

@@ -2,20 +2,23 @@ import {updateObjectInArray} from './functions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
-  PHOTO_ADD: 'PHOTO_ADD'
+  PHOTO_ADD: 'PHOTO_ADD',
+  PHOTO_OPEN: 'PHOTO_OPEN'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  messageAdd: (photo) => {
-    return {type: types.PHOTO_ADD, payload: photo
+  photoAdd: (photo) => {
+    return {type: types.PHOTO_ADD, payload: photo}
+  },
+  photoOpen: (index) => {
+    return {type: types.PHOTO_OPEN, payload: index}
   }
 }
 
 // Initial state of the store
 const initialState = {
-  selectedMesage: 0,
-  messages: []
+
 }
 
 // Function to handle actions and update the state of the store.
@@ -29,6 +32,8 @@ export const photos = (state = initialState, action) => {
   const {photos} = state
   const {type, payload} = action
 
+  console.log(action, state)
+
   switch (type) {
     case types.PHOTO_ADD: {
       return {
@@ -39,10 +44,20 @@ export const photos = (state = initialState, action) => {
         ]
       }
     }
+    case types.PHOTO_OPEN: {
+      return {
+        ...state,
+        selectedPhoto: payload
+      }
+    }
   }
   return state
 }
 
 export function onPhotoAdd(photo) {
   return actionCreators.photoAdd(photo)
+}
+
+export function onPhotoOpen(index) {
+  return actionCreators.photoOpen(index)
 }
