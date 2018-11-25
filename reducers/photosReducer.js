@@ -1,19 +1,21 @@
+import {updateObjectInArray} from './functions'
+
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
-  UNLOCK: 'UNLOCK'
+  PHOTO_ADD: 'PHOTO_ADD'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  unlock: () => {
-    return {type: types.UNLOCK}
+  messageAdd: (photo) => {
+    return {type: types.PHOTO_ADD, payload: photo
   }
 }
 
 // Initial state of the store
 const initialState = {
-  lockCode: "1234",
-  unlocked: false
+  selectedMesage: 0,
+  messages: []
 }
 
 // Function to handle actions and update the state of the store.
@@ -23,23 +25,24 @@ const initialState = {
 // - We set \`state\` to our \`initialState\` by default. Redux will
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
-export const lock  = (state = initialState, action) => {
-  const {unlocked} = state
+export const photos = (state = initialState, action) => {
+  const {photos} = state
   const {type, payload} = action
 
   switch (type) {
-    case types.UNLOCK: {
+    case types.PHOTO_ADD: {
       return {
         ...state,
-        unlocked: true,
-        timeStart: (new Date()).getTime()
+        photos: [
+          ...photos,
+          payload
+        ]
       }
     }
   }
-
   return state
 }
 
-export function onUnlock(number) {
-  return actionCreators.unlock(number)
+export function onPhotoAdd(photo) {
+  return actionCreators.photoAdd(photo)
 }

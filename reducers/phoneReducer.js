@@ -17,7 +17,6 @@ export const actionCreators = {
     return {type: types.NUMBER_DELETE}
   },
   callStart: (phoneNumber) => {
-    console.log(phoneNumber)
     return {type: types.CALL_START, payload: phoneNumber}
   },
   callEnd: () => {

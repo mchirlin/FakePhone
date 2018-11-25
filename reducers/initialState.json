@@ -95,7 +95,7 @@
         "question": "Who was your first girlfriend?",
         "answer": "Jenny",
         "attempt": ""
-      },
+      }
     ]
   },
   "event": {
@@ -134,7 +134,7 @@
         "action": {
           "type": "MAIL_ADD",
           "payload": "{\"to\": \"Michael\", \"from\": \"Map Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by location\", \"body\": \"This email triggers after reaching a location\"}"
-        },
+        }
       },
       {
         "id": "MARKER2",

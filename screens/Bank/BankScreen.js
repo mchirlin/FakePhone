@@ -54,12 +54,12 @@ class BankScreen extends Component {
           value={password?password:''}
         />
         <View style={[styles.rowLayout, {marginTop: 10}]}>
-          <Button title="Submit" titleStyle={styles.textLarge} onPress={() => {}} />
           <Button
             buttonStyle={{backgroundColor:"#666"}}
             title="Forgot password"
             titleStyle={styles.textLarge}
             onPress={() => {navigation.navigate('BankPassword')}}/>
+          <Button title="Submit" titleStyle={styles.textLarge} onPress={() => {}} />
         </View>
       </View>
     );

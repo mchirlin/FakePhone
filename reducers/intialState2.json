@@ -1,0 +1,85 @@
+{
+  "lock": {
+    "lockCode": "1234",
+    "triggers": [
+    ]
+  },
+  "phone": {
+    "badgeNumber": 0,
+    "phoneNumbers": [{
+      "uri": "http://www.largesound.com/ashborytour/sound/brobob.mp3",
+      "number": "000",
+      "triggers": [
+      ]
+    }]
+  },
+  "message": {
+    "badgeNumber": 0,
+    "messages": [
+    ]
+  },
+  "mail": {
+    "badgeNumber": 0,
+    "emails": [
+      {
+        "id": "0",
+        "from": "Other dude",
+        "to": "me",
+        "time": "Fri",
+        "subject": "Alternate Phone!!",
+        "body": "This is a totally different phone",
+        "video": {
+          "uri": "http://techslides.com/demos/sample-videos/small.mp4",
+          "width": 200,
+          "height": 200
+        },
+        "read": true
+      }
+    ]
+  },
+  "map": {
+    "badgeNumber": 0,
+    "locationsFound": 0,
+    "locationsTotal": 10,
+    "markers": [
+      {
+        "id": "MARKER1",
+        "title": "Come to this location",
+        "description": "Arriving at this location will trigger an email",
+        "latitude": -33.889,
+        "longitude": 151.197834,
+        "distance": 100,
+        "found": false
+      }
+    ],
+    "regions": []
+  },
+  "bank": {
+    "username": "",
+    "password": "",
+    "questions": [
+      {
+        "id": "QUESTION1",
+        "question": "What is your mother's maiden name?",
+        "answer": "Smith",
+        "attempt": ""
+      },
+      {
+        "id": "QUESTION2",
+        "question": "What was your first car?",
+        "answer": "Corolla",
+        "attempt": ""
+      },
+      {
+        "id": "QUESTION3",
+        "question": "Who was your first girlfriend?",
+        "answer": "Jenny",
+        "attempt": ""
+      }
+    ]
+  },
+  "event": {
+    "events": [
+    ]
+  }
+}

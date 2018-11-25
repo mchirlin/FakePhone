@@ -9,6 +9,7 @@ import BankStack from './BankStack'
 import CalendarStack from './CalendarStack'
 import CameraStack from './CameraStack'
 import PhotosStack from './PhotosStack'
+import WinStack from './WinStack'
 
 export default createSwitchNavigator({
   HomeStack: HomeStack,
@@ -19,5 +20,6 @@ export default createSwitchNavigator({
   BankApp: BankStack,
   CalendarApp: CalendarStack,
   CameraApp: CameraStack,
-  PhotosApp: PhotosStack
+  PhotosApp: PhotosStack,
+  Win: WinStack
 });

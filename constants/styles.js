@@ -132,6 +132,10 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontFamily: fontFamily
   },
+  textXlargeBold: {
+    fontSize: 40,
+    fontFamily: fontFamilyBold
+  },
   textLarge: {
     fontSize: 20,
     fontFamily: fontFamily

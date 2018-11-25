@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 
 import CodePin from '../components/Common/CodePin';
 import {onEventActivate} from '../reducers/eventReducer'
+import {onUnlock} from '../reducers/lockReducer'
 
 const {height, width} = Dimensions.get('window');
 
@@ -31,7 +32,7 @@ class LockScreen extends Component {
 
   render() {
 
-    const {navigation, lockCode, triggers, onEventActivate} = this.props
+    const {navigation, lockCode, triggers, onUnlock, onEventActivate} = this.props
 
     return (
       <View style={styles.container}>
@@ -53,6 +54,7 @@ class LockScreen extends Component {
                   onEventActivate(trigger.id)
                 })
               }
+              onUnlock()
               navigation.navigate('Home')}
             }
             containerPinStyle={styles.containerPinStyle}
@@ -117,6 +119,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = {
   onEventActivate,
+  onUnlock
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LockScreen);

@@ -4,8 +4,7 @@ import { connect } from 'react-redux'
 import { Camera, Permissions, BarCodeScanner } from 'expo';
 import { Entypo } from '@expo/vector-icons';
 
-import styles, { mapStyle } from '../../constants/styles'
-import { onLocationViewAll } from '../../reducers/mapReducer'
+import styles from '../../constants/styles'
 
 class CameraScreen extends Component {
 

@@ -6,13 +6,9 @@ const codePinStyles = StyleSheet.create({
   container: {
     height          : 150,
     width           : width - 30,
-    // TODO
-    // backgroundColor : '#FFF'
   },
   containerPin: {
     width           : width - 30,
-    // TODO
-    // height          : 100,
     flexDirection   : 'row',
     justifyContent  : 'space-around',
     alignItems      : 'center',

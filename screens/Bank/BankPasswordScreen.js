@@ -18,7 +18,7 @@ class BankPasswordScreen extends Component {
   }
 
   render() {
-    const {questions, answers} = this.props
+    const {questions, answers, navigation} = this.props
     const {onAnswerUpdate} = this.props
     return (
       <View>
@@ -43,7 +43,12 @@ class BankPasswordScreen extends Component {
             />
           ))
         }
-        <Button title="Submit" titleStyle={styles.textLarge} onPress={() => {}} />
+        <Button
+          title="Submit"
+          titleStyle={styles.textLarge}
+          onPress={() => {
+            navigation.navigate('Win')
+          }} />
       </View>
     );
   }

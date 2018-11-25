@@ -7,6 +7,7 @@ import PhoneCallTimer from '../../components/Phone/PhoneCallTimer'
 import PhoneEndButton from '../../components/Phone/PhoneEndButton'
 
 import { onCallEnd, onTimerUpdate } from '../../reducers/phoneReducer'
+import { formatSeconds } from '../../reducers/functions'
 
 import styles from '../../constants/styles'
 
@@ -29,19 +30,6 @@ class PhoneCallScreen extends Component{
       </View>
     )
   }
-}
-
-const formatSeconds = (sec) => {
-  var hrs = Math.floor(sec / 3600);
-  var min = Math.floor((sec - (hrs * 3600)) / 60);
-  var seconds = sec - (hrs * 3600) - (min * 60);
-  seconds = Math.round(seconds * 100) / 100
-
-  var result = (hrs < 10 ? "0" + hrs : hrs);
-  result += ":" + (min < 10 ? "0" + min : min);
-  result += ":" + (seconds < 10 ? "0" + seconds : seconds);
-
-  return result;
 }
 
 const mapStateToProps = state => {
