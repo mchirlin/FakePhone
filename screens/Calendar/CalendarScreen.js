@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Entypo } from '@expo/vector-icons';
 import { Calendar, CalendarList, Agenda } from 'react-native-calendars';
 
-import styles from '../../constants/styles'
+import styles, { calendarTheme } from '../../constants/styles'
 
 class CalendarScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -22,7 +22,7 @@ class CalendarScreen extends Component {
   render() {
     return (
       <View style={styles.lightBackground}>
-        <Calendar />
+        <Calendar theme={calendarTheme} />
       </View>
     );
   }

@@ -3,25 +3,58 @@
     "lockCode": "1234",
     "triggers": [
       {
-        "id": "EMAIL2"
+        "id": "MESSAGE1"
       }
     ]
   },
   "phone": {
     "badgeNumber": 0,
-    "phoneNumbers": [{
-      "uri": "http://www.largesound.com/ashborytour/sound/brobob.mp3",
-      "number": "000",
-      "triggers": [
-        {
-          "id": "MARKER2"
-        }
-      ]
-    }]
+    "phoneNumbers": [
+      {
+        "uri": "http://www.largesound.com/ashborytour/sound/brobob.mp3",
+        "number": "000",
+        "triggers": [
+          {
+            "id": "MARKER2"
+          }
+        ]
+      },
+      {
+        "uri": "http://www.largesound.com/ashborytour/sound/brobob.mp3",
+        "number": "001",
+        "triggers": [
+          {
+            "id": "MARKER3"
+          }
+        ]
+      }
+    ]
   },
   "message": {
-    "badgeNumber": 0,
-    "messages": [
+    "badgeNumber": 1,
+    "threads": [
+      {
+        "id": "0",
+        "contact": {
+          "name": "Ronny",
+          "initials": "RC"
+        },
+        "messages": [
+          {
+            "id": "MESSAGE1",
+            "isMe": true,
+            "message": "Question",
+            "time": "Yesterday"
+          },
+          {
+            "id": "MESSAGE2",
+            "isMe": false,
+            "message": "Reply",
+            "time": "Today"
+          }
+        ],
+        "read": false
+      }
     ]
   },
   "mail": {
@@ -59,7 +92,6 @@
   },
   "map": {
     "badgeNumber": 0,
-    "locationsFound": 0,
     "locationsTotal": 10,
     "markers": [
       {
@@ -67,7 +99,7 @@
         "title": "Come to this location",
         "description": "Arriving at this location will trigger an email",
         "latitude": -33.889,
-        "longitude": 151.197834,
+        "longitude": 151.196834,
         "distance": 100,
         "found": false
       }
@@ -131,7 +163,6 @@
       {
         "id": "EMAIL1",
         "status": "active",
-        "startTime": null,
         "delay": 30000,
         "action": {
           "type": "MAIL_ADD",
@@ -141,22 +172,10 @@
       {
         "id": "EMAIL2",
         "status": "pending",
-        "startTime": null,
-        "delay": 10000,
-        "action": {
-          "type": "MAIL_ADD",
-          "payload": "{\"to\": \"Michael\", \"from\": \"Lock Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by lock screen\", \"body\": \"This email triggers 10 seconds after completing the lock screen\"}"
-        }
-      },
-      {
-        "id": "EMAIL3",
-        "status": "pending",
         "delay": 0,
-        "startTime": null,
         "location": {
-          "id": "MARKER1",
           "latitude": -33.889,
-          "longitude": 151.197834
+          "longitude": 151.196834
         },
         "distance": 100,
         "action": {
@@ -165,13 +184,44 @@
         }
       },
       {
+        "id": "MESSAGE1",
+        "status": "pending",
+        "delay": 10000,
+        "action": {
+          "type": "MESSAGE_ADD",
+          "payload": "{\"thread\": \"0\", \"isMe\": false, \"time\": \"TIME\", \"message\": \"This text triggers 10 seconds after completing the lock screen\"}"
+        }
+      },
+      {
+        "id": "MESSAGE2",
+        "status": "pending",
+        "delay": 5000,
+        "action": {
+          "type": "MESSAGE_ADD",
+          "payload": "{\"thread\": \"0\", \"isMe\": false, \"time\": \"TIME\", \"message\": \"This text triggers 5 seconds after scanning a QR code\"}"
+        }
+      },
+      {
         "id": "MARKER2",
         "status": "pending",
         "delay": 6000,
-        "startTime": null,
         "action": {
           "type": "MARKER_ADD",
           "payload": "{\"id\":\"MARKER2\", \"title\":\"Added Marker\", \"description\":\"This was added by making a phone call\", \"latitude\": -33.889,\"longitude\": 151.196834, \"distance\": 300, \"found\":false}"
+        }
+      },
+      {
+        "id": "MARKER3",
+        "status": "inactive",
+        "delay": 0,
+        "location": {
+          "latitude": -33.889,
+          "longitude": 151.197834
+        },
+        "distance": 100,
+        "action": {
+          "type": "MARKER_ADD",
+          "payload": "{\"id\":\"MARKER3\", \"title\":\"Added Marker\", \"description\":\"This was added by going to a location\", \"latitude\": -33.889,\"longitude\": 151.197834, \"distance\": 300, \"found\":true}"
         }
       }
     ]

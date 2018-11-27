@@ -1,24 +1,60 @@
-import React, {Component} from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, Text, View } from 'react-native';
+import { connect } from 'react-redux'
+import { Avatar } from 'react-native-elements'
 
 import Message from '../../components/Messages/Message'
 import styles from '../../constants/styles'
 
-export default class MessagesScreen extends Component {
-  static navigationOptions = () => {
+class MessagesScreen extends Component {
+  static navigationOptions = ({navigation}) => {
+    const contact = navigation.getParam('contact', 0)
+
     return {
-      title: 'Particular Message',
-      headerTitleStyle: styles.textLarge
+      headerStyle: {
+        height: 60
+      },
+      headerTitle: (
+        <View style={{alignItems: 'center'}}>
+          <Avatar
+            // containerStyle={{flex: 1}}
+            size="small"
+            rounded
+            title={contact.initials}
+            activeOpacity={0.7}
+          />
+          <Text style={styles.textMedium}>{contact.name}</Text>
+        </View>
+      )
     }
   }
 
   render() {
+    const { threads, navigation } = this.props
+    const itemId = navigation.getParam('itemId', 0);
+
+    const thread = threads[itemId]
+
     return (
-      <View style={styles.lightContainer}>
-        <Message align='left'>Messages Screen</Message>
-        <Message align='right'>Messages Screen</Message>
-        <Message align='left'>Messages Screen</Message>
-      </View>
+      <FlatList style={styles.messagesList}
+        data={thread.messages}
+        renderItem={({item}) => (
+          <Message message={item} />
+        )}
+        keyExtractor={item => item.id}
+      />
     );
   }
 }
+
+const mapStateToProps = state => {
+  return {
+    threads: state.message.threads
+  }
+};
+
+const mapDispatchToProps = {
+
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(MessagesScreen);

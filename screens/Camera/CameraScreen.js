@@ -4,6 +4,7 @@ import { connect } from 'react-redux'
 import { Camera, Permissions, BarCodeScanner } from 'expo';
 import { Entypo } from '@expo/vector-icons';
 
+import { onEventActivate } from '../../reducers/eventReducer'
 import styles from '../../constants/styles'
 
 class CameraScreen extends Component {
@@ -33,17 +34,17 @@ class CameraScreen extends Component {
 
   render() {
     const { hasCameraPermission } = this.state;
-    const { navigation } = this.props
+    const { navigation, onEventActivate } = this.props
 
     const handleBarCodeScanned = ({ data }) => {
-      // this.setState({ parsedData: data })
-      // if (this.state.parsedData) {
-        navigation.pop()
-        navigation.navigate('Home')
-      // } else {
-      //   this.setState({ parsedData: data })
-      // }
-      alert('found: ' + data)
+      navigation.navigate('Home')
+
+      if (data.startsWith('FunEvents')) {
+        alert('Successfully scanned!')
+        onEventActivate(data.substr(10))
+      } else {
+        alert('Invalid Code')
+      }
     }
 
     if (hasCameraPermission === null) {
@@ -95,7 +96,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-
+  onEventActivate
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen);

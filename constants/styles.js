@@ -130,6 +130,10 @@ const styles = StyleSheet.create({
   mailBody: {
     marginTop: 10
   },
+  /* MESSAGES */
+  messagesList: {
+    marginTop: 20
+  },
   /* PHOTOS */
   photosContainer: {
     flex: 1,                            // Take up all available space
@@ -221,22 +225,48 @@ const styles = StyleSheet.create({
   }
 })
 
+export const calendarTheme = {
+  backgroundColor: '#ffffff',
+  calendarBackground: '#ffffff',
+  textSectionTitleColor: '#b6c1cd',
+  selectedDayBackgroundColor: '#00adf5',
+  selectedDayTextColor: '#ffffff',
+  todayTextColor: '#00adf5',
+  dayTextColor: '#2d4150',
+  textDisabledColor: '#d9e1e8',
+  dotColor: '#00adf5',
+  selectedDotColor: '#ffffff',
+  arrowColor: 'orange',
+  monthTextColor: 'blue',
+  textDayFontFamily: fontFamily,
+  textMonthFontFamily: fontFamily,
+  textDayHeaderFontFamily: fontFamily,
+  textMonthFontWeight: 'bold',
+  textDayFontSize: 16,
+  textMonthFontSize: 16,
+  textDayHeaderFontSize: 16
+}
+
 export const messageStyles = {
   left: StyleSheet.create({
     container: {
       flex: 1,
       alignItems: 'flex-start',
+      marginLeft: 20,
+      marginTop: 2
     },
     wrapper: {
       borderRadius: 15,
       backgroundColor: '#ccc',
       marginRight: 60,
       minHeight: 20,
-      padding: 4,
+      padding: 10,
       justifyContent: 'flex-end',
     },
     text: {
-      color: '#000'
+      color: '#000',
+      fontSize: 15,
+      fontFamily: fontFamily
     },
     containerToNext: {
       borderBottomLeftRadius: 3,
@@ -249,17 +279,21 @@ export const messageStyles = {
     container: {
       flex: 1,
       alignItems: 'flex-end',
+      marginRight: 20,
+      marginTop: 2
     },
     wrapper: {
       borderRadius: 15,
       backgroundColor: '#b771cf',
       marginLeft: 60,
       minHeight: 20,
-      padding: 4,
+      padding: 10,
       justifyContent: 'flex-end',
     },
     text: {
-      color: '#fff'
+      color: '#fff',
+      fontSize: 15,
+      fontFamily: fontFamily
     },
     containerToNext: {
       borderBottomRightRadius: 3,

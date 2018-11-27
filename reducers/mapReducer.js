@@ -37,7 +37,7 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const map = (state = initialState, action) => {
-  const {markers, badgeNumber, locationsFound} = state
+  const {markers, badgeNumber} = state
   const {type, payload} = action
 
   switch (type) {
@@ -54,10 +54,9 @@ export const map = (state = initialState, action) => {
       })
 
       if (markers[index].found) return state
-      
+
       return {
         ...state,
-        locationsFound: locationsFound + 1,
         markers: updateObjectInArray(
           markers,
           {index: index, item: {

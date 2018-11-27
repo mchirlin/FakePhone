@@ -53,8 +53,9 @@ export const event = (state = initialState, action) => {
       const index = events.findIndex((item) => {
          return payload === item.id
       }, this)
+      const event = events[index]
 
-      if (events[index].status === 'completed') return state
+      if (event.status === 'completed') return state
 
       return {
         ...state,
@@ -63,9 +64,9 @@ export const event = (state = initialState, action) => {
           {
             index: index,
             item: {
-              ...events[index],
-              status: 'active',
-              startedOn: (new Date()).getTime()
+              ...event,
+              status: event.status === 'inactive'?'pending':'active',
+              startedOn: event.status === 'inactive'?null:(new Date()).getTime()
             }
           }
         )

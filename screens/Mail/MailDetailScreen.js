@@ -13,16 +13,12 @@ class MailDetailScreen extends Component {
       headerTitleStyle: styles.textLarge
     }
   }
-
-  // componentDidMount() {
-  //   const {navigation, selectedEmail, emails} = this.props
-  //   navigation.setParams({title: emails[selectedEmail].subject})
-  // }
-
+  
   render() {
-    const {selectedEmail, emails} = this.props
+    const {emails, navigation} = this.props
+    const itemId = navigation.getParam('itemId', 0);
 
-    const email = emails[selectedEmail]
+    const email = emails[itemId]
 
     return (
       <View style={styles.mailDetailContainer}>
@@ -64,7 +60,6 @@ class MailDetailScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    selectedEmail: state.mail.selectedEmail,
     emails: state.mail.emails
   }
 };

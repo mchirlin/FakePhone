@@ -76,7 +76,7 @@ class FakePhone extends Component {
     let actions = []
 
     event.events.forEach((item, index) => {
-      if(item.location) {
+      if(item.location && item.status === 'pending') {
         if (getDistance(item.location, coords.coords) < item.distance) {
           actions.push(onEventActivate(item.id))
           if(item.location.id) actions.push(onMarkerFound(item.location.id))
@@ -142,7 +142,9 @@ class FakePhone extends Component {
   }
 
   render() {
-    const {persistor, loadingPersistor} = this.props
+    const {store, persistor, loadingPersistor} = this.props
+
+    const {unlocked} = store.getState().lock
 
     if (!this.state.isLoadingComplete) {
       return (
@@ -155,10 +157,11 @@ class FakePhone extends Component {
     </View>
       );
     } else {
+      console.log("Unlocked", unlocked)
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator/>
+          <AppNavigator initialRouteName={unlocked?'Home':'Lock'}/>
           <Button onPress={() => {
             persistor.purge()
             loadingPersistor.purge()

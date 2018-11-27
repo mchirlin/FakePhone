@@ -6,12 +6,13 @@ import { messageStyles } from '../../constants/styles'
 export default class Message extends Component {
 
   render() {
-    const {align} = this.props
+    const {message} = this.props
+    const align = message.isMe?'right':'left'
 
     return (
       <View style={messageStyles[align].container}>
         <View style={messageStyles[align].wrapper}>
-          <Text style={messageStyles[align].text}>Let's make this a much longer message so we get a better idea of what it looks like</Text>
+          <Text style={messageStyles[align].text}>{message.message}</Text>
         </View>
       </View>
     )

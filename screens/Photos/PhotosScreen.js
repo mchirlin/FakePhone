@@ -31,8 +31,7 @@ class PhotosScreen extends React.Component {
     return images.map((image, index) =>
       <View key={image.id}>
         <TouchableHighlight onPress={() => {
-          onPhotoOpen(index)
-          navigation.navigate('PhotosDetail')
+          navigation.navigate('PhotosDetail', {itemId: index})
         }}>
           <Image style={styles.photo} source={{ uri: image.url }} />
         </TouchableHighlight>

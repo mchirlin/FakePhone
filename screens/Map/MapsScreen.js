@@ -30,9 +30,10 @@ class MapsScreen extends Component {
     const {
       markers,
       currentLocation,
-      locationsFound,
       locationsTotal
     } = this.props
+
+    const locationsFound = markers.filter(marker => marker.found).length
 
     return (
       <View style={{flex: 1}}>
@@ -81,7 +82,6 @@ const mapStateToProps = state => {
   return {
     markers: state.map.markers,
     currentLocation: state.map.currentLocation,
-    locationsFound: state.map.locationsFound,
     locationsTotal: state.map.locationsTotal
   }
 };

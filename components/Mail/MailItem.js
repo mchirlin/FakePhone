@@ -16,7 +16,9 @@ export default class MailItem extends Component {
         underlayColor='#b771cf'
         onPress={() => {
           onPress(item.id)
-          navigation.navigate('MailDetail')
+          navigation.navigate('MailDetail',
+            {itemId: item.id}
+          )
         }}>
         <View>
           <View style={styles.mailItemHeader}>

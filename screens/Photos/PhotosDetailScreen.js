@@ -14,7 +14,8 @@ class PhotosDetailScreen extends Component {
   }
 
   render() {
-    const {images, index} = this.props
+    const {images, navigation} = this.props
+    const index = navigation.getParam('itemId', 0);
 
     return (
       // <Modal visible={true} transparent={false}>
@@ -26,8 +27,7 @@ class PhotosDetailScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    images: state.photos.images,
-    index: state.photos.selectedPhoto
+    images: state.photos.images
   }
 };
 

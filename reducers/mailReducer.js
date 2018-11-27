@@ -29,7 +29,6 @@ export const actionCreators = {
 
 // Initial state of the store
 const initialState = {
-  selectedEmail: 0,
   emails: []
 }
 
@@ -41,7 +40,7 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const mail = (state = initialState, action) => {
-  const {selectedEmail, emails, badgeNumber} = state
+  const {emails, badgeNumber} = state
   const {type, payload} = action
 
   switch (type) {
@@ -64,7 +63,6 @@ export const mail = (state = initialState, action) => {
       const index = parseInt(payload)
       return {
         ...state,
-        selectedEmail: index,
         badgeNumber: emails[index].read?badgeNumber:badgeNumber - 1,
         emails: updateObjectInArray(emails, {index: index, item: {read: true}})
       }
