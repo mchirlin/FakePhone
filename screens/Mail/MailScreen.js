@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { Button,  Text, View, FlatList, TouchableOpacity } from 'react-native';
+import { Button,  Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
-import { Entypo } from '@expo/vector-icons';
 
 import MailItem from '../../components/Mail/MailItem'
+import HomeButton from '../../components/Common/HomeButton'
 import styles from '../../constants/styles'
 
 import { onMailAdd, onMailOpen } from '../../reducers/mailReducer'
@@ -13,9 +13,7 @@ class MailScreen extends Component {
     return {
       title: 'Mail',
       headerLeft: (
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
-        </TouchableOpacity>
+        <HomeButton navigation={navigation} />
       ),
       headerTitleStyle: styles.textLarge
     }

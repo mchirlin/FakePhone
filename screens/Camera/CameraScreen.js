@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity, Text } from 'react-native';
+import { View, Text } from 'react-native';
 import { connect } from 'react-redux'
 import { Camera, Permissions, BarCodeScanner } from 'expo';
-import { Entypo } from '@expo/vector-icons';
 
+import HomeButton from '../../components/Common/HomeButton'
 import { onEventActivate } from '../../reducers/eventReducer'
 import styles from '../../constants/styles'
 
@@ -19,9 +19,7 @@ class CameraScreen extends Component {
     return {
       title: 'Camera',
       headerLeft: (
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
-        </TouchableOpacity>
+        <HomeButton navigation={navigation} />
       ),
       headerTitleStyle: styles.textLarge
     }

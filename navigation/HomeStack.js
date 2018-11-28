@@ -1,9 +1,7 @@
 import { Animated, Easing } from 'react-native'
 import { createStackNavigator } from 'react-navigation';
 
-import LockScreen from '../screens/LockScreen'
 import HomeScreen from '../screens/HomeScreen'
-import WinScreen from '../screens/WinScreen'
 
 const transitionConfig = () => {
   return {
@@ -37,7 +35,6 @@ const transitionConfig = () => {
 
 export default createStackNavigator(
   {
-    Lock: LockScreen,
     Home: HomeScreen
   },
   {

@@ -25,7 +25,7 @@ const rootReducer = combineReducers({
   event
 })
 
-const persistConfig = {
+export const persistConfig = {
   key: 'root',
   storage,
   autoMergeLevel2

@@ -1,12 +1,12 @@
 import React, {Component} from 'react';
-import { Text, View, TouchableOpacity } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
 import { Audio } from 'expo'
-import { Entypo } from '@expo/vector-icons';
 
 import PhoneNumber from '../../components/Phone/PhoneNumber'
 import PhoneButtonRow from '../../components/Phone/PhoneButtonRow'
 import PhoneButtonLastRow from '../../components/Phone/PhoneButtonLastRow'
+import HomeButton from '../../components/Common/HomeButton'
 import { tones, rings } from '../../constants/sounds'
 import { onNumberAdd, onNumberDelete, onCallStart, onSoundEnd } from '../../reducers/phoneReducer'
 import { onEventActivate } from '../../reducers/eventReducer'
@@ -17,9 +17,7 @@ class PhoneScreen extends Component {
     return {
       title: 'Phone',
       headerLeft: (
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
-        </TouchableOpacity>
+        <HomeButton navigation={navigation} />
       ),
       headerTitleStyle: styles.textLarge
     }

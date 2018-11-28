@@ -44,16 +44,17 @@
             "id": "MESSAGE1",
             "isMe": true,
             "message": "Question",
-            "time": "Yesterday"
+            "time": "Yesterday",
+            "read": true
           },
           {
             "id": "MESSAGE2",
             "isMe": false,
             "message": "Reply",
-            "time": "Today"
+            "time": "Today",
+            "read": false
           }
-        ],
-        "read": false
+        ]
       }
     ]
   },

@@ -25,7 +25,7 @@ export default class MessageItem extends Component {
           />
         <View style={styles.baseContainer}>
             <View style={styles.mailItemHeader}>
-              <Text style={thread.read?styles.textLarge:styles.textLargeBold}>{thread.contact.name}</Text>
+              <Text style={lastMessage.read?styles.textLarge:styles.textLargeBold}>{thread.contact.name}</Text>
               <Text style={styles.textMedium}>{lastMessage.time}</Text>
             </View>
             <Text style={styles.textSmall}>{lastMessage.message}</Text>

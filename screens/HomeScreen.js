@@ -21,7 +21,12 @@ class HomeScreen extends Component {
             {icon: "bank", app: "BankApp"},
             {icon: "calendar", app: "CalendarApp"},
             {icon: "camera", app: "CameraApp"},
-            {icon: "photo", app: "PhotosApp"}
+            {icon: "photo", app: "PhotosApp"},
+            {icon: "gear", app: "SettingsApp"},
+            /* So that Apps line up nicely */
+            {},
+            {},
+            {}
           ]}/>
         </View>
         <TabBar navigation={navigation} appBadges={appBadges} />

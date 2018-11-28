@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { Image, TouchableOpacity, View } from 'react-native';
+import { Image, View } from 'react-native';
 import { connect } from 'react-redux'
 import { Button, Input } from 'react-native-elements';
 
-import { Entypo } from '@expo/vector-icons';
-
+import HomeButton from '../../components/Common/HomeButton'
 import {onUsernameUpdate, onPasswordUpdate} from '../../reducers/bankReducer'
 import styles from '../../constants/styles'
 
@@ -20,9 +19,7 @@ class BankScreen extends Component {
     return {
       title: 'Bank',
       headerLeft: (
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
-        </TouchableOpacity>
+        <HomeButton navigation={navigation} />
       ),
       headerTitleStyle: styles.textLarge
     }

@@ -26,6 +26,7 @@ class FakePhone extends Component {
     this.store = store
     this.calculateActions = this.calculateActions.bind(this)
     this.activateLocationEvents = this.activateLocationEvents.bind(this)
+    this.alertPresent = false
   }
 
   async componentDidMount() {
@@ -38,19 +39,25 @@ class FakePhone extends Component {
         //   console.log('Badge Number:', badgeNumber)
         //   Notifications.setBadgeNumberAsync(badgeNumber + actions.length);
         // });
-        Alert.alert(
-          'New Updates',
-          'You have received updates, check your home screen',
-          [
-            {text: 'OK'},
-          ],
-          { cancelable: false }
-        )
+        if (!this.alertPresent) {
+          this.alertPresent = true
+          Alert.alert(
+            'New Updates',
+            'You have received updates, check your home screen',
+            [
+              {
+                text: 'OK',
+                onPress: () => this.alertPresent = false
+              }
+            ],
+            { cancelable: false }
+          )
+        }
       }
       actions.forEach((item) => {
         this.store.dispatch(item)
       })
-    }, 1000); //something short
+    }, 1000);
 
     let { status } = await Permissions.askAsync(Permissions.LOCATION);
     if (status !== 'granted') {
@@ -161,11 +168,7 @@ class FakePhone extends Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator initialRouteName={unlocked?'Home':'Lock'}/>
-          <Button onPress={() => {
-            persistor.purge()
-            loadingPersistor.purge()
-          }} title="Purge"/>
+          <AppNavigator unlocked={unlocked}/>
         </View>
       );
     }

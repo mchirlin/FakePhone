@@ -43,7 +43,7 @@ export const message = (state = initialState, action) => {
 
       return {
         ...state,
-        badgeNumber: threads[index].read?badgeNumber + 1:badgeNumber,
+        badgeNumber: badgeNumber + 1,
         threads: updateObjectInArray(
           threads,
           {
@@ -66,10 +66,25 @@ export const message = (state = initialState, action) => {
     }
     case types.THREAD_OPEN: {
       const index = parseInt(payload)
+      const thread = threads[index]
       return {
         ...state,
-        badgeNumber: threads[index].read?badgeNumber:badgeNumber - 1,
-        threads: updateObjectInArray(threads, {index: index, item: {read: true}})
+        badgeNumber: badgeNumber - thread.messages.filter(message => !message.read).length,
+        threads: updateObjectInArray(
+          threads,
+          {
+            index: index,
+            item: {
+              ...thread,
+              messages: thread.messages.map(message => {
+                return {
+                  ...message,
+                  read: true
+                }
+              })
+            }
+          }
+        )
       }
     }
   }

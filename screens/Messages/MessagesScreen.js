@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableOpacity } from 'react-native';
-import { Entypo } from '@expo/vector-icons';
+import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux'
 
 import MessageItem from '../../components/Messages/MessageItem'
+import HomeButton from '../../components/Common/HomeButton'
 import { onThreadOpen } from '../../reducers/messageReducer'
 import styles from '../../constants/styles'
 
@@ -12,9 +12,7 @@ class MessagesScreen extends Component {
     return {
       title: 'Messages',
       headerLeft: (
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
-        </TouchableOpacity>
+        <HomeButton navigation={navigation} />
       ),
       headerTitleStyle: styles.textLarge
     }

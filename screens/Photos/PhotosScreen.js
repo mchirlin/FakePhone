@@ -1,8 +1,8 @@
 import React from 'react';
-import { View, Image, ScrollView, TouchableHighlight, TouchableOpacity} from 'react-native';
+import { View, Image, ScrollView, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux'
-import { Entypo } from '@expo/vector-icons';
 
+import HomeButton from '../../components/Common/HomeButton'
 import { onPhotoOpen } from '../../reducers/photosReducer'
 import styles from '../../constants/styles'
 
@@ -11,9 +11,7 @@ class PhotosScreen extends React.Component {
     return {
       title: 'Photos',
       headerLeft: (
-        <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
-        </TouchableOpacity>
+        <HomeButton navigation={navigation} />
       ),
       headerTitleStyle: styles.textLarge
     }

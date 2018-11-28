@@ -46,6 +46,16 @@ const styles = StyleSheet.create({
   },
   rowLayoutBetween: {
     flexDirection: 'row',
+    justifyContent: 'space-between',
+  },
+  gridLayout: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  rowLayoutBetween: {
+    flexDirection: 'row',
     justifyContent: 'space-between'
   },
   columnLayout: {
@@ -153,6 +163,15 @@ const styles = StyleSheet.create({
     height: 150,
     margin:5
   },
+  /* SETTINGS */
+  settingsHeader: {
+    padding: 10,
+  },
+  settingsItem: {
+    backgroundColor: colors.lightBackground,
+    flex: 1,
+    padding: 10
+  },
   textXlarge: {
     fontSize: 40,
     fontFamily: fontFamily
@@ -217,6 +236,15 @@ const styles = StyleSheet.create({
     width: 80,
     height: 80,
     borderRadius: 20,
+    margin: 5,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  appSpace: {
+    width: 80,
+    height: 80,
+    borderRadius: 20,
+    margin: 5,
     alignItems: 'center',
     justifyContent: 'center'
   },
