@@ -13,6 +13,7 @@ import { message } from './messageReducer'
 import { map } from './mapReducer'
 import { bank } from './bankReducer'
 import { photos } from './photosReducer'
+import { stats } from './statsReducer'
 import { event } from './eventReducer'
 
 const rootReducer = combineReducers({
@@ -24,6 +25,7 @@ const rootReducer = combineReducers({
   map,
   bank,
   photos,
+  stats,
   event
 })
 
