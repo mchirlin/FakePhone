@@ -13,8 +13,10 @@ class MailScreen extends Component {
     return {
       title: 'Mail',
       headerLeft: (
-        <HomeButton navigation={navigation} />
+        <HomeButton navigation={navigation} color="#fff" />
       ),
+      headerStyle: styles.mailHeader,
+      headerTintColor: '#fff',
       headerTitleStyle: styles.textLarge
     }
   }
@@ -34,10 +36,8 @@ class MailScreen extends Component {
           )}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderSeparator}
         />
-        {/* <Button title="Button" onPress={() => {
-          onMailAdd("From", "To", "Time", "Subject", "Body")
-        }} /> */}
       </View>
     );
   }

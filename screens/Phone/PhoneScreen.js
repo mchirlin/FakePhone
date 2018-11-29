@@ -38,13 +38,13 @@ class PhoneScreen extends Component {
     const {isPlaying, audioTrack} = this.props
 
     if (isPlaying) {
-      // try {
+      try {
         await this.soundObject.unloadAsync()
         await this.soundObject.loadAsync(audioTrack)
         await this.soundObject.playAsync()
-      // } catch (error) {
-      //   // Handle error
-      // }
+      } catch (error) {
+        // Handle error
+      }
     } else {
       await this.soundObject.unloadAsync()
     }
@@ -65,7 +65,7 @@ class PhoneScreen extends Component {
     const {navigation} = this.props
 
     return (
-      <View style={styles.lightContainer}>
+      <View style={styles.baseContainer}>
         <PhoneNumber color='textBlack' number={phoneNumber} />
         <PhoneButtonRow values={['1','2','3']} letters= {['','ABC','DEF']} onPressItem={onNumberAdd}/>
         <PhoneButtonRow values={['4','5','6']} letters= {['GHI','JKL','MNO']} onPressItem={onNumberAdd} />

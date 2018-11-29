@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
-import { Platform, StatusBar, StyleSheet, ImageBackground, Text, View, Button, Alert } from 'react-native';
+import { Alert, Button, Image, ImageBackground, Platform, StatusBar, StyleSheet, Text, View  } from 'react-native';
 import { connect, Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { Font, AppLoading, Icon, Location, Permissions, Notifications, SplashScreen } from 'expo';
+import { Asset, AppLoading, Font, Icon, Location,  Notifications, Permissions, SplashScreen } from 'expo';
 import { getDistance} from 'geolib'
+import { CacheManager } from 'react-native-expo-image-cache';
 
 import AppNavigator from './navigation/AppNavigator';
 import {updateObjectInArray} from './reducers/functions'
@@ -26,6 +27,7 @@ class FakePhone extends Component {
     this.store = store
     this.calculateActions = this.calculateActions.bind(this)
     this.activateLocationEvents = this.activateLocationEvents.bind(this)
+    this._loadResourcesAsync = this._loadResourcesAsync.bind(this)
     this.alertPresent = false
   }
 
@@ -115,7 +117,6 @@ class FakePhone extends Component {
           item.status === 'active' &&
           (new Date()).getTime() > (item.startedOn?item.startedOn:event.timer.startedOn) + item.delay
         ) {
-          console.log('Triggering payload', item.action, this.state)
           actions.push(onEventComplete(item))
           actions.push(
             {
@@ -164,7 +165,6 @@ class FakePhone extends Component {
     </View>
       );
     } else {
-      console.log("Unlocked", unlocked)
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
@@ -174,14 +174,37 @@ class FakePhone extends Component {
     }
   }
 
+  cacheImages = (images) => {
+    return images.map(image => {
+      if (typeof image === 'string') {
+        return Image.prefetch(image);
+      } else {
+        return Asset.fromModule(image).downloadAsync();
+      }
+    });
+  }
+
+  cacheFonts = (fonts) => {
+    return fonts.map(font => Font.loadAsync(font));
+  }
+
   _loadResourcesAsync = async () => {
-    return Promise.all([
-      Font.loadAsync({
-        'balsamiq-sans-regular': require('./assets/fonts/BalsamiqSansRegular.ttf'),
-        'balsamiq-sans-bold': require('./assets/fonts/BalsamiqSansBold.ttf'),
-      }),
+    console.log('Loading resources')
+    const imageAssets = this.cacheImages([
+      require('./assets/images/bank-logo.png')
     ]);
-  };
+
+    //  Cache background
+    const uri = this.store.getState().home.background;
+    const path = await CacheManager.get(uri).getPath();
+
+    const fontAssets = this.cacheFonts([{
+      'balsamiq-sans-regular': require('./assets/fonts/BalsamiqSansRegular.ttf'),
+      'balsamiq-sans-bold': require('./assets/fonts/BalsamiqSansBold.ttf'),
+    }]);
+
+    await Promise.all([...imageAssets, ...fontAssets]);
+  }
 
   _handleLoadingError = error => {
     // In this case, you might want to report the error to your error

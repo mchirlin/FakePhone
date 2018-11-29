@@ -7,20 +7,20 @@ import styles from '../../constants/styles'
 
 export default class AppButton extends Component {
   render() {
-    const {icon, navigation, app, badgeNumber} = this.props
+    const {icon, iconColor, iconSize, navigation, app, badgeNumber, backgroundColor} = this.props
 
     return (
       <TouchableOpacity onPress={() => {
         navigation.navigate(app)
       }}>
-        <View style={styles.appButton}>
-          <FontAwesome name={icon} size={60} color="#000" />
+        <View style={[styles.appButton, backgroundColor?{backgroundColor: backgroundColor}:null]}>
+          <FontAwesome name={icon} size={iconSize?iconSize:50} color={iconColor?iconColor:"#000"} />
         </View>
         {badgeNumber === 0?null:(
           <Badge
             value={badgeNumber}
             textStyle={styles.textMedium}
-            containerStyle={[styles.darkBackground, {position: 'absolute', bottom: 65, left: -5}]}
+            containerStyle={styles.badge}
           />
         )}
       </TouchableOpacity>

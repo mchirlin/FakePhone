@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View, FlatList, TouchableHighlight, Image } from 'react-native';
+import { FlatList, TouchableHighlight, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { Video } from 'expo'
+import { Image } from 'react-native-expo-image-cache';
 
 import styles from '../../constants/styles'
 
@@ -10,10 +11,12 @@ class MailDetailScreen extends Component {
     return {
       // title: navigation.getParam('title'),
       title: 'Email',
-      headerTitleStyle: styles.textLarge
+      headerTitleStyle: styles.textLarge,
+      headerStyle: styles.mailHeader,
+      headerTintColor: '#fff'
     }
   }
-  
+
   render() {
     const {emails, navigation} = this.props
     const itemId = navigation.getParam('itemId', 0);

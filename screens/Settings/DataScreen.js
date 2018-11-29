@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { Alert, Button, Text, View } from 'react-native';
+import { Alert, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { purgeStoredState } from 'redux-persist'
 import { Util } from 'expo'
+import { Button } from 'react-native-elements';
 
 import { persistConfig } from '../../reducers/index'
 import styles from '../../constants/styles'
@@ -17,7 +18,7 @@ class DataScreen extends Component {
 
   render() {
     return (
-      <Button title="Delete all data" onPress={() => {
+      <Button buttonStyle={styles.buttonDestruction} title="Delete all data" onPress={() => {
         Alert.alert(
           'Delete all data',
           'This will delete all data and restart the application',

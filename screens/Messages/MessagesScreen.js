@@ -12,9 +12,11 @@ class MessagesScreen extends Component {
     return {
       title: 'Messages',
       headerLeft: (
-        <HomeButton navigation={navigation} />
+        <HomeButton navigation={navigation} color="#fff" />
       ),
-      headerTitleStyle: styles.textLarge
+      headerTitleStyle: styles.textLarge,
+      headerStyle: styles.messagesHeader,
+      headerTintColor: '#fff'
     }
   }
 
@@ -39,6 +41,7 @@ class MessagesScreen extends Component {
           )}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderSeparator}
         />
       </View>
     );

@@ -13,7 +13,9 @@ class BankPasswordScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
       title: 'Forgot Password',
-      headerTitleStyle: styles.textLarge
+      headerTitleStyle: styles.textLarge,
+      headerStyle: styles.bankHeader,
+      headerTintColor: '#fff'
     }
   }
 

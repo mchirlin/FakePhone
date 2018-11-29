@@ -13,9 +13,9 @@ export default class PhoneButtonRow extends Component {
 
     return (
       <View style={styles.buttonLayout}>
-        <PhoneButton backgroundColor="#fff" number={values[0]} letters={letters[0]} onPressItem={onPressItem}/>
-        <PhoneButton backgroundColor="#fff" number={values[1]} letters={letters[1]} onPressItem={onPressItem}/>
-        <PhoneButton backgroundColor="#fff" number={values[2]} letters={letters[2]} onPressItem={onPressItem}/>
+        <PhoneButton number={values[0]} letters={letters[0]} onPressItem={onPressItem}/>
+        <PhoneButton number={values[1]} letters={letters[1]} onPressItem={onPressItem}/>
+        <PhoneButton number={values[2]} letters={letters[2]} onPressItem={onPressItem}/>
       </View>
     )
   }

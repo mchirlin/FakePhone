@@ -11,9 +11,11 @@ class CalendarScreen extends Component {
     return {
       title: 'Calendar',
       headerLeft: (
-        <HomeButton navigation={navigation} />
+        <HomeButton navigation={navigation} color="#fff" />
       ),
-      headerTitleStyle: styles.textLarge
+      headerTitleStyle: styles.textLarge,
+      headerStyle: styles.calendarHeader,
+      headerTintColor: '#fff'
     }
   }
 

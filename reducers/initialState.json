@@ -1,11 +1,14 @@
 {
   "lock": {
-    "lockCode": "1234",
+    "lockCode": "0000",
     "triggers": [
       {
         "id": "MESSAGE1"
       }
     ]
+  },
+  "home": {
+    "background": "https://www.dropbox.com/s/icjhxa2c7dmbx47/background.png?dl=1"
   },
   "phone": {
     "badgeNumber": 0,
@@ -100,7 +103,7 @@
         "title": "Come to this location",
         "description": "Arriving at this location will trigger an email",
         "latitude": -33.889,
-        "longitude": 151.196834,
+        "longitude": 151.195834,
         "distance": 100,
         "found": false
       }
@@ -178,7 +181,7 @@
           "latitude": -33.889,
           "longitude": 151.196834
         },
-        "distance": 100,
+        "distance": 50,
         "action": {
           "type": "MAIL_ADD",
           "payload": "{\"to\": \"Michael\", \"from\": \"Map Screen\", \"time\": \"TIME\", \"subject\": \"Email triggered by location\", \"body\": \"This email triggers after reaching a location\"}"
@@ -205,10 +208,10 @@
       {
         "id": "MARKER2",
         "status": "pending",
-        "delay": 6000,
+        "delay": 0,
         "action": {
           "type": "MARKER_ADD",
-          "payload": "{\"id\":\"MARKER2\", \"title\":\"Added Marker\", \"description\":\"This was added by making a phone call\", \"latitude\": -33.889,\"longitude\": 151.196834, \"distance\": 300, \"found\":false}"
+          "payload": "{\"id\":\"MARKER2\", \"title\":\"Added Marker\", \"description\":\"This was added by making a phone call\", \"latitude\": -33.889,\"longitude\": 151.198834, \"distance\": 100, \"found\":false}"
         }
       },
       {

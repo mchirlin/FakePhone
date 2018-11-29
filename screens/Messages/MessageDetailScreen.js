@@ -11,9 +11,11 @@ class MessagesScreen extends Component {
     const contact = navigation.getParam('contact', 0)
 
     return {
-      headerStyle: {
-        height: 60
-      },
+      headerStyle: [
+        styles.messagesHeader,
+        {height: 60}
+      ],
+      headerTintColor: 'white',
       headerTitle: (
         <View style={{alignItems: 'center'}}>
           <Avatar
@@ -23,9 +25,9 @@ class MessagesScreen extends Component {
             title={contact.initials}
             activeOpacity={0.7}
           />
-          <Text style={styles.textMedium}>{contact.name}</Text>
+          <Text style={[styles.textMedium, styles.textWhite]}>{contact.name}</Text>
         </View>
-      )
+      ),
     }
   }
 

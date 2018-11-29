@@ -67,7 +67,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
     alignItems: 'center',
   },
+  badge: {
+    backgroundColor: colors.red,
+    position: 'absolute',
+    bottom: 70,
+    left: -5
+  },
+
+  /* PHONE */
   button: {
+    backgroundColor: '#ccc',
     borderWidth: 2,
     borderColor: '#000',
     flexDirection: 'column',
@@ -78,9 +87,8 @@ const styles = StyleSheet.create({
     borderRadius: 40,
     margin: 8,
   },
-  /* PHONE */
   buttonCall: {
-    backgroundColor: '#4cd964',
+    backgroundColor: colors.callGreen,
   },
   buttonEnd: {
     backgroundColor: '#ff0800',
@@ -92,7 +100,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: 50,
     height: 30,
-    backgroundColor: '#fff',
+    backgroundColor: '#ccc',
     borderRadius: 3,
     margin: 10,
   },
@@ -112,9 +120,13 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+
   /* MAIL */
+  mailHeader: {
+    backgroundColor: colors.red
+  },
   mailItem: {
-    backgroundColor: colors.lightBackground,
+    backgroundColor: '#fff',
     flex: 1,
     padding: 10
   },
@@ -140,16 +152,24 @@ const styles = StyleSheet.create({
   mailBody: {
     marginTop: 10
   },
+
   /* MESSAGES */
+  messagesHeader: {
+    backgroundColor: colors.green
+  },
   messagesList: {
     marginTop: 20
   },
+
   /* PHOTOS */
+  photosHeader: {
+    backgroundColor: 'purple'
+  },
   photosContainer: {
     flex: 1,                            // Take up all available space
     justifyContent: 'center',           // Center vertically
     alignItems: 'center',               // Center horizontally
-    backgroundColor: '#000',            // Darker background for content area
+    backgroundColor: '#333',            // Darker background for content area
   },
   photosGridContainer:{
     flex: 1
@@ -163,15 +183,28 @@ const styles = StyleSheet.create({
     height: 150,
     margin:5
   },
+
+  /* CALENDAR */
+  calendarHeader: {
+    backgroundColor: colors.blue,
+  },
+
   /* SETTINGS */
   settingsHeader: {
     padding: 10,
   },
   settingsItem: {
-    backgroundColor: colors.lightBackground,
+    backgroundColor: "white",
     flex: 1,
     padding: 10
   },
+
+  /* BANK */
+  bankHeader: {
+    backgroundColor: colors.tomato
+  },
+
+  /* TEXT */
   textXlarge: {
     fontSize: 40,
     fontFamily: fontFamily
@@ -224,32 +257,36 @@ const styles = StyleSheet.create({
     borderColor: '#000',
     width: '100%',
     height: 100,
-    backgroundColor: '#ccc',
+    backgroundColor: '#444',
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center'
   },
   appButton: {
-    backgroundColor: '#fff',
-    borderWidth: 2,
-    borderColor: '#000',
-    width: 80,
-    height: 80,
+    backgroundColor: '#ccc',
+    // borderWidth: 2,
+    // borderColor: '#000',
+    width: 70,
+    height: 70,
     borderRadius: 20,
-    margin: 5,
+    margin: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
   appSpace: {
-    width: 80,
-    height: 80,
+    width: 70,
+    height: 70,
     borderRadius: 20,
-    margin: 5,
+    margin: 10,
     alignItems: 'center',
     justifyContent: 'center'
   },
   homeIcon: {
-    marginLeft: 10
+    paddingLeft: 10,
+    paddingRight: 20
+  },
+  buttonDestruction: {
+    backgroundColor: colors.red
   }
 })
 
@@ -478,7 +515,7 @@ export const mapStyle = [
     "elementType": "geometry",
     "stylers": [
       {
-        "color": colors.lightBackground
+        "color": colors.blue
       }
     ]
   },

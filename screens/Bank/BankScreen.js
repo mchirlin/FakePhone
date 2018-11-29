@@ -19,9 +19,11 @@ class BankScreen extends Component {
     return {
       title: 'Bank',
       headerLeft: (
-        <HomeButton navigation={navigation} />
+        <HomeButton navigation={navigation} color="#fff" />
       ),
-      headerTitleStyle: styles.textLarge
+      headerTitleStyle: styles.textLarge,
+      headerStyle: styles.bankHeader,
+      headerTintColor: '#fff'
     }
   }
 

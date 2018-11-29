@@ -3,9 +3,10 @@ import { persistStore, persistReducer } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
-//TODO Comment to turn on QR codes
-import initialState from './initialState.json'
+// TODO Comment to turn on QR codes
+// import initialState from './initialState.json'
 import { lock } from './lockReducer'
+import { home } from './homeReducer'
 import { mail } from './mailReducer'
 import { phone } from './phoneReducer'
 import { message } from './messageReducer'
@@ -16,6 +17,7 @@ import { event } from './eventReducer'
 
 const rootReducer = combineReducers({
   lock,
+  home,
   phone,
   mail,
   message,
@@ -44,8 +46,9 @@ async function loadResource(url) {
 }
 
 export default async (url) => {
-  //TODO Uncomment to turn on QR codes
+  // TODO Uncomment to turn on QR codes
   // const initialState = await loadResource(url)
+  const initialState = await loadResource('https://www.dropbox.com/s/c7wi25frstcieux/initialState.json?dl=1')
 
   let store = createStore(persistedReducer, initialState)
   let persistor = persistStore(store)

@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 import { connect } from 'react-redux'
+import { Image } from 'react-native-expo-image-cache'
 
+import ImageBackground from '../components/Common/ImageBackground'
 import TabBar from '../components/Common/TabBar'
 import AppButtonGrid from '../components/Common/AppButtonGrid'
 import styles from '../constants/styles'
+import colors from '../constants/colors'
 
 class HomeScreen extends Component {
   static navigationOptions = {
@@ -12,31 +15,35 @@ class HomeScreen extends Component {
   };
 
   render() {
-    const {navigation, appBadges} = this.props
-
+    const {navigation, background, appBadges} = this.props
+    
     return (
-      <View style={[styles.lightContainer, {alignItems: 'stretch'}]}>
+      <ImageBackground
+        uri={background}
+        style={{alignItems: 'stretch', width: '100%', height:'100%', backgroundColor: '#000'}}>
         <View style={styles.contentContainer}>
           <AppButtonGrid navigation={navigation} buttons={[
-            {icon: "bank", app: "BankApp"},
-            {icon: "calendar", app: "CalendarApp"},
-            {icon: "camera", app: "CameraApp"},
-            {icon: "photo", app: "PhotosApp"},
-            {icon: "gear", app: "SettingsApp"},
+            {icon: "bank", iconSize: 50, app: "BankApp", backgroundColor: colors.tomato, iconColor: '#fff'},
+            {icon: "calendar", app: "CalendarApp", backgroundColor: colors.blue, iconColor: '#fff'},
+            {icon: "camera", app: "CameraApp", iconColor: '#222'},
+            {icon: "photo", app: "PhotosApp", iconColor: 'purple'},
+            {icon: "gear", app: "SettingsApp", iconColor: '#222'},
             /* So that Apps line up nicely */
             {},
             {},
             {}
           ]}/>
         </View>
+
         <TabBar navigation={navigation} appBadges={appBadges} />
-      </View>
+      </ImageBackground>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
+    background: state.home.background,
     appBadges: {
       phone: state.phone.badgeNumber,
       message: state.message.badgeNumber,

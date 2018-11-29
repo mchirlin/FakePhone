@@ -3,6 +3,7 @@ import { View, StyleSheet } from 'react-native'
 
 import AppButton from './AppButton'
 import styles from '../../constants/styles'
+import colors from '../../constants/colors'
 
 export default class TabBar extends Component {
 
@@ -10,10 +11,34 @@ export default class TabBar extends Component {
     const {navigation, appBadges} = this.props
 
     return <View style={styles.tabBar}>
-      <AppButton navigation={navigation} app="PhoneApp" icon="phone" badgeNumber={appBadges.phone}/>
-      <AppButton navigation={navigation} app="MessagesApp" icon="comment" badgeNumber={appBadges.message}/>
-      <AppButton navigation={navigation} app="MailApp" icon="envelope" badgeNumber={appBadges.mail}/>
-      <AppButton navigation={navigation} app="MapsApp" icon="map" badgeNumber={appBadges.map}/>
+      <AppButton
+         navigation={navigation}
+         app="PhoneApp"
+         icon="phone"
+         backgroundColor={colors.callGreen}
+         iconColor="white"
+         badgeNumber={appBadges.phone} />
+      <AppButton
+        navigation={navigation}
+        app="MessagesApp"
+        icon="comment"
+        backgroundColor={colors.callGreen}
+        iconColor="white"
+        badgeNumber={appBadges.message} />
+      <AppButton
+        navigation={navigation}
+        app="MailApp"
+        icon="envelope"
+        backgroundColor="white"
+        iconColor={colors.red}
+        badgeNumber={appBadges.mail} />
+      <AppButton
+        navigation={navigation}
+        app="MapsApp"
+        icon="map"
+        backgroundColor="white"
+        badgeNumber={appBadges.map}
+        iconColor={colors.yellow} />
     </View>
   }
 }

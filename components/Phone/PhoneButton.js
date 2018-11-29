@@ -12,7 +12,7 @@ export default class PhoneButton extends Component {
     const {onPressItem} = this.props
 
     return (
-      <TouchableOpacity style={[styles.button, {backgroundColor: backgroundColor}]} onPressIn={() => {
+      <TouchableOpacity style={[styles.button, backgroundColor?{backgroundColor: backgroundColor}:null]} onPressIn={() => {
           onPressItem(number)
         }}>
         <Text style={styles.textXlarge}>{number}</Text>

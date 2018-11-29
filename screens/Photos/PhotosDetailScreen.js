@@ -18,9 +18,7 @@ class PhotosDetailScreen extends Component {
     const index = navigation.getParam('itemId', 0);
 
     return (
-      // <Modal visible={true} transparent={false}>
-          <ImageViewer imageUrls={images} index={index}/>
-      // </Modal>
+      <ImageViewer backgroundColor="#222" imageUrls={images} index={index}/>
     );
   }
 }

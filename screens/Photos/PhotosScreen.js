@@ -1,6 +1,7 @@
 import React from 'react';
-import { View, Image, ScrollView, TouchableHighlight } from 'react-native';
+import { View, ScrollView, TouchableHighlight } from 'react-native';
 import { connect } from 'react-redux'
+import { Image } from 'react-native-expo-image-cache';
 
 import HomeButton from '../../components/Common/HomeButton'
 import { onPhotoOpen } from '../../reducers/photosReducer'
@@ -31,7 +32,7 @@ class PhotosScreen extends React.Component {
         <TouchableHighlight onPress={() => {
           navigation.navigate('PhotosDetail', {itemId: index})
         }}>
-          <Image style={styles.photo} source={{ uri: image.url }} />
+          <Image style={styles.photo} uri={image.url} />
         </TouchableHighlight>
       </View>
     );

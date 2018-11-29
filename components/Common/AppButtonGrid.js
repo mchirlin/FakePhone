@@ -6,7 +6,6 @@ import styles from '../../constants/styles'
 
 export default class AppButtonGrid extends Component {
   render() {
-    const {numColumns} = this.props
     const {buttons} = this.props
     const {navigation} = this.props
 
@@ -19,9 +18,14 @@ export default class AppButtonGrid extends Component {
                 <AppButton
                   key={item.app}
                   icon={item.icon}
+                  iconColor={item.iconColor}
+                  iconSize={item.iconSize}
                   navigation={navigation}
                   app={item.app}
-                  badgeNumber={0} />
+                  badgeNumber={0}
+                  backgroundColor={item.backgroundColor}
+
+                />
               )
             } else {
               return (

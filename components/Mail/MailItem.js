@@ -23,7 +23,7 @@ export default class MailItem extends Component {
         <View>
           <View style={styles.mailItemHeader}>
             <Text style={item.read?styles.textLarge:styles.textLargeBold}>{item.from}</Text>
-            <Text style={[item.read?styles.textMedium:styles.textMediumBold, styles.blueText]}>{item.time}</Text>
+            <Text style={item.read?styles.textMedium:[styles.textMediumBold, styles.textBlue]}>{item.time}</Text>
           </View>
           <Text style={item.read?styles.textMedium:styles.textMediumBold}>{item.subject}</Text>
           <Text style={styles.textSmall}>{item.body.substr(0, 45)}...</Text>

@@ -45,6 +45,7 @@ class SettingsScreen extends Component {
           )}
           keyExtractor={(item, index) => item + index}
           ItemSeparatorComponent={this.renderSeparator}
+          ListFooterComponent={this.renderSeparator}
         />
       </View>
     );
