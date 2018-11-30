@@ -1,9 +1,14 @@
 {
   "expo": {
+<<<<<<< HEAD
     "name": "Fun Events - FakePhone",
     "description": "This project is in progress.",
+=======
+    "name": "Fun Events",
+    "description": "Used in conjunction with Fun Events Group(c) lead outdoor events",
+>>>>>>> 37baeac67bbaadbb9d29492fbb31613e1f576f37
     "slug": "FakePhone",
-    "privacy": "public",
+    "privacy": "unlisted",
     "sdkVersion": "31.0.0",
     "platforms": [
       "ios",
@@ -25,7 +30,14 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.mchirlin.fakephone"
+      "bundleIdentifier": "com.mchirlin.fakephone",
+      "config": {
+        "googleMapsApiKey": "<Add in later>"
+      },
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to scan QR codes to trigger storyline events",
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to trigger storyline events"
+      },
     },
     "android": {
       "package": "com.mchirlin.fakephone"
