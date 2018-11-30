@@ -9,7 +9,8 @@ import styles from '../../constants/styles'
 class PhotosDetailScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     return {
-      title: 'Photos'
+      title: 'Photos',
+      headerTitleStyle: styles.textLarge
     }
   }
 
