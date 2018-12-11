@@ -3,7 +3,7 @@ import { View, Text, TouchableHighlight } from 'react-native'
 
 import styles from '../../constants/styles'
 
-export default class MailItem extends Component {
+export default class MailListItem extends Component {
 
   render() {
     const {onPress} = this.props
@@ -13,7 +13,7 @@ export default class MailItem extends Component {
     return (
       <TouchableHighlight
         style={styles.mailItem}
-        underlayColor='#b771cf'
+        underlayColor='#ccc'
         onPress={() => {
           onPress(item.id)
           navigation.navigate('MailDetail',

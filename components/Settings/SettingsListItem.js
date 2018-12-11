@@ -3,7 +3,7 @@ import { View, Text, TouchableHighlight } from 'react-native'
 
 import styles from '../../constants/styles'
 
-export default class SettingsItem extends Component {
+export default class SettingsListItem extends Component {
 
   render() {
     const {item} = this.props

@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { StyleSheet, Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux'
 
-import MessageItem from '../../components/Messages/MessageItem'
+import MessageListItem from '../../components/Messages/MessageListItem'
 import HomeButton from '../../components/Common/HomeButton'
 import { onThreadOpen } from '../../reducers/messageReducer'
 import styles from '../../constants/styles'
@@ -29,10 +29,10 @@ class MessagesScreen extends Component {
     const {navigation, threads, onThreadOpen} = this.props
 
     return (
-      <View style={styles.baseContainer}>
+      <View style={[styles.lightContainer, styles.centeredContainer]}>
         <FlatList style={styles.list} data={threads}
           renderItem={({item}) => (
-            <MessageItem
+            <MessageListItem
               thread={item}
               lastMessage={item.messages[item.messages.length - 1]}
               navigation={navigation}

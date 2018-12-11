@@ -4,7 +4,7 @@ import { Avatar } from 'react-native-elements'
 
 import styles from '../../constants/styles'
 
-export default class MessageItem extends Component {
+export default class MessageListItem extends Component {
 
   render() {
     const {thread, lastMessage, onPress} = this.props

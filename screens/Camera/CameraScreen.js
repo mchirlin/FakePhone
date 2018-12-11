@@ -12,7 +12,6 @@ class CameraScreen extends Component {
   state = {
     hasCameraPermission: null,
     type: Camera.Constants.Type.back,
-    parsedDate: null
   };
 
   static navigationOptions = ({ navigation }) => {

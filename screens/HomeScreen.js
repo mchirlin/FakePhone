@@ -16,7 +16,7 @@ class HomeScreen extends Component {
 
   render() {
     const {navigation, background, appBadges} = this.props
-    
+
     return (
       <ImageBackground
         uri={background}
@@ -27,9 +27,9 @@ class HomeScreen extends Component {
             {icon: "calendar", app: "CalendarApp", backgroundColor: colors.blue, iconColor: '#fff'},
             {icon: "camera", app: "CameraApp", iconColor: '#222'},
             {icon: "photo", app: "PhotosApp", iconColor: 'purple'},
+            {icon: "line-chart", app: "StatsApp", backgroundColor: colors.green, iconColor: 'white'},
             {icon: "gear", app: "SettingsApp", iconColor: '#222'},
             /* So that Apps line up nicely */
-            {},
             {},
             {}
           ]}/>

@@ -1,9 +1,9 @@
 import { createStackNavigator } from 'react-navigation';
 
-import LockScreen from '../screens/LockScreen'
+import StartScreen from '../screens/StartScreen'
 
 export default createStackNavigator(
   {
-    Lock: LockScreen
+    Start: StartScreen
   }
 );

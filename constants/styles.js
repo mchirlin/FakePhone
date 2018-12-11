@@ -120,6 +120,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center'
   },
+  buttonSubmit: {
+    backgroundColor: colors.green
+  },
+
+  /* START */
+  startContainer: {
+    margin: 20,
+    marginTop: 50
+  },
+  startInstruction: {
+    marginBottom: 10,
+    fontFamily: fontFamily,
+    fontSize: 20
+  },
 
   /* MAIL */
   mailHeader: {
@@ -196,12 +210,51 @@ const styles = StyleSheet.create({
   settingsItem: {
     backgroundColor: "white",
     flex: 1,
-    padding: 10
+    padding: 10,
+  },
+
+  /* STATS */
+  statsItem: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    padding: 10,
+    backgroundColor: "white",
   },
 
   /* BANK */
   bankHeader: {
     backgroundColor: colors.tomato
+  },
+  bankContainer: {
+    flex: 1,
+    alignItems: 'stretch',
+    margin: 10
+  },
+  bankLabel: {
+    marginTop: 10,
+    fontSize: 15,
+    fontFamily: fontFamilyBold
+  },
+  bankInput: {
+    fontSize: 20,
+    fontFamily: fontFamily,
+    marginBottom: 10
+  },
+
+  /* WIN */
+  winContainer: {
+    backgroundColor: colors.green,
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  winText: {
+    color: 'white',
+    fontFamily: fontFamily,
+    fontSize: 50,
+    marginBottom: 10
   },
 
   /* TEXT */
@@ -241,13 +294,19 @@ const styles = StyleSheet.create({
     color: '#fff'
   },
   textBlue: {
-    color: '#00f'
+    color: colors.blue
+  },
+  textRed: {
+    color: colors.red
   },
   textGreen: {
     color: 'green'
   },
   textBlack: {
     color: '#000'
+  },
+  marginBottom: {
+    marginBottom: 10
   },
   avatar: {
     marginRight: 20

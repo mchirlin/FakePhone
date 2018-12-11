@@ -1,9 +1,9 @@
 import { createStackNavigator } from 'react-navigation';
 
-import StatsScreen from '../screens/StatsScreen'
-import WinScreen from '../screens/WinScreen'
+import StatsScreen from '../screens/Stats/StatsScreen'
+import WinScreen from '../screens/Stats/WinScreen'
 
 export default createStackNavigator({
-  Stats: StatsSceen,
+  Stats: StatsScreen,
   Win: WinScreen
 });

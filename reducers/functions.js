@@ -14,6 +14,7 @@ export function updateObjectInArray(array, action) {
 }
 
 export function formatSeconds(sec) {
+  var sec = Math.round(sec)
   var hrs = Math.floor(sec / 3600);
   var min = Math.floor((sec - (hrs * 3600)) / 60);
   var seconds = sec - (hrs * 3600) - (min * 60);

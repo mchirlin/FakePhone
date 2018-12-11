@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Button,  Text, View, FlatList } from 'react-native';
 import { connect } from 'react-redux';
 
-import MailItem from '../../components/Mail/MailItem'
+import MailListItem from '../../components/Mail/MailListItem'
 import HomeButton from '../../components/Common/HomeButton'
 import styles from '../../constants/styles'
 
@@ -25,14 +25,15 @@ class MailScreen extends Component {
       <View style={styles.listSeparator} />
     )
   }
+
   render() {
     const {navigation, emails, onMailAdd, onMailOpen} = this.props
 
     return (
-      <View style={styles.baseContainer}>
+      <View style={[styles.lightContainer, styles.centeredContainer]}>
         <FlatList data={emails}
           renderItem={({item}) => (
-            <MailItem item={item} navigation={navigation} onPress={onMailOpen}/>
+            <MailListItem item={item} navigation={navigation} onPress={onMailOpen}/>
           )}
           keyExtractor={item => item.id}
           ItemSeparatorComponent={this.renderSeparator}

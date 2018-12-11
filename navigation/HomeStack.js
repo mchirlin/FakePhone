@@ -11,6 +11,7 @@ import CalendarStack from './CalendarStack'
 import CameraStack from './CameraStack'
 import PhotosStack from './PhotosStack'
 import SettingsStack from './SettingsStack'
+import StatsStack from './StatsStack'
 
 let CollapseExpand = (index, position) => {
   const inputRange = [index - 1, index, index + 1];
@@ -87,7 +88,8 @@ export default createStackNavigator(
     CalendarApp: CalendarStack,
     CameraApp: CameraStack,
     PhotosApp: PhotosStack,
-    SettingsApp: SettingsStack
+    SettingsApp: SettingsStack,
+    StatsApp: StatsStack
   },
   {
     headerMode: 'none',

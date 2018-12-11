@@ -7,6 +7,7 @@ import { getDistance} from 'geolib'
 import { CacheManager } from 'react-native-expo-image-cache';
 
 import AppNavigator from './navigation/AppNavigator';
+import NavigationService from './navigation/NavigationService.js';
 import {updateObjectInArray} from './reducers/functions'
 import persistConfig from './reducers/index'
 
@@ -57,7 +58,11 @@ class FakePhone extends Component {
         }
       }
       actions.forEach((item) => {
-        this.store.dispatch(item)
+        if (item.type === 'NAVIGATE') {
+          NavigationService.navigate(item.payload.screen);
+        } else {
+          this.store.dispatch(item);
+        }
       })
     }, 1000);
 
@@ -74,7 +79,11 @@ class FakePhone extends Component {
     }, (coords) => {
       let actions = this.activateLocationEvents(coords)
       actions.forEach((item) => {
-        this.store.dispatch(item)
+        if (item.type === 'NAVIGATE') {
+          NavigationService.navigate(item.payload.screen);
+        } else {
+          this.store.dispatch(item);
+        }
       })
     })
   }
@@ -161,6 +170,7 @@ class FakePhone extends Component {
           startAsync={this._loadResourcesAsync}
           onError={this._handleLoadingError}
           onFinish={this._handleFinishLoading}
+          autoHideSplash={false}
         />
     </View>
       );
@@ -191,7 +201,8 @@ class FakePhone extends Component {
   _loadResourcesAsync = async () => {
     console.log('Loading resources')
     const imageAssets = this.cacheImages([
-      require('./assets/images/bank-logo.png')
+      require('./assets/images/bank-logo.png'),
+      require('./assets/images/splash.png')
     ]);
 
     //  Cache background
@@ -214,6 +225,7 @@ class FakePhone extends Component {
 
   _handleFinishLoading = () => {
     this.setState({ isLoadingComplete: true });
+    SplashScreen.hide()
   };
 }
 
@@ -247,16 +259,12 @@ export default class RootComponent extends Component {
       );
     } else {
       return (
-        <ImageBackground
-          source={require('./assets/images/splash.png')}
-          style={{width: '100%', height: '100%', backgroundColor: '#008080'}}>
-          <AppLoading
-            startAsync={this._loadResourcesAsync}
-            onError={this._handleLoadingError}
-            onFinish={this._handleFinishLoading}
-            autoHideSplash={false}
-          />
-        </ImageBackground>
+        <AppLoading
+          startAsync={this._loadResourcesAsync}
+          onError={this._handleLoadingError}
+          onFinish={this._handleFinishLoading}
+          autoHideSplash={false}
+        />
       )
     }
   }

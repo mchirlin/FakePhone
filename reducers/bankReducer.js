@@ -4,7 +4,8 @@ import { updateObjectInArray } from './functions'
 export const types = {
   USERNAME_UPDATE: 'USERNAME_UPDATE',
   PASSWORD_UPDATE: 'PASSWORD_UPDATE',
-  ANSWER_UPDATE: 'ANSWER_UPDATE'
+  ANSWER_UPDATE: 'ANSWER_UPDATE',
+  MONEY_SEND: 'MONEY_SEND'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
@@ -17,6 +18,9 @@ export const actionCreators = {
   },
   answerUpdate: (answer, index) => {
     return {type: types.ANSWER_UPDATE, payload: {answer: answer, index: index}}
+  },
+  moneySend: (account, amount) => {
+    return {type: types.MONEY_SEND, payload: {account: account, amount: amount}}
   }
 }
 
@@ -65,6 +69,11 @@ export const bank  = (state = initialState, action) => {
         )
       }
     }
+    case types.MONEY_SEND: {
+      return {
+        ...state
+      }
+    }
   }
 
   return state
@@ -80,4 +89,8 @@ export function onPasswordUpdate(password) {
 
 export function onAnswerUpdate(answer, index) {
   return actionCreators.answerUpdate(answer, index)
+}
+
+export function onMoneySend(account, amount) {
+  return actionCreators.moneySend(account, amount)
 }

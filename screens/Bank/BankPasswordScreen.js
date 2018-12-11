@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
-import { View, TouchableOpacity } from 'react-native';
+import { KeyboardAvoidingView, View, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
+import { Header } from 'react-navigation'
 import { Input, Button } from 'react-native-elements';
-
 import { Entypo } from '@expo/vector-icons';
 
+import BankHeader from '../../components/Bank/BankHeader'
+import BankInput from '../../components/Bank/BankInput'
 import {onAnswerUpdate} from '../../reducers/bankReducer'
 import styles from '../../constants/styles'
 
@@ -23,14 +25,17 @@ class BankPasswordScreen extends Component {
     const {questions, answers, navigation} = this.props
     const {onAnswerUpdate} = this.props
     return (
-      <View>
+      <KeyboardAvoidingView
+        behavior={'position'}
+        keyboardVerticalOffset = {Header.HEIGHT}
+        contentContainerStyle={styles.avoidingView}>
+        <BankHeader />
         {
           questions.map((question, index) => (
-            <Input
+            <BankInput
               key={question.id}
               label={question.question}
-              labelStyle={styles.textMedium}
-              onChangeText={(text) => {
+              onChange={(text) => {
                 onAnswerUpdate(text, index)
               }}
               value={question.attempt}
@@ -38,20 +43,31 @@ class BankPasswordScreen extends Component {
                 question.attempt===question.answer?
                 [
                   styles.textLargeBold,
-                  styles.textGreen
+                  styles.textGreen,
+                  styles.marginBottom
                 ]:
-                styles.textLarge
+                styles.bankInput
               }
             />
           ))
         }
-        <Button
-          title="Submit"
-          titleStyle={styles.textLarge}
-          onPress={() => {
-            navigation.navigate('Win')
-          }} />
-      </View>
+        <View style={[styles.rowLayout, {marginTop: 10}]}>
+          <Button
+            raised
+            title="Submit"
+            titleStyle={styles.textLarge}
+            onPress={() => {
+              if (questions.filter((question) => {
+                  return question.attempt === question.answer
+                }).length == questions.length) {
+                console.log('Right');
+                navigation.navigate('BankOptions');
+              } else {
+                console.log('Wrong');
+              }
+            }} />
+          </View>
+      </KeyboardAvoidingView>
     );
   }
 }

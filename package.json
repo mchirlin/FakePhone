@@ -15,12 +15,12 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-31.0.0.tar.gz",
     "react-native-calendars": "^1.21.0",
     "react-native-elements": "^1.0.0-beta7",
-    "react-native-image-zoom-viewer": "^2.2.24",
-    "react-navigation": "^2.18.2",
+    "react-native-expo-image-cache": "3.2.0",
+    "react-native-image-zoom-viewer": "2.2.24",
+    "react-navigation": "^3.0.7",
     "react-redux": "^5.1.1",
     "redux": "^4.0.1",
-    "redux-persist": "^5.10.0",
-    "react-native-expo-image-cache": "3.2.0"
+    "redux-persist": "^5.10.0"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.0.0"

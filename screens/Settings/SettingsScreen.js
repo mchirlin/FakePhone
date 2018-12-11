@@ -3,7 +3,7 @@ import { SectionList, Text, View } from 'react-native'
 import { connect } from 'react-redux'
 
 import HomeButton from '../../components/Common/HomeButton'
-import SettingsItem from '../../components/Settings/SettingsItem'
+import SettingsListItem from '../../components/Settings/SettingsListItem'
 import styles from '../../constants/styles'
 
 class SettingsScreen extends Component {
@@ -34,11 +34,11 @@ class SettingsScreen extends Component {
     ]
 
     return (
-      <View style={styles.baseContainer}>
+      <View style={[styles.lightContainer, styles.centeredContainer]}>
         <SectionList
           sections={sections}
           renderItem={({item, index, section}) => (
-            <SettingsItem key={index} item={item} navigation={navigation} />
+            <SettingsListItem key={index} item={item} navigation={navigation} />
           )}
           renderSectionHeader={({section: {title}}) => (
             <Text style={[styles.settingsHeader, styles.textLargeBold]}>{title}</Text>

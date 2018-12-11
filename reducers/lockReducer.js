@@ -31,8 +31,7 @@ export const lock  = (state = initialState, action) => {
     case types.UNLOCK: {
       return {
         ...state,
-        unlocked: true,
-        timeStart: (new Date()).getTime()
+        unlocked: true
       }
     }
   }

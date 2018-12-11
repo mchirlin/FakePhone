@@ -1,28 +1,39 @@
 import React, { Component } from 'react'
-import { createSwitchNavigator } from 'react-navigation';
+import { createSwitchNavigator, createAppContainer } from 'react-navigation';
 
+import NavigationService from './NavigationService.js';
+import StartStack from './StartStack'
 import LockStack from './LockStack'
 import HomeStack from './HomeStack'
-import WinStack from './WinStack'
 
 const stacks = {
+  Start: StartStack,
   Lock: LockStack,
-  Home: HomeStack,
-  Win: WinStack
+  Home: HomeStack
 }
 
 const Nav = createSwitchNavigator(stacks, {initialRouteName: 'Home'})
-const NavLock = createSwitchNavigator(stacks, {initialRouteName: 'Lock'})
+const NavLock = createSwitchNavigator(stacks, {initialRouteName: 'Start'})
 
 export default class AppNavigator extends Component {
 
   render() {
-    const {unlocked} = this.props
+    const {unlocked} = this.props;
+    let AppContainer = null;
 
     if (unlocked == true) {
-      return (<Nav />)
+      AppContainer = createAppContainer(Nav);
     } else {
-      return (<NavLock />)
+      AppContainer = createAppContainer(NavLock);
     }
+
+    return (
+      <AppContainer
+        ref={navigatorRef => {
+          NavigationService.setTopLevelNavigator(navigatorRef);
+        }}
+      />
+    )
+
   }
 }

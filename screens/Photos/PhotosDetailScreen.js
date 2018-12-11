@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Modal, TouchableOpacity } from 'react-native';
+import { TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Entypo } from '@expo/vector-icons';
@@ -19,7 +19,11 @@ class PhotosDetailScreen extends Component {
     const index = navigation.getParam('itemId', 0);
 
     return (
-      <ImageViewer backgroundColor="#222" imageUrls={images} index={index}/>
+      <ImageViewer
+         backgroundColor="#222"
+         imageUrls={images}
+         index={index}
+       />
     );
   }
 }
