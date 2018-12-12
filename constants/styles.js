@@ -202,6 +202,9 @@ const styles = StyleSheet.create({
   calendarHeader: {
     backgroundColor: colors.blue,
   },
+  calendarDayContainer: {
+    flex: 1
+  },
 
   /* SETTINGS */
   settingsHeader: {
@@ -241,6 +244,9 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: fontFamily,
     marginBottom: 10
+  },
+  bankAvoid: {
+    margin: 10
   },
 
   /* WIN */
@@ -304,6 +310,9 @@ const styles = StyleSheet.create({
   },
   textBlack: {
     color: '#000'
+  },
+  textGray: {
+    color: '#999'
   },
   marginBottom: {
     marginBottom: 10
@@ -377,7 +386,7 @@ export const messageStyles = {
       flex: 1,
       alignItems: 'flex-start',
       marginLeft: 20,
-      marginTop: 2
+      marginTop: 10
     },
     wrapper: {
       borderRadius: 15,
@@ -404,11 +413,11 @@ export const messageStyles = {
       flex: 1,
       alignItems: 'flex-end',
       marginRight: 20,
-      marginTop: 2
+      marginTop: 10
     },
     wrapper: {
       borderRadius: 15,
-      backgroundColor: '#b771cf',
+      backgroundColor: colors.blue,
       marginLeft: 60,
       minHeight: 20,
       padding: 10,

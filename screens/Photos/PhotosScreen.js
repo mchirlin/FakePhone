@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import { Image } from 'react-native-expo-image-cache';
 
 import HomeButton from '../../components/Common/HomeButton'
-import { onPhotoOpen } from '../../reducers/photosReducer'
+import { onImagesOpen } from '../../reducers/photosReducer'
 import styles from '../../constants/styles'
 
 class PhotosScreen extends React.Component {
@@ -24,8 +24,14 @@ class PhotosScreen extends React.Component {
     this.renderImages = this.renderImages.bind(this);
   }
 
+  componentDidMount() {
+    const {onImagesOpen} = this.props;
+
+    onImagesOpen();
+  }
+
   renderImages(images){
-    const {navigation, onPhotoOpen} = this.props
+    const {navigation} = this.props
 
     return images.map((image, index) =>
       <View key={image.id}>
@@ -62,7 +68,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  onPhotoOpen
+  onImagesOpen,
+
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PhotosScreen);

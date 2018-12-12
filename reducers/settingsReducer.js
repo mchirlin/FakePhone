@@ -12,7 +12,7 @@ export const actionCreators = {
 
 // Initial state of the store
 const initialState = {
-  lockCode: "1234",
+  lockCode: "0000",
   unlocked: false
 }
 

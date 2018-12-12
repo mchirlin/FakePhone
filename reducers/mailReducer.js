@@ -55,6 +55,8 @@ export const mail = (state = initialState, action) => {
           time: payload.time,
           subject: payload.subject,
           body: payload.body,
+          image: payload.image,
+          video: payload.video,
           read: false
         }]
       }

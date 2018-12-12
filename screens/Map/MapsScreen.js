@@ -28,7 +28,8 @@ class MapsScreen extends Component {
     const {
       markers,
       currentLocation,
-      locationsTotal
+      locationsTotal,
+      initialRegion
     } = this.props
 
     const locationsFound = markers.filter(marker => marker.found).length
@@ -47,11 +48,11 @@ class MapsScreen extends Component {
           provider={MapView.PROVIDER_GOOGLE}
           customMapStyle={mapStyle}
           style={{ flex: 1 }}
-          initialRegion={{
-            latitude: -33.889,
-            longitude: 151.197834,
-            latitudeDelta: 0.0922,
-            longitudeDelta: 0.0421,
+          initialRegion={initialRegion?initialRegion:{
+            latitude: -33.8733152,
+            longitude: 151.2249823,
+            latitudeDelta: 0.045,
+            longitudeDelta: 0.030,
           }}
           showsUserLocation
         >
@@ -80,7 +81,8 @@ const mapStateToProps = state => {
   return {
     markers: state.map.markers,
     currentLocation: state.map.currentLocation,
-    locationsTotal: state.map.locationsTotal
+    locationsTotal: state.map.locationsTotal,
+    initialRegion: state.map.initialRegion
   }
 };
 

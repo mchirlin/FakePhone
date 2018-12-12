@@ -2,46 +2,53 @@ import {updateObjectInArray} from './functions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
-  PHOTO_ADD: 'PHOTO_ADD',
+  IMAGE_ADD: 'IMAGE_ADD',
+  IMAGES_OPEN: 'IMAGES_OPEN'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  photoAdd: (photo) => {
-    return {type: types.PHOTO_ADD, payload: photo}
+  imageAdd: (payload) => {
+    return {type: types.IMAGE_ADD, payload: payload}
   },
+  imagesOpen: () => {
+    return {type: types.IMAGES_OPEN}
+  }
 }
 
-// Initial state of the store
 const initialState = {
 
 }
 
-// Function to handle actions and update the state of the store.
-// Notes:
-// - The reducer must return a new state object. It must never modify
-//   the state object. State objects should be treated as immutable.
-// - We set \`state\` to our \`initialState\` by default. Redux will
-//   call reducer() with no state on startup, and we are expected to
-//   return the initial state of the app in this case.
 export const photos = (state = initialState, action) => {
-  const {photos} = state
+  const {badgeNumber, images} = state
   const {type, payload} = action
 
   switch (type) {
-    case types.PHOTO_ADD: {
+    case types.IMAGE_ADD: {
       return {
         ...state,
-        photos: [
-          ...photos,
+        badgeNumber: badgeNumber + 1,
+        images: [
+          ...images,
           payload
         ]
+      }
+    }
+    case types.IMAGES_OPEN: {
+      return {
+        ...state,
+        badgeNumber: 0
       }
     }
   }
   return state
 }
 
-export function onPhotoAdd(photo) {
-  return actionCreators.photoAdd(photo)
+export function onImageAdd(payload) {
+  return actionCreators.imageAdd(payload)
+}
+
+export function onImagesOpen() {
+  return actionCreators.imagesOpen()
 }

@@ -31,45 +31,56 @@ export const event = (state = initialState, action) => {
 
   switch (type) {
     case types.EVENT_COMPLETE: {
-      const index = events.findIndex((item) => {
-         return payload.id === item.id
-      }, this)
+      const indices = events.map((item, i) => item.id === payload.id ? i : '').filter(String)
+      let updatedEvents = events;
 
-      return {
-        ...state,
-        events: updateObjectInArray(
-          events,
+      indices.forEach((ind) => {
+
+        let event = updatedEvents[ind];
+
+        updatedEvents = updateObjectInArray(
+          updatedEvents,
           {
-            index: index,
+            index: ind,
             item: {
-              ...events[index],
+              ...event,
               status: 'completed'
             }
           }
-        )
-      }
-    }
-    case types.EVENT_ACTIVATE: {
-      const index = events.findIndex((item) => {
-         return payload === item.id
-      }, this)
-      const event = events[index]
-
-      if (event.status === 'completed') return state
+        );
+      });
 
       return {
         ...state,
-        events: updateObjectInArray(
-          events,
-          {
-            index: index,
-            item: {
-              ...event,
-              status: event.status === 'inactive'?'pending':'active',
-              startedOn: event.status === 'inactive'?null:(new Date()).getTime()
+        events: updatedEvents
+      }
+    }
+    case types.EVENT_ACTIVATE: {
+      const indices = events.map((item, i) => item.id === payload ? i : '').filter(String)
+      let updatedEvents = events;
+
+      indices.forEach((ind) => {
+
+        let event = updatedEvents[ind];
+
+        if(event.status != 'completed') {
+          updatedEvents = updateObjectInArray(
+            updatedEvents,
+            {
+              index: ind,
+              item: {
+                ...event,
+                status: event.status === 'inactive'?'pending':'active',
+                startedOn: event.status === 'inactive'?null:(new Date()).getTime()
+              }
             }
-          }
-        )
+          );
+        }
+      });
+
+      return {
+        ...state,
+        events: updatedEvents
       }
     }
     case types.EVENT_TIMER_START: {

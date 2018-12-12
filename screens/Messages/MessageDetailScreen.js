@@ -35,7 +35,9 @@ class MessagesScreen extends Component {
     const { threads, navigation } = this.props
     const itemId = navigation.getParam('itemId', 0);
 
-    const thread = threads[itemId]
+    const thread = threads.filter((thread) => {
+      return thread.id === itemId
+    })[0];
 
     return (
       <FlatList style={styles.messagesList}

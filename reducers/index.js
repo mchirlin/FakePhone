@@ -13,6 +13,7 @@ import { phone } from './phoneReducer'
 import { message } from './messageReducer'
 import { map } from './mapReducer'
 import { bank } from './bankReducer'
+import { calendar } from './calendarReducer'
 import { photos } from './photosReducer'
 import { stats } from './statsReducer'
 import { event } from './eventReducer'
@@ -26,6 +27,7 @@ const rootReducer = combineReducers({
   message,
   map,
   bank,
+  calendar,
   photos,
   stats,
   event
@@ -52,7 +54,7 @@ async function loadResource(url) {
 export default async (url) => {
   // TODO Uncomment to turn on QR codes
   // const initialState = await loadResource(url)
-  const initialState = await loadResource('https://www.dropbox.com/s/rnu8jhmkvhv7kui/initialState.json?dl=1')
+  const initialState = await loadResource('https://www.dropbox.com/s/urgp8auouptgdbp/initialState.json?dl=1')
 
   let store = createStore(persistedReducer, initialState)
   let persistor = persistStore(store)

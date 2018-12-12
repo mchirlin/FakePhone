@@ -37,7 +37,6 @@ class CameraScreen extends Component {
       navigation.navigate('Home')
 
       if (data.startsWith('FunEvents')) {
-        alert('Successfully scanned!')
         onEventActivate(data.substr(10))
       } else {
         alert('Invalid Code')

@@ -22,7 +22,7 @@ export default class AppButtonGrid extends Component {
                   iconSize={item.iconSize}
                   navigation={navigation}
                   app={item.app}
-                  badgeNumber={0}
+                  badgeNumber={item.badgeNumber?item.badgeNumber:0}
                   backgroundColor={item.backgroundColor}
 
                 />

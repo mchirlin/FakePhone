@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { TouchableOpacity } from 'react-native';
+import { Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux'
 import ImageViewer from 'react-native-image-zoom-viewer';
 import { Entypo } from '@expo/vector-icons';
@@ -23,6 +23,11 @@ class PhotosDetailScreen extends Component {
          backgroundColor="#222"
          imageUrls={images}
          index={index}
+         renderFooter={(currentIndex) => (
+           <View style={{padding: 10}}>
+             <Text style={[styles.textLarge, styles.textGray]}>{images[currentIndex].title}</Text>
+           </View>
+         )}
        />
     );
   }

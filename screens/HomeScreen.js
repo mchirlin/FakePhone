@@ -23,10 +23,10 @@ class HomeScreen extends Component {
         style={{alignItems: 'stretch', width: '100%', height:'100%', backgroundColor: '#000'}}>
         <View style={styles.contentContainer}>
           <AppButtonGrid navigation={navigation} buttons={[
-            {icon: "bank", iconSize: 50, app: "BankApp", backgroundColor: colors.tomato, iconColor: '#fff'},
+            {icon: "bank", iconSize: 50, app: "BankApp", backgroundColor: colors.tomato, iconColor: '#fff', badgeNumber: appBadges.bank},
             {icon: "calendar", app: "CalendarApp", backgroundColor: colors.blue, iconColor: '#fff'},
             {icon: "camera", app: "CameraApp", iconColor: '#222'},
-            {icon: "photo", app: "PhotosApp", iconColor: 'purple'},
+            {icon: "photo", app: "PhotosApp", iconColor: 'purple', badgeNumber: appBadges.photos},
             {icon: "line-chart", app: "StatsApp", backgroundColor: colors.green, iconColor: 'white'},
             {icon: "gear", app: "SettingsApp", iconColor: '#222'},
             /* So that Apps line up nicely */
@@ -48,7 +48,9 @@ const mapStateToProps = state => {
       phone: state.phone.badgeNumber,
       message: state.message.badgeNumber,
       mail: state.mail.badgeNumber,
-      map: state.map.badgeNumber
+      map: state.map.badgeNumber,
+      photos: state.photos.badgeNumber,
+      bank: state.bank.badgeNumber
     }
   }
 };

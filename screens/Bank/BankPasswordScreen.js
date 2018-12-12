@@ -28,7 +28,7 @@ class BankPasswordScreen extends Component {
       <KeyboardAvoidingView
         behavior={'position'}
         keyboardVerticalOffset = {Header.HEIGHT}
-        contentContainerStyle={styles.avoidingView}>
+        contentContainerStyle={styles.bankAvoid}>
         <BankHeader />
         {
           questions.map((question, index) => (
@@ -60,13 +60,10 @@ class BankPasswordScreen extends Component {
               if (questions.filter((question) => {
                   return question.attempt === question.answer
                 }).length == questions.length) {
-                console.log('Right');
                 navigation.navigate('BankOptions');
-              } else {
-                console.log('Wrong');
               }
-            }} />
-          </View>
+          }} />
+        </View>
       </KeyboardAvoidingView>
     );
   }

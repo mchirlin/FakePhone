@@ -3,7 +3,8 @@ import {updateObjectInArray} from './functions'
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
   MESSAGE_ADD: 'MESSAGE_ADD',
-  THREAD_OPEN: 'THREAD_OPEN'
+  THREAD_ADD: 'THREAD_ADD',
+  THREAD_OPEN: 'THREAD_OPEN',
 }
 
 // Helper functions to dispatch actions, optionally with payloads
@@ -15,8 +16,14 @@ export const actionCreators = {
       message: message
     }}
   },
-  threadOpen: (index) => {
-    return {type: types.THREAD_OPEN, payload: index}
+  threadAdd: (contact, messages) => {
+    return {type: types.THREAD_ADD, payload: {
+      contact: contact,
+      messages: messages
+    }}
+  },
+  threadOpen: (id) => {
+    return {type: types.THREAD_OPEN, payload: id}
   }
 }
 
@@ -38,8 +45,13 @@ export const message = (state = initialState, action) => {
 
   switch (type) {
     case types.MESSAGE_ADD: {
-      const index = parseInt(payload.thread)
-      const thread = threads[index]
+      const index = threads.findIndex((thread) => {
+        console.log('Thread ID', thread.id, 'Payload Thread', payload.thread);
+        return thread.id == payload.thread
+      });
+      const thread = threads[index];
+      console.log('Index', index);
+      console.log('Threads', threads, 'Thread', thread);
 
       return {
         ...state,
@@ -64,12 +76,30 @@ export const message = (state = initialState, action) => {
         )
       }
     }
-    case types.THREAD_OPEN: {
-      const index = parseInt(payload)
-      const thread = threads[index]
+    case types.THREAD_ADD: {
       return {
         ...state,
-        badgeNumber: badgeNumber - thread.messages.filter(message => !message.read).length,
+        badgeNumber: badgeNumber + payload.messages.length,
+        threads: [
+          ...threads,
+          {
+            id: payload.id,
+            contact: payload.contact,
+            messages: payload.messages
+          }
+        ]
+      }
+    }
+    case types.THREAD_OPEN: {
+      const index = threads.findIndex((thread) => {
+        return thread.id == payload
+      });
+      const thread = threads[index];
+
+      const badgeNum = badgeNumber - thread.messages.filter(message => !message.read).length;
+      return {
+        ...state,
+        badgeNumber: badgeNum<0?0:badgeNum,
         threads: updateObjectInArray(
           threads,
           {
@@ -95,6 +125,6 @@ export function onMessageAdd(from, to, time, subject, body) {
   return actionCreators.messageAdd(from, to, time, subject, body)
 }
 
-export function onThreadOpen(index) {
-  return actionCreators.threadOpen(index)
+export function onThreadOpen(id) {
+  return actionCreators.threadOpen(id)
 }

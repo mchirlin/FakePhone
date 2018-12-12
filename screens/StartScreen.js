@@ -16,13 +16,13 @@ class StartScreen extends Component {
     return (
       <View style={styles.startContainer}>
         {
-          instructions.map((instruction, index) => (
+          instructions?instructions.map((instruction, index) => (
             <Text key={index} style={styles.startInstruction}>{instruction}</Text>
-          ))
+          )):null
         }
 
         <Button
-          title={buttonTitle}
+          title={buttonTitle?buttonTitle:"Get Started!"}
           raised
           onPress={() => {
             navigation.navigate('Lock')
@@ -36,7 +36,7 @@ class StartScreen extends Component {
 const mapStateToProps = state => {
   return {
     instructions: state.start.instructions,
-    buttonTitle: start.state.buttonTitle
+    buttonTitle: state.start.buttonTitle
   }
 };
 

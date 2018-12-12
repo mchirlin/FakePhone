@@ -33,7 +33,7 @@ class BankPayScreen extends Component {
       <KeyboardAvoidingView
         behavior={'position'}
         keyboardVerticalOffset = {Header.HEIGHT}
-        contentContainerStyle={styles.avoidingView}>
+        contentContainerStyle={styles.bankAvoid}>
         <BankHeader />
         <BankInput
           label="Account Number"

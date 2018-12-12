@@ -93,22 +93,26 @@ class FakePhone extends Component {
 
     let actions = []
 
-    event.events.forEach((item, index) => {
-      if(item.location && item.status === 'pending') {
-        if (getDistance(item.location, coords.coords) < item.distance) {
-          actions.push(onEventActivate(item.id))
-          if(item.location.id) actions.push(onMarkerFound(item.location.id))
+    if (event.events) {
+      event.events.forEach((item, index) => {
+        if(item.location && item.status === 'pending') {
+          if (getDistance(item.location, coords.coords) < item.distance) {
+            actions.push(onEventActivate(item.id))
+            if(item.location.id) actions.push(onMarkerFound(item.location.id))
+          }
         }
-      }
-    })
+      })
+    }
 
-    map.markers.forEach((marker, index) => {
-      if(!marker.found) {
-        if(getDistance(marker, coords.coords) < marker.distance) {
-          actions.push(onMarkerFound(marker.id))
+    if (map.markers) {
+      map.markers.forEach((marker, index) => {
+        if(!marker.found) {
+          if(getDistance(marker, coords.coords) < marker.distance) {
+            actions.push(onMarkerFound(marker.id))
+          }
         }
-      }
-    })
+      })
+    }
 
     actions.push(onLocationUpdate(coords))
 
@@ -120,23 +124,23 @@ class FakePhone extends Component {
 
     let actions = []
 
-    if (event.timer) {
+    if (event.timer && event.events) {
       event.events.forEach((item, index) => {
         if(
           item.status === 'active' &&
           (new Date()).getTime() > (item.startedOn?item.startedOn:event.timer.startedOn) + item.delay
         ) {
-          actions.push(onEventComplete(item))
+          actions.push(onEventComplete(item));
           actions.push(
             {
               type: item.action.type,
               payload: JSON.parse(item.action.payload)
             }
-          )
+          );
         }
       })
     } else {
-      this.store.dispatch(onEventTimerStart())
+      this.store.dispatch(onEventTimerStart());
     }
 
     return actions;
@@ -199,7 +203,6 @@ class FakePhone extends Component {
   }
 
   _loadResourcesAsync = async () => {
-    console.log('Loading resources')
     const imageAssets = this.cacheImages([
       require('./assets/images/bank-logo.png'),
       require('./assets/images/splash.png')
