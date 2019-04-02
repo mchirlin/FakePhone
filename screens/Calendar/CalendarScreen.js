@@ -6,6 +6,8 @@ import { Calendar } from 'react-native-calendars';
 import HomeButton from '../../components/Common/HomeButton'
 import CalendarDay from '../../components/Calendar/CalendarDay'
 import styles, { calendarTheme } from '../../constants/styles'
+import colors from '../../constants/colors'
+import { onDateSelect } from '../../reducers/calendarReducer'
 
 class CalendarScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -20,13 +22,8 @@ class CalendarScreen extends Component {
     }
   }
 
-  state = {
-    dateSelected: null
-  }
-
   render() {
-    const {markedDates} = this.props;
-    const {dateSelected} = this.state;
+    const {markedDates, onDateSelect, dateSelected} = this.props;
 
     return (
       <View style={styles.centeredContainer}>
@@ -34,10 +31,10 @@ class CalendarScreen extends Component {
           theme={calendarTheme}
           markedDates={markedDates}
           onDayPress={(day) => {
-            this.setState({dateSelected: day});
+            onDateSelect(day);
           }}
           onMonthChange={(month) => {
-            this.setState({dateSelected: null});
+            onDateSelect(null);
           }}
         />
           <View style={styles.listSeparator} />
@@ -51,12 +48,13 @@ class CalendarScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-    markedDates: state.calendar.markedDates
+    markedDates: state.calendar.markedDates,
+    dateSelected: state.calendar.dateSelected
   }
 };
 
 const mapDispatchToProps = {
-
+  onDateSelect
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarScreen);

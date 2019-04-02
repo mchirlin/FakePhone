@@ -33,7 +33,7 @@ class PhotosScreen extends React.Component {
   renderImages(images){
     const {navigation} = this.props
 
-    return images.map((image, index) =>
+    return images.filter(image => image.visible).map((image, index) =>
       <View key={image.id}>
         <TouchableHighlight onPress={() => {
           navigation.navigate('PhotosDetail', {itemId: index})

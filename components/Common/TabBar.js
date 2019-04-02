@@ -15,14 +15,14 @@ export default class TabBar extends Component {
          navigation={navigation}
          app="PhoneApp"
          icon="phone"
-         backgroundColor={colors.callGreen}
+         backgroundColor={colors.blue}
          iconColor="white"
          badgeNumber={appBadges.phone} />
       <AppButton
         navigation={navigation}
         app="MessagesApp"
         icon="comment"
-        backgroundColor={colors.callGreen}
+        backgroundColor={colors.blue}
         iconColor="white"
         badgeNumber={appBadges.message} />
       <AppButton

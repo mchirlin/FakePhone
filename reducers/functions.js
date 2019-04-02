@@ -1,3 +1,7 @@
+export function getKeyByKeyValue(o, k, v) {
+  return Object.keys(o).find(key => o[key][k] === v);
+}
+
 export function updateObjectInArray(array, action) {
   return array.map((item, index) => {
     if (index !== action.index) {
@@ -13,19 +17,28 @@ export function updateObjectInArray(array, action) {
   })
 }
 
+export function addObjectToArrayAfterIndex(arr, action) {
+  return [
+    ...arr.slice(0, action.index),
+    action.item,
+    ...arr.slice(action.index)
+  ]
+}
+
 export function getDayOfWeek(date) {
-    var weekday = new Array(7);
-    weekday[0] = "Sunday";
-    weekday[1] = "Monday";
-    weekday[2] = "Tuesday";
-    weekday[3] = "Wednesday";
-    weekday[4] = "Thursday";
-    weekday[5] = "Friday";
-    weekday[6] = "Saturday";
 
-    var n = weekday[date.getDay()];
+  var weekday = new Array(7);
+  weekday[0] = "Sunday";
+  weekday[1] = "Monday";
+  weekday[2] = "Tuesday";
+  weekday[3] = "Wednesday";
+  weekday[4] = "Thursday";
+  weekday[5] = "Friday";
+  weekday[6] = "Saturday";
 
-    return n;
+  var n = weekday[date.getUTCDay()];
+
+  return n;
 }
 
 export function formatSeconds(sec) {

@@ -28,6 +28,7 @@ class SettingsScreen extends Component {
       {
         title: 'Management',
         data: [
+          {label: 'Instructions', screen: 'Instructions'},
           {label: 'Data', screen: 'Data'}
         ]
       }

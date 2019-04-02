@@ -18,9 +18,10 @@ export default class AppButton extends Component {
         </View>
         {badgeNumber === 0?null:(
           <Badge
+            status="warning"
             value={badgeNumber}
             textStyle={styles.textMedium}
-            containerStyle={styles.badge}
+            badgeStyle={styles.badge}
           />
         )}
       </TouchableOpacity>

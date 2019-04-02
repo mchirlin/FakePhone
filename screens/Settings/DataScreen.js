@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, Text, View } from 'react-native';
 import { connect } from 'react-redux'
 import { purgeStoredState } from 'redux-persist'
-import { Util } from 'expo'
+import { Updates } from 'expo'
 import { Button } from 'react-native-elements';
 
 import { persistConfig } from '../../reducers/index'
@@ -28,7 +28,7 @@ class DataScreen extends Component {
               text: 'OK',
               onPress: () => {
                 purgeStoredState(persistConfig)
-                Util.reload()
+                Updates.reload()
               }
             },
           ]

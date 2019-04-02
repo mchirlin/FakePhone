@@ -5,6 +5,10 @@ import { getDistance} from 'geolib'
 export const types = {
   MARKER_ADD: 'MARKER_ADD',
   MARKER_FOUND: 'MARKER_FOUND',
+  MARKER_VISIBLE: 'MARKER_VISIBLE',
+  REGION_ADD: 'REGION_ADD',
+  REGION_FOUND: 'REGION_FOUND',
+  REGION_VISIBLE: 'REGION_VISIBLE',
   LOCATION_UPDATE: 'LOCATION_UPDATE',
   LOCATION_VIEW_ALL: 'LOCATION_VIEW_ALL'
 }
@@ -16,6 +20,24 @@ export const actionCreators = {
   },
   markerFound: (id) => {
     return {type: types.MARKER_FOUND, payload: id}
+  },
+  markerVisible: (id, visible) => {
+    return {type: types.MARKER_VISIBLE, payload: {
+      id: id,
+      visible: visible
+    }}
+  },
+  regionAdd: (payload) => {
+    return {type: types.REGION_ADD, payload: payload}
+  },
+  regionFound: (id) => {
+    return {type: types.REGION_FOUND, payload: id}
+  },
+  regionVisible: (id, visible) => {
+    return {type: types.REGION_VISIBLE, payload: {
+      id: id,
+      visible: visible
+    }}
   },
   locationUpdate: (payload) => {
     return {type: types.LOCATION_UPDATE, payload: payload}
@@ -38,8 +60,10 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const map = (state = initialState, action) => {
-  const {markers, badgeNumber, currentLocation, distanceWalked} = state
-  const {type, payload} = action
+  const {markers, regions, badgeNumber, currentLocation, distanceWalked} = state;
+  const {type, payload} = action;
+
+  console.log("Map actions");
 
   switch (type) {
     case types.MARKER_ADD: {
@@ -67,7 +91,69 @@ export const map = (state = initialState, action) => {
         )
       }
     }
+    case types.MARKER_VISIBLE: {
+      const index = markers.findIndex((marker) => {
+        return marker.id === payload.id
+      })
+
+      return {
+        ...state,
+        badgeNumber: payload.visible?badgeNumber + 1:badgeNumber,
+        markers: updateObjectInArray(
+          markers,
+          {index: index, item: {
+            ...markers[index],
+            visible: payload.visible
+          }}
+        )
+      }
+    }
+    case types.REGION_ADD: {
+      return {
+        ...state,
+        badgeNumber: badgeNumber + 1,
+        regions: [...regions, payload]
+      }
+    }
+    case types.REGION_FOUND: {
+      const index = regions.findIndex((region) => {
+        return region.id === payload
+      })
+
+      if (regions[index].found) return state
+
+      return {
+        ...state,
+        regions: updateObjectInArray(
+          regions,
+          {index: index, item: {
+            ...regions[index],
+            found: true
+          }}
+        )
+      }
+    }
+    case types.REGION_VISIBLE: {
+      const index = regions.findIndex((region) => {
+        return region.id === payload.id
+      })
+
+      return {
+        ...state,
+        badgeNumber: payload.visible?badgeNumber + 1:badgeNumber,
+        regions: updateObjectInArray(
+          regions,
+          {index: index, item: {
+            ...regions[index],
+            visible: payload.visible
+          }}
+        )
+      }
+    }
     case types.LOCATION_UPDATE: {
+
+      console.log("Location Update:", payload);
+
       return {
         ...state,
         currentLocation: {
@@ -100,6 +186,22 @@ export function onMarkerAdd(payload) {
 
 export function onMarkerFound(id) {
   return actionCreators.markerFound(id)
+}
+
+export function onMarkerVisible(id, visible) {
+  return actionCreators.markerVisible(id)
+}
+
+export function onRegionAdd(payload) {
+  return actionCreators.regionAdd(payload)
+}
+
+export function onRegionFound(id) {
+  return actionCreators.regionFound(id)
+}
+
+export function onRegionVisible(id, visible) {
+  return actionCreators.regionVisible(id, visible)
 }
 
 export function onLocationUpdate(payload) {

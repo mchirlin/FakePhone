@@ -3,6 +3,7 @@ import {updateObjectInArray} from './functions'
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
   IMAGE_ADD: 'IMAGE_ADD',
+  IMAGE_VISIBLE: 'IMAGE_VISIBLE',
   IMAGES_OPEN: 'IMAGES_OPEN'
 }
 
@@ -10,6 +11,12 @@ export const types = {
 export const actionCreators = {
   imageAdd: (payload) => {
     return {type: types.IMAGE_ADD, payload: payload}
+  },
+  imageVisible: (id, visible) => {
+    return {type: types.IMAGE_VISIBLE, payload: {
+      id: id,
+      visible: visible
+    }}
   },
   imagesOpen: () => {
     return {type: types.IMAGES_OPEN}
@@ -35,6 +42,23 @@ export const photos = (state = initialState, action) => {
         ]
       }
     }
+    case types.IMAGE_VISIBLE: {
+      const index = images.findIndex((image) => {
+        return image.id === payload.id
+      })
+
+      return {
+        ...state,
+        badgeNumber: payload.visible?badgeNumber + 1:badgeNumber,
+        images: updateObjectInArray(
+          images,
+          {index: index, item: {
+            ...images[index],
+            visible: payload.visible
+          }}
+        )
+      }
+    }
     case types.IMAGES_OPEN: {
       return {
         ...state,
@@ -47,6 +71,10 @@ export const photos = (state = initialState, action) => {
 
 export function onImageAdd(payload) {
   return actionCreators.imageAdd(payload)
+}
+
+export function onImageVisible(id, visible) {
+  return actionCreators.imageVisible(id, visible)
 }
 
 export function onImagesOpen() {

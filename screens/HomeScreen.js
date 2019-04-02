@@ -25,7 +25,7 @@ class HomeScreen extends Component {
           <AppButtonGrid navigation={navigation} buttons={[
             {icon: "bank", iconSize: 50, app: "BankApp", backgroundColor: colors.tomato, iconColor: '#fff', badgeNumber: appBadges.bank},
             {icon: "calendar", app: "CalendarApp", backgroundColor: colors.blue, iconColor: '#fff'},
-            {icon: "camera", app: "CameraApp", iconColor: '#222'},
+            {icon: "qrcode", app: "CameraApp", backgroundColor: '#444', iconColor: 'white'},
             {icon: "photo", app: "PhotosApp", iconColor: 'purple', badgeNumber: appBadges.photos},
             {icon: "line-chart", app: "StatsApp", backgroundColor: colors.green, iconColor: 'white'},
             {icon: "gear", app: "SettingsApp", iconColor: '#222'},

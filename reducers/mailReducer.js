@@ -4,6 +4,7 @@ import {updateObjectInArray} from './functions'
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
   MAIL_ADD: 'MAIL_ADD',
+  MAIL_VISIBLE: 'MAIL_VISIBLE',
   MAIL_OPEN: 'MAIL_OPEN',
   MAIL_REPLY: 'MAIL_REPLY',
 }
@@ -17,6 +18,12 @@ export const actionCreators = {
       time: time,
       subject: subject,
       body: body
+    }}
+  },
+  mailVisible: (id, visible) => {
+    return {type: types.MAIL_VISIBLE, payload: {
+      id: id,
+      visible: visible
     }}
   },
   mailOpen: (index) => {
@@ -57,16 +64,41 @@ export const mail = (state = initialState, action) => {
           body: payload.body,
           image: payload.image,
           video: payload.video,
-          read: false
+          read: false,
+          visible: payload.visible?payload.visible:true
         }]
       }
     }
-    case types.MAIL_OPEN: {
-      const index = parseInt(payload)
+    case types.MAIL_VISIBLE: {
+      const index = emails.findIndex((email) => {
+        return email.id == payload
+      });
+      const email = emails[index];
+
       return {
         ...state,
-        badgeNumber: emails[index].read?badgeNumber:badgeNumber - 1,
-        emails: updateObjectInArray(emails, {index: index, item: {read: true}})
+        badgeNumber: payload.visible?badgeNumber + 1:badgeNumber,
+        emails: updateObjectInArray(
+          emails,
+          {index: index, item: {
+            ...email,
+            visible: payload.visible
+          }}
+        )
+      }
+    }
+    case types.MAIL_OPEN: {
+      const index = emails.findIndex((email) => {
+        return email.id == payload
+      });
+      const email = emails[index];
+
+      return {
+        ...state,
+        badgeNumber: email.read?badgeNumber:badgeNumber - 1,
+        emails: updateObjectInArray(
+          emails,
+          {index: index, item: {...email, read: true}})
       }
     }
     case types.MAIL_REPLY: {
@@ -80,6 +112,10 @@ export const mail = (state = initialState, action) => {
 
 export function onMailAdd(from, to, time, subject, body) {
   return actionCreators.mailAdd(from, to, time, subject, body)
+}
+
+export function onMailVisible(id, visible) {
+  return actionCreators.mailVisible(id, visible)
 }
 
 export function onMailOpen(index) {

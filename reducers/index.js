@@ -6,6 +6,7 @@ import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 // TODO Comment to turn on QR codes
 // import initialState from './initialState.json'
 import { start } from './startReducer'
+import { settings } from './settingsReducer'
 import { lock } from './lockReducer'
 import { home } from './homeReducer'
 import { mail } from './mailReducer'
@@ -16,10 +17,12 @@ import { bank } from './bankReducer'
 import { calendar } from './calendarReducer'
 import { photos } from './photosReducer'
 import { stats } from './statsReducer'
+import { decision } from './decisionReducer'
 import { event } from './eventReducer'
 
 const rootReducer = combineReducers({
   start,
+  settings,
   lock,
   home,
   phone,
@@ -30,6 +33,7 @@ const rootReducer = combineReducers({
   calendar,
   photos,
   stats,
+  decision,
   event
 })
 

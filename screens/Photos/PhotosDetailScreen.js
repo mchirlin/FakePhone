@@ -21,7 +21,7 @@ class PhotosDetailScreen extends Component {
     return (
       <ImageViewer
          backgroundColor="#222"
-         imageUrls={images}
+         imageUrls={images.filter(image => image.visible)}
          index={index}
          renderFooter={(currentIndex) => (
            <View style={{padding: 10}}>

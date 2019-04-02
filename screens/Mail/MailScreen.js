@@ -31,7 +31,7 @@ class MailScreen extends Component {
 
     return (
       <View style={[styles.lightContainer, styles.centeredContainer]}>
-        <FlatList data={emails}
+        <FlatList data={emails.filter(email => email.visible)}
           renderItem={({item}) => (
             <MailListItem item={item} navigation={navigation} onPress={onMailOpen}/>
           )}

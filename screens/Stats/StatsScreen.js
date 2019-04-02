@@ -69,7 +69,7 @@ const mapStateToProps = state => {
     timeStart: state.home.timeStart,
     timeEnd: state.home.timeEnd,
     distanceWalked: state.map.distanceWalked,
-    locationsFound: state.map.markers.filter(marker => marker.found).length,
+    locationsFound: state.map.markers.filter(marker => marker.found && marker.visible).length,
     locationsTotal: state.map.locationsTotal
   }
 };

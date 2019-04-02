@@ -68,10 +68,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   badge: {
-    backgroundColor: colors.red,
     position: 'absolute',
-    bottom: 70,
-    left: -5
+    bottom: 75,
+    left: 0,
+    width: 30,
+    height: 20,
+    borderWidth: 0
+  },
+  divider: {
+    backgroundColor: colors.blue
   },
 
   /* PHONE */
@@ -173,6 +178,9 @@ const styles = StyleSheet.create({
   },
   messagesList: {
     marginTop: 20
+  },
+  buttonOption: {
+    backgroundColor: colors.blue
   },
 
   /* PHOTOS */
@@ -322,7 +330,7 @@ const styles = StyleSheet.create({
   },
   tabBar: {
     borderTopWidth: 2,
-    borderColor: '#000',
+    borderColor: 'black',
     width: '100%',
     height: 100,
     backgroundColor: '#444',
@@ -332,11 +340,11 @@ const styles = StyleSheet.create({
   },
   appButton: {
     backgroundColor: '#ccc',
-    // borderWidth: 2,
-    // borderColor: '#000',
-    width: 70,
-    height: 70,
-    borderRadius: 20,
+    borderWidth: 2,
+    borderColor: 'black',
+    width: 80,
+    height: 80,
+    borderRadius: 10,
     margin: 10,
     alignItems: 'center',
     justifyContent: 'center'

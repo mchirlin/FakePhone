@@ -30,6 +30,14 @@ class PhoneScreen extends Component {
   }
 
   componentDidMount() {
+    Audio.setAudioModeAsync({
+      playsInSilentModeIOS: true,
+      allowsRecordingIOS: false,
+      interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS,
+      shouldDuckAndroid: true,
+      interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
+      playThroughEarpieceAndroid: true
+    });
     this.soundObject = new Audio.Sound()
     this.soundObject.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
   }

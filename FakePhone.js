@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Alert, Button, Image, ImageBackground, Platform, StatusBar, StyleSheet, Text, View  } from 'react-native';
 import { connect, Provider } from 'react-redux'
 import { PersistGate } from 'redux-persist/integration/react'
-import { Asset, AppLoading, Font, Icon, Location,  Notifications, Permissions, SplashScreen } from 'expo';
+import { Asset, AppLoading, Font, Icon, Location, Notifications, Permissions, SplashScreen } from 'expo';
 import { getDistance} from 'geolib'
 import { CacheManager } from 'react-native-expo-image-cache';
 
@@ -170,13 +170,13 @@ class FakePhone extends Component {
     if (!this.state.isLoadingComplete) {
       return (
         <View>
-        <AppLoading
-          startAsync={this._loadResourcesAsync}
-          onError={this._handleLoadingError}
-          onFinish={this._handleFinishLoading}
-          autoHideSplash={false}
-        />
-    </View>
+          <AppLoading
+            startAsync={this._loadResourcesAsync}
+            onError={this._handleLoadingError}
+            onFinish={this._handleFinishLoading}
+            autoHideSplash={false}
+          />
+        </View>
       );
     } else {
       return (

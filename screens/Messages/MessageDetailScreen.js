@@ -4,11 +4,15 @@ import { connect } from 'react-redux'
 import { Avatar } from 'react-native-elements'
 
 import Message from '../../components/Messages/Message'
+import MessageDecision from '../../components/Messages/MessageDecision'
+import { onChooseOption } from '../../reducers/decisionReducer'
+import { onEventActivate } from '../../reducers/eventReducer'
+import { onMessageAdd, onDecisionRemove } from '../../reducers/messageReducer'
 import styles from '../../constants/styles'
 
 class MessagesScreen extends Component {
   static navigationOptions = ({navigation}) => {
-    const contact = navigation.getParam('contact', 0)
+    const contact = navigation.getParam('contact', 0);
 
     return {
       headerStyle: [
@@ -27,38 +31,71 @@ class MessagesScreen extends Component {
           />
           <Text style={[styles.textMedium, styles.textWhite]}>{contact.name}</Text>
         </View>
-      ),
+      )
     }
   }
 
   render() {
-    const { threads, navigation } = this.props
+    const {
+      threads,
+      decisions,
+      navigation,
+      onChooseOption,
+      onMessageAdd,
+      onDecisionRemove,
+      onEventActivate
+    } = this.props
     const itemId = navigation.getParam('itemId', 0);
 
     const thread = threads.filter((thread) => {
       return thread.id === itemId
     })[0];
 
+    const messages = thread.messages.filter(message => message.visible);
+
+    const decision = decisions.filter((decision) => {
+      return decision.id === messages[messages.length - 1].decisionId;
+    })[0];
+
     return (
-      <FlatList style={styles.messagesList}
-        data={thread.messages}
-        renderItem={({item}) => (
-          <Message message={item} />
-        )}
-        keyExtractor={item => item.id}
-      />
+      <View style={{flex: 1, flexDirection: 'columns'}}>
+        <FlatList style={[styles.messagesList, {flex:1}]}
+          data={messages}
+          renderItem={({item}) => (
+            <Message message={item} />
+          )}
+          keyExtractor={item => item.id}
+        />
+        {
+          decision?(
+            <MessageDecision
+              decision={decision}
+              onChooseOption={onChooseOption}
+              onDecisionRemove={onDecisionRemove}
+              onMessageAdd={onMessageAdd}
+              onEventActivate={onEventActivate}
+              threadId={thread.id}
+              messageId={messages[messages.length - 1].id}
+            />
+          ):null
+        }
+      </View>
     );
   }
 }
 
 const mapStateToProps = state => {
   return {
-    threads: state.message.threads
+    threads: state.message.threads,
+    decisions: state.decision.decisions
   }
 };
 
 const mapDispatchToProps = {
-
+  onChooseOption,
+  onDecisionRemove,
+  onMessageAdd,
+  onEventActivate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessagesScreen);

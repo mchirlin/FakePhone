@@ -26,20 +26,20 @@ class MessagesScreen extends Component {
     )
   }
   render() {
-    const {navigation, threads, onThreadOpen} = this.props
+    const {navigation, threads, onThreadOpen} = this.props;
 
     return (
       <View style={[styles.lightContainer, styles.centeredContainer]}>
-        <FlatList style={styles.list} data={threads}
+        <FlatList style={styles.list} data={threads.filter(thread => thread.visible)}
           renderItem={({item}) => (
             <MessageListItem
               thread={item}
-              lastMessage={item.messages[item.messages.length - 1]}
+              lastMessage={item.messages.slice().reverse().find(message => message.visible)}
               navigation={navigation}
               onPress={onThreadOpen}
             />
           )}
-          keyExtractor={item => item.id}
+          keyExtractor={(item, index) => 'list-item' + item.id}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderSeparator}
         />
