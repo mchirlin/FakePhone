@@ -7,7 +7,7 @@ import PhoneCallTimer from '../../components/Phone/PhoneCallTimer'
 import PhoneEndButton from '../../components/Phone/PhoneEndButton'
 
 import { onCallEnd, onTimerUpdate } from '../../reducers/phoneReducer'
-import { formatSeconds } from '../../reducers/functions'
+import { formatSeconds } from '../../functions/timeFunctions'
 
 import styles from '../../constants/styles'
 

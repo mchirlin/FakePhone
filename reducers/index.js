@@ -55,12 +55,11 @@ async function loadResource(url) {
   }
 }
 
-export default async (url) => {
-  // TODO Uncomment to turn on QR codes
-  // const initialState = await loadResource(url)
+export default async () => {
   const initialState = await loadResource('https://www.dropbox.com/s/urgp8auouptgdbp/initialState.json?dl=1')
 
-  let store = createStore(persistedReducer, initialState)
-  let persistor = persistStore(store)
+  let store = createStore(persistedReducer, initialState);
+  let persistor = persistStore(store);
+
   return { store, persistor }
 }

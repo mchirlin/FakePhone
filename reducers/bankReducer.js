@@ -1,4 +1,4 @@
-import { updateObjectInArray } from './functions'
+import { updateObjectInArray } from '../functions/arrayFunctions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {

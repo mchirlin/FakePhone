@@ -17,7 +17,7 @@ export default class MailListItem extends Component {
         onPress={() => {
           onPress(item.id)
           navigation.navigate('MailDetail',
-            {itemId: item.id}
+            {itemId: item.id, from: item.from}
           )
         }}>
         <View>

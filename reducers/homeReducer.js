@@ -1,4 +1,4 @@
-import {updateObjectInArray} from './functions'
+import {updateObjectInArray} from '../functions/arrayFunctions'
 
 export const types = {
   TIMER_START: 'TIMER_START',

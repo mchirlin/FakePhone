@@ -1,18 +1,20 @@
 import React, { Component } from 'react';
 import { Alert, Button, Image, ImageBackground, Platform, StatusBar, StyleSheet, Text, View  } from 'react-native';
 import { connect, Provider } from 'react-redux'
+import { purgeStoredState } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
-import { Asset, AppLoading, Font, Icon, Location, Notifications, Permissions, SplashScreen } from 'expo';
-import { getDistance} from 'geolib'
+import { Asset, AppLoading, Font, Icon, Location, Notifications, Permissions, SplashScreen, TaskManager } from 'expo';
 import { CacheManager } from 'react-native-expo-image-cache';
 
 import AppNavigator from './navigation/AppNavigator';
-import NavigationService from './navigation/NavigationService.js';
-import {updateObjectInArray} from './reducers/functions'
+import NavigationService from './navigation/NavigationService';
+import {updateObjectInArray} from './functions/arrayFunctions'
+import {getTimerActions, getLocationActions, getNotificationMessage, handleActions} from './functions/actionFunctions'
 import persistConfig from './reducers/index'
 
-import {onEventTimerStart, onEventActivate, onEventComplete} from './reducers/eventReducer'
-import {onLocationUpdate, onMarkerFound} from './reducers/mapReducer'
+import { LOCATION_TASK_NAME } from './constants/tasks'
+
+globalStore = null;
 
 class FakePhone extends Component {
 
@@ -21,151 +23,61 @@ class FakePhone extends Component {
   };
 
   constructor(props){
-    super(props)
+    super(props);
 
-    const {url, store} = this.props
+    const {store} = this.props;
 
-    this.store = store
-    this.calculateActions = this.calculateActions.bind(this)
-    this.activateLocationEvents = this.activateLocationEvents.bind(this)
-    this._loadResourcesAsync = this._loadResourcesAsync.bind(this)
-    this.alertPresent = false
+    this.store = store;
+    this._loadResourcesAsync = this._loadResourcesAsync.bind(this);
+    this.alertPresent = false;
   }
 
   async componentDidMount() {
     const {map} = this.store.getState()
 
     this.timerID = setInterval(async () => {
-      let actions = this.calculateActions(this.state);
+      let actions = getTimerActions(this.store.getState());
       if (actions.length > 0) {
-        // Notifications.getBadgeNumberAsync().then(badgeNumber => {
-        //   console.log('Badge Number:', badgeNumber)
-        //   Notifications.setBadgeNumberAsync(badgeNumber + actions.length);
-        // });
+        let notification = getNotificationMessage(actions);
         if (!this.alertPresent) {
-          this.alertPresent = true
+          this.alertPresent = true;
           Alert.alert(
-            'New Updates',
-            'You have received updates, check your home screen',
+            notification.title,
+            notification.body,
             [
               {
                 text: 'OK',
-                onPress: () => this.alertPresent = false
+                onPress: () => {
+                  this.alertPresent = false;
+                  Notifications.setBadgeNumberAsync(0);
+                }
               }
             ],
             { cancelable: false }
-          )
-        }
-      }
-      actions.forEach((item) => {
-        if (item.type === 'NAVIGATE') {
-          NavigationService.navigate(item.payload.screen);
-        } else {
-          this.store.dispatch(item);
-        }
-      })
-    }, 1000);
-
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-      this.setState({
-        errorMessage: 'Permission to access location was denied',
-      });
-    }
-
-    Location.watchPositionAsync({
-      enableHighAccuracy: true,
-      distanceInterval: 5
-    }, (coords) => {
-      let actions = this.activateLocationEvents(coords)
-      actions.forEach((item) => {
-        if (item.type === 'NAVIGATE') {
-          NavigationService.navigate(item.payload.screen);
-        } else {
-          this.store.dispatch(item);
-        }
-      })
-    })
-  }
-
-  activateLocationEvents (coords) {
-    const {event, map} = this.store.getState()
-
-    let actions = []
-
-    if (event.events) {
-      event.events.forEach((item, index) => {
-        if(item.location && item.status === 'pending') {
-          if (getDistance(item.location, coords.coords) < item.distance) {
-            actions.push(onEventActivate(item.id))
-            if(item.location.id) actions.push(onMarkerFound(item.location.id))
-          }
-        }
-      })
-    }
-
-    if (map.markers) {
-      map.markers.forEach((marker, index) => {
-        if(!marker.found) {
-          if(getDistance(marker, coords.coords) < marker.distance) {
-            actions.push(onMarkerFound(marker.id))
-          }
-        }
-      })
-    }
-
-    actions.push(onLocationUpdate(coords))
-
-    return actions
-  }
-
-  calculateActions (state) {
-    const {event} = this.store.getState()
-
-    let actions = []
-
-    if (event.timer && event.events) {
-      event.events.forEach((item, index) => {
-        if(
-          item.status === 'active' &&
-          (new Date()).getTime() > (item.startedOn?item.startedOn:event.timer.startedOn) + item.delay
-        ) {
-          actions.push(onEventComplete(item));
-          actions.push(
-            {
-              type: item.action.type,
-              payload: JSON.parse(item.action.payload)
-            }
           );
         }
-      })
-    } else {
-      this.store.dispatch(onEventTimerStart());
+      }
+      handleActions(this.store, actions);
+    }, 1000);
+
+    let { status : locationStatus } = await Permissions.askAsync(Permissions.LOCATION);
+    if (locationStatus !== 'granted') {
+      console.warn('Permission to access location was denied');
     }
 
-    return actions;
+    let { status : notificationStatus } = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
+    if (notificationStatus !== 'granted') {
+      console.warn('Permission to notifications was denied');
+    }
   }
-
-  getLocationAsync = async () => {
-   let { status } = await Permissions.askAsync(Permissions.LOCATION);
-   if (status !== 'granted') {
-     this.setState({
-       errorMessage: 'Permission to access location was denied',
-     });
-   }
-
-   let location = await Location.getCurrentPositionAsync({});
-   this.store.dispatch(onLocationChage).setState({ location });
- };
 
   componentWillUnmount() {
     clearInterval(this.timerID);
   }
 
   render() {
-    const {store, persistor, loadingPersistor} = this.props
-
-    const {unlocked} = store.getState().lock
+    const {store} = this.props;
+    const {unlocked} = store.getState().lock;
 
     if (!this.state.isLoadingComplete) {
       return (
@@ -246,14 +158,11 @@ export default class RootComponent extends Component {
   };
 
   render() {
-
-    const { loadingPersistor } = this.props
     if (this.state.isLoadingComplete) {
       return (
         <Provider store={this.store}>
           <PersistGate loading={null} persistor={this.persistor}>
             <FakePhone
-              loadingPersistor={loadingPersistor}
               persistor={this.persistor}
               store={this.store}
             />
@@ -273,13 +182,18 @@ export default class RootComponent extends Component {
   }
 
   _loadResourcesAsync = async () => {
-    const { url } = this.props
-    const { store, persistor } = await persistConfig(url)
+    const { store, persistor } = await persistConfig();
 
-    this.store = store
-    this.persistor = persistor
+    //purgeStoredState(persistConfig);
 
-    this.setState({isLoadingComplete: true})
+    // For task manager
+    globalStore = store;
+
+    // For FakePhone
+    this.store = store;
+    this.persistor = persistor;
+
+    this.setState({isLoadingComplete: true});
   };
 
   _handleLoadingError = error => {
@@ -290,3 +204,16 @@ export default class RootComponent extends Component {
     this.setState({ isLoadingComplete: true });
   };
 }
+
+TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
+  if (error) {
+    // Error occurred - check `error.message` for more details.
+    return;
+  }
+  if (data && globalStore) {
+    const { locations } = data;
+
+    let actions = getLocationActions(globalStore.getState(), locations[0]);
+    handleActions(globalStore, actions);
+  }
+});

@@ -1,4 +1,4 @@
-import { updateObjectInArray } from './functions'
+import { updateObjectInArray } from '../functions/arrayFunctions'
 import { getDistance} from 'geolib'
 
 // The types of actions that you can dispatch to modify the state of the store
@@ -60,10 +60,8 @@ const initialState = {
 //   call reducer() with no state on startup, and we are expected to
 //   return the initial state of the app in this case.
 export const map = (state = initialState, action) => {
-  const {markers, regions, badgeNumber, currentLocation, distanceWalked} = state;
+  const {markers, regions, path, badgeNumber, currentLocation, distanceWalked} = state;
   const {type, payload} = action;
-
-  console.log("Map actions");
 
   switch (type) {
     case types.MARKER_ADD: {
@@ -152,9 +150,7 @@ export const map = (state = initialState, action) => {
     }
     case types.LOCATION_UPDATE: {
 
-      console.log("Location Update:", payload);
-
-      return {
+      let newState = {
         ...state,
         currentLocation: {
           latitude: payload.coords.latitude,
@@ -167,8 +163,17 @@ export const map = (state = initialState, action) => {
               longitude: currentLocation.longitude
             },
             payload.coords
-          ):0
+          ):0,
+        path: [
+          ...path,
+          {
+            latitude: payload.coords.latitude,
+            longitude: payload.coords.longitude
+          }
+        ]
       }
+
+      return newState;
     }
     case types.LOCATION_VIEW_ALL: {
       return {

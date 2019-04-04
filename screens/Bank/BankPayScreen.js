@@ -27,11 +27,17 @@ class BankPayScreen extends Component {
     }
   }
 
-  validateDetails(account, amount, accountNumbers) {
+  validateDetails(type, value, accountNumbers) {
     let results = accountNumbers.filter((accountNumber) => {
-      return accountNumber.accountNumber === account &&
-        accountNumber.amount == amount
-    })
+      switch (type) {
+        case "account":
+          return accountNumber.accountNumber == value;
+        case "amount":
+          return accountNumber.amount == value;
+      }
+
+      return false;
+    });
 
     if(results.length > 0) {
       return results[0];
@@ -51,7 +57,7 @@ class BankPayScreen extends Component {
         <BankInput
           label="Account Number"
           onChange={(text) => {
-            if(this.validateDetails(text, this.state.amount, accountNumbers)) {
+            if(this.validateDetails("account", text, accountNumbers)) {
               this.setState({account: text, correct: 1})
             } else {
               this.setState({account: text, correct: 0})
@@ -72,7 +78,7 @@ class BankPayScreen extends Component {
         <BankInput
           label="Amount"
           onChange={(text) => {
-            if(this.validateDetails(this.state.account, text, accountNumbers)) {
+            if(this.validateDetails("amount", text, accountNumbers)) {
               this.setState({amount: text, correct: 1})
             } else {
               this.setState({amount: text, correct: 0})

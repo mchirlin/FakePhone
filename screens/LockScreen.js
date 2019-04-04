@@ -2,13 +2,16 @@ import React, {Component} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Dimensions, Text, View } from 'react-native';
 import { Header } from 'react-navigation'
 import { connect } from 'react-redux';
+import { Location } from 'expo';
 
 import CodePin from '../components/Common/CodePin';
-import {onEventActivate} from '../reducers/eventReducer'
+import {onLocationUpdate} from '../reducers/mapReducer'
+import {onEventActivate, onEventTimerStart} from '../reducers/eventReducer'
 import {onUnlock} from '../reducers/lockReducer'
 import {onTimerStart} from '../reducers/homeReducer'
 
 const {height, width} = Dimensions.get('window');
+import {LOCATION_TASK_NAME} from '../constants/tasks';
 
 class LockScreen extends Component {
   static navigationOptions = {
@@ -33,7 +36,16 @@ class LockScreen extends Component {
 
   render() {
 
-    const {navigation, lockCode, triggers, onUnlock, onTimerStart, onEventActivate} = this.props
+    const {
+      navigation,
+      lockCode,
+      triggers,
+      onUnlock,
+      onLocationUpdate,
+      onTimerStart,
+      onEventTimerStart,
+      onEventActivate
+    } = this.props;
 
     return (
       <View style={styles.container}>
@@ -52,13 +64,23 @@ class LockScreen extends Component {
             success={() => {
               if (triggers) {
                 triggers.map((trigger) => {
-                  onEventActivate(trigger.id)
+                  onEventActivate(trigger.id);
                 })
               }
               onUnlock();
               onTimerStart();
-              navigation.navigate('Home')}
-            }
+              onEventTimerStart();
+              navigation.navigate('Home');
+
+              ( async () => {
+                const location = await Location.getCurrentPositionAsync();
+                onLocationUpdate(location);
+                await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+                  accuracy: Location.Accuracy.High,
+                  showsBackgroundLocationIndicator: true
+                });
+              })();
+            }}
             containerPinStyle={styles.containerPinStyle}
             containerStyle={styles.containerStyle}
             pinStyle={styles.pinStyle}
@@ -122,7 +144,9 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   onEventActivate,
   onUnlock,
-  onTimerStart
+  onTimerStart,
+  onEventTimerStart,
+  onLocationUpdate
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(LockScreen);

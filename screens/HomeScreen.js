@@ -24,7 +24,7 @@ class HomeScreen extends Component {
         <View style={styles.contentContainer}>
           <AppButtonGrid navigation={navigation} buttons={[
             {icon: "bank", iconSize: 50, app: "BankApp", backgroundColor: colors.tomato, iconColor: '#fff', badgeNumber: appBadges.bank},
-            {icon: "calendar", app: "CalendarApp", backgroundColor: colors.blue, iconColor: '#fff'},
+            {icon: "calendar", app: "CalendarApp", backgroundColor: colors.blue, iconColor: '#fff', badgeNumber: appBadges.calendar},
             {icon: "qrcode", app: "CameraApp", backgroundColor: '#444', iconColor: 'white'},
             {icon: "photo", app: "PhotosApp", iconColor: 'purple', badgeNumber: appBadges.photos},
             {icon: "line-chart", app: "StatsApp", backgroundColor: colors.green, iconColor: 'white'},
@@ -50,7 +50,8 @@ const mapStateToProps = state => {
       mail: state.mail.badgeNumber,
       map: state.map.badgeNumber,
       photos: state.photos.badgeNumber,
-      bank: state.bank.badgeNumber
+      bank: state.bank.badgeNumber,
+      calendar: state.calendar.badgeNumber
     }
   }
 };

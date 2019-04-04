@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View } from 'react-native'
 
-import { getDayOfWeek } from '../../reducers/functions'
+import { getDayOfWeek } from '../../functions/timeFunctions'
 import styles from '../../constants/styles'
 
 export default class CalendarDay extends Component {

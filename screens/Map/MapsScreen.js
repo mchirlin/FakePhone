@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { MapView } from 'expo'
+import { Location, MapView } from 'expo'
 import { connect } from 'react-redux'
+import { Button } from 'react-native-elements';
 
 import HomeButton from '../../components/Common/HomeButton'
 import styles, { mapStyle } from '../../constants/styles'
 import { onLocationViewAll } from '../../reducers/mapReducer'
+
+import { LOCATION_TASK_NAME } from '../../constants/tasks'
 
 class MapsScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -24,15 +27,27 @@ class MapsScreen extends Component {
     onLocationViewAll()
   }
 
+  onStart = async () => {
+    await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
+      accuracy: Location.Accuracy.High
+    });
+  };
+
+  onEnd = async () => {
+    await Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+  };
+
   render() {
     const {
       markers,
+      regions,
+      path,
       currentLocation,
       locationsTotal,
       initialRegion
     } = this.props
 
-    const locationsFound = markers.filter(marker => marker.found).length
+    const locationsFound = markers.filter(marker => marker.found && marker.visible).length
 
     return (
       <View style={{flex: 1}}>
@@ -44,6 +59,7 @@ class MapsScreen extends Component {
             <Text style={styles.textLarge}> locations found</Text>
           </Text>
         </View>
+        <View style={styles.listSeparator}/>
         <MapView
           provider={MapView.PROVIDER_GOOGLE}
           customMapStyle={mapStyle}
@@ -58,6 +74,7 @@ class MapsScreen extends Component {
         >
           {
             markers.map(marker => (
+              marker.visible?
               <MapView.Marker
                 key={marker.title}
                 coordinate={{
@@ -67,11 +84,40 @@ class MapsScreen extends Component {
                 pinColor={marker.found?'green':'red'}
                 title={marker.found?marker.title + ' (Visited)':marker.title}
                 description={marker.description}
-              />
+              />:null
             ))
           }
+          {
+            regions.map(region => (
+              region.visible?
+              <MapView.Polygon
+                key={region.id}
+                coordinates={region.coordinates}
+                strokeColor={region.found?'green':'red'}
+                fillColor={region.found?'rgba(0,255,0,0.5)':'rgba(255,0,0,0.5)'}
+              />:null
+            ))
+          }
+          <MapView.Polyline
+            coordinates={path}
+            strokeWidth={4}
+            lineCap="round"
+            lineDashPattern={[10,5]}
+            strokeColor="green"
+          />
         </MapView>
         {/* <Text>Longitude: {currentLocation.longitude.toString().substr(0,10)}, Latitude: {currentLocation.latitude.toString().substr(0,10)}</Text> */}
+        {/* <Button
+          raised
+          icon={{name: 'map', color: 'white'}}
+          title='Start Background Tracking'
+          onPress={this.onStart}/>
+        <Button
+            raised
+            buttonStyle={{backgroundColor: 'red'}}
+            icon={{name: 'map', color: 'white'}}
+            title='Stop Background Tracking'
+            onPress={this.onEnd}/> */}
       </View>
     );
   }
@@ -80,6 +126,8 @@ class MapsScreen extends Component {
 const mapStateToProps = state => {
   return {
     markers: state.map.markers,
+    regions: state.map.regions,
+    path: state.map.path,
     currentLocation: state.map.currentLocation,
     locationsTotal: state.map.locationsTotal,
     initialRegion: state.map.initialRegion

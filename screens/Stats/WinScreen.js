@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 import { Button } from 'react-native-elements';
 
 import styles from '../../constants/styles'
-import { formatSeconds } from '../../reducers/functions'
+import { formatSeconds } from '../../functions/timeFunctions'
 
 class WinScreen extends Component {
   static navigationOptions = {

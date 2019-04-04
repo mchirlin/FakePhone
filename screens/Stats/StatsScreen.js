@@ -5,7 +5,7 @@ import { Entypo } from '@expo/vector-icons';
 
 import StatsListItem from '../../components/Stats/StatsListItem'
 import styles from '../../constants/styles'
-import { formatSeconds } from '../../reducers/functions'
+import { formatSeconds } from '../../functions/timeFunctions'
 import { onTimerUpdate } from '../../reducers/phoneReducer'
 
 class StatsScreen extends Component {

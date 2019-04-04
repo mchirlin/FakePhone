@@ -1,4 +1,4 @@
-import { updateObjectInArray } from './functions'
+import { updateObjectInArray } from '../functions/arrayFunctions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
@@ -26,8 +26,8 @@ const initialState = {
 }
 
 export const event = (state = initialState, action) => {
-  const {events} = state
-  const {type, payload} = action
+  const {events} = state;
+  const {type, payload} = action;
 
   switch (type) {
     case types.EVENT_COMPLETE: {

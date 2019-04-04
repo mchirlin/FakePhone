@@ -1,5 +1,5 @@
 import {PushNotificationIOS} from 'react-native'
-import {updateObjectInArray} from './functions'
+import {updateObjectInArray} from '../functions/arrayFunctions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
@@ -71,7 +71,7 @@ export const mail = (state = initialState, action) => {
     }
     case types.MAIL_VISIBLE: {
       const index = emails.findIndex((email) => {
-        return email.id == payload
+        return email.id == payload.id;
       });
       const email = emails[index];
 

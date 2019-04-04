@@ -7,7 +7,7 @@ import HomeButton from '../../components/Common/HomeButton'
 import CalendarDay from '../../components/Calendar/CalendarDay'
 import styles, { calendarTheme } from '../../constants/styles'
 import colors from '../../constants/colors'
-import { onDateSelect } from '../../reducers/calendarReducer'
+import { onDateSelect, onDateRemove, onDateAdd } from '../../reducers/calendarReducer'
 
 class CalendarScreen extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -20,6 +20,24 @@ class CalendarScreen extends Component {
       headerStyle: styles.calendarHeader,
       headerTintColor: '#fff'
     }
+  }
+
+  constructor(props){
+    super(props);
+
+    const {markedDates, onDateAdd, onDateRemove} = props;
+    var today = new Date();
+
+    Object.keys(markedDates).map(dateStr => {
+      if(dateStr.includes("today")) {
+        let relativeDays = parseInt(dateStr.replace(/[^-]+(-)?.*([0-9]+)/, "$1$2"));
+        relativeDays = relativeDays ? relativeDays : 0;
+        var dateCal = new Date();
+        dateCal.setDate(today.getDate() + relativeDays);
+        onDateAdd({date: dateCal.toISOString().slice(0,10), markedDate: markedDates[dateStr]});
+        onDateRemove(dateStr);
+      }
+    });
   }
 
   render() {
@@ -54,7 +72,9 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  onDateSelect
+  onDateSelect,
+  onDateRemove,
+  onDateAdd
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CalendarScreen);

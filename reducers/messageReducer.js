@@ -1,4 +1,4 @@
-import {updateObjectInArray, addObjectToArrayAfterIndex} from './functions'
+import {updateObjectInArray, addObjectToArrayAfterIndex} from '../functions/arrayFunctions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
@@ -73,12 +73,9 @@ export const message = (state = initialState, action) => {
       const visibleIndices = thread.messages.map((item, index) => item.visible?index:null).filter(item => item != null);
       const visibleIndex = Math.max.apply(Math, visibleIndices);
 
-      console.log("Indices", visibleIndices);
-      console.log("Index", visibleIndex);
-
       return {
         ...state,
-        badgeNumber: message.isMe?badgeNumber:badgeNumber + 1,
+        badgeNumber: message.isMe ? badgeNumber : badgeNumber + 1,
         threads: updateObjectInArray(
           threads,
           {
@@ -114,11 +111,6 @@ export const message = (state = initialState, action) => {
         return message.id == payload.message
       });
       const message = thread.messages[messageIndex];
-
-      console.log("MESSAGE_VISIBLE", payload);
-
-      console.log("Thread", thread);
-      console.log("Message", message);
 
       return {
         ...state,
@@ -164,10 +156,15 @@ export const message = (state = initialState, action) => {
       });
       const thread = threads[index];
 
-      const badgeNum = badgeNumber - thread.messages.filter(message => !message.read).length;
+      const readNumber = thread.messages.filter(message => {
+        return !message.read && message.decisionId == null && message.visible;
+      }).length;
+      
+      const badgeNum = badgeNumber - readNumber;
+
       return {
         ...state,
-        badgeNumber: badgeNum<0?0:badgeNum,
+        badgeNumber: badgeNum < 0 ? 0 : badgeNum,
         threads: updateObjectInArray(
           threads,
           {
@@ -177,7 +174,7 @@ export const message = (state = initialState, action) => {
               messages: thread.messages.map(message => {
                 return {
                   ...message,
-                  read: message.visible?true:false
+                  read: (message.visible && message.decisionId == null)?true:false
                 }
               })
             }
@@ -216,6 +213,7 @@ export const message = (state = initialState, action) => {
 
       return {
         ...state,
+        badgeNumber: (((badgeNumber - 1) < 0) || message.isMe) ? badgeNumber : (badgeNumber - 1),
         threads: updateObjectInArray(
           threads,
           {
@@ -228,7 +226,8 @@ export const message = (state = initialState, action) => {
                   index: messageIndex,
                   item: {
                     ...message,
-                    decisionId: null
+                    decisionId: null,
+                    read: true
                   }
                 }
               )

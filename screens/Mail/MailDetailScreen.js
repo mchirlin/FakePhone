@@ -8,8 +8,7 @@ import styles from '../../constants/styles'
 class MailDetailScreen extends Component {
   static navigationOptions = ({navigation}) => {
     return {
-      // title: navigation.getParam('title'),
-      title: 'Email',
+      title: navigation.getParam('from'),
       headerTitleStyle: styles.textLarge,
       headerStyle: styles.mailHeader,
       headerTintColor: '#fff'
