@@ -1,24 +1,28 @@
-import {updateObjectInArray} from '../functions/arrayFunctions'
+import {updateObjectInArray, removeObjectInArray} from '../functions/arrayFunctions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
-  ADD_OPTION: 'ADD_OPTION',
-  CHOOSE_OPTION: 'CHOOSE_OPTION'
+  OPTION_ADD: 'OPTION_ADD',
+  OPTION_REMOVE: 'OPTION_REMOVE',
+  OPTION_CHOOSE: 'OPTION_CHOOSE'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  addOption: (decisionId, optionId, optionText) => {
-    return {type: types.ADD_OPTION, payload: {
+  optionAdd: (decisionId, option) => {
+    return {type: types.OPTION_ADD, payload: {
       decisionId: decisionId,
-      option: {
-        id: optionId,
-        text: optionText
-      }
+      option: option
     }}
   },
-  chooseOption: (decisionId, optionId) => {
-    return {type: types.CHOOSE_OPTION, payload: {
+  optionRemove: (decisionId, optionId) => {
+    return {type: types.OPTION_REMOVE, payload: {
+      decisionId: decisionId,
+      optionId: optionId
+    }}
+  },
+  optionChoose: (decisionId, optionId) => {
+    return {type: types.OPTION_CHOOSE, payload: {
       decisionId: decisionId,
       optionId: optionId
     }}
@@ -42,13 +46,57 @@ export const decision = (state = initialState, action) => {
   const {type, payload} = action;
 
   switch (type) {
-    case types.ADD_OPTION: {
+    case types.OPTION_ADD: {
+      const decisionIndex = decisions.findIndex((decision) => {
+        return decision.id == payload.decisionId
+      });
+      const decision = decisions[decisionIndex];
 
       return {
-        ...state
+        ...state,
+        decisions: updateObjectInArray(
+          decisions,
+          {
+            index: decisionIndex,
+            item: {
+              ...decision,
+              options: [
+                ...decision.options,
+                payload.option
+              ]
+            }
+          }
+        )
       }
     }
-    case types.CHOOSE_OPTION: {
+    case types.OPTION_REMOVE: {
+      const decisionIndex = decisions.findIndex((decision) => {
+        return decision.id == payload.decisionId
+      });
+      const decision = decisions[decisionIndex];
+
+      const optionIndex = decision.options.findIndex((option) => {
+        return option.id == payload.optionId
+      });
+
+      return {
+        ...state,
+        decisions: updateObjectInArray(
+          decisions,
+          {
+            index: decisionIndex,
+            item: {
+              ...decision,
+              options: removeObjectInArray(
+                decision.options,
+                optionIndex
+              )
+            }
+          }
+        )
+      }
+    }
+    case types.OPTION_CHOOSE: {
       const decisionIndex = decisions.findIndex((decision) => {
         return decision.id == payload.decisionId
       });
@@ -86,10 +134,14 @@ export const decision = (state = initialState, action) => {
   return state
 }
 
-export function onAddOption(decisionId, optionId, optionText) {
-  return actionCreators.addOption(decisionId, optionId, optionText)
+export function onOptionAdd(decisionId, option) {
+  return actionCreators.optionAdd(decisionId, option)
 }
 
-export function onChooseOption(decisionId, optionId) {
-  return actionCreators.chooseOption(decisionId, optionId)
+export function onOptionRemove(decisionId, optionId) {
+  return actionCreators.optionRemove(decisionId, optionId)
+}
+
+export function onOptionChoose(decisionId, optionId) {
+  return actionCreators.optionChoose(decisionId, optionId)
 }

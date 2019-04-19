@@ -11,17 +11,46 @@ export default class MessageDecision extends Component {
       threadId,
       messageId,
       decision,
-      onChooseOption,
+      onOptionChoose,
       onMessageAdd,
       onDecisionRemove,
-      onEventActivate
+      onEventActivate,
+      onDelayAdd
     } = this.props
 
     const buttons = decision.options.map(item => item.text);
     const selectedStatuses = decision.options.map((item, index) => item.status=="selected"?index:null);
     const selectedIndices = selectedStatuses.filter(item => item != null);
 
-    return (
+    function getHintDelay(index) {
+      let delay;
+      let name;
+      switch (index) {
+        case 0:
+          delay = 30000;
+          name = "Small Hint";
+          break;
+        case 1:
+          delay = 120000;
+          name = "Medium Hint";
+          break;
+        case 2:
+          delay = 300000;
+          name = "Big Hint";
+          break;
+        default:
+          delay = 1000000;
+          name = "Unknown Hint";
+      }
+
+      return {
+        delay: delay,
+        name: name
+      };
+    }
+
+    return buttons.length > 0 ?
+     (
       <View>
         <Divider style={styles.divider} />
         <ButtonGroup
@@ -32,7 +61,7 @@ export default class MessageDecision extends Component {
           disabled={selectedIndices}
           disabledSelectedStyle={{backgroundColor: "#ddd"}}
           onPress={(selectedIndex) => {
-            onChooseOption(decision.id, decision.options[selectedIndex].id);
+            onOptionChoose(decision.id, decision.options[selectedIndex].id);
             onMessageAdd(threadId, {
               isMe: true,
               message: decision.options[selectedIndex].response,
@@ -40,12 +69,15 @@ export default class MessageDecision extends Component {
               visible: true
             });
             onDecisionRemove(threadId, messageId);
+            if (decision.id === "hints") {
+              onDelayAdd(getHintDelay(selectedIndex));
+            }
             decision.options[selectedIndex].triggers.map((trigger) => {
-              onEventActivate(trigger.id)
+              onEventActivate(trigger.id);
             });
           }}
         />
       </View>
-    )
+    ):null;
   }
 }

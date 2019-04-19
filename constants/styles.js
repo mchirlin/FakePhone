@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'flex-start'
   },
   rowLayoutBetween: {
     flexDirection: 'row',
@@ -174,7 +174,7 @@ const styles = StyleSheet.create({
 
   /* MESSAGES */
   messagesHeader: {
-    backgroundColor: colors.green
+    backgroundColor: colors.blue
   },
   messagesList: {
     marginTop: 20
@@ -232,6 +232,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     padding: 10,
     backgroundColor: "white",
+  },
+  statsHeader: {
+    backgroundColor: colors.green
   },
 
   /* BANK */
@@ -350,9 +353,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   appSpace: {
-    width: 70,
-    height: 70,
-    borderRadius: 20,
+    width: 80,
+    height: 80,
+    borderRadius: 10,
     margin: 10,
     alignItems: 'center',
     justifyContent: 'center'

@@ -5,9 +5,10 @@ import { Avatar } from 'react-native-elements'
 
 import Message from '../../components/Messages/Message'
 import MessageDecision from '../../components/Messages/MessageDecision'
-import { onChooseOption } from '../../reducers/decisionReducer'
+import { onOptionChoose } from '../../reducers/decisionReducer'
 import { onEventActivate } from '../../reducers/eventReducer'
 import { onMessageAdd, onDecisionRemove } from '../../reducers/messageReducer'
+import { onDelayAdd } from '../../reducers/homeReducer'
 import styles from '../../constants/styles'
 
 class MessagesScreen extends Component {
@@ -40,10 +41,11 @@ class MessagesScreen extends Component {
       threads,
       decisions,
       navigation,
-      onChooseOption,
+      onOptionChoose,
       onMessageAdd,
       onDecisionRemove,
-      onEventActivate
+      onEventActivate,
+      onDelayAdd
     } = this.props
     const itemId = navigation.getParam('itemId', 0);
 
@@ -70,10 +72,11 @@ class MessagesScreen extends Component {
           decision?(
             <MessageDecision
               decision={decision}
-              onChooseOption={onChooseOption}
+              onOptionChoose={onOptionChoose}
               onDecisionRemove={onDecisionRemove}
               onMessageAdd={onMessageAdd}
               onEventActivate={onEventActivate}
+              onDelayAdd={onDelayAdd}
               threadId={thread.id}
               messageId={messages[messages.length - 1].id}
             />
@@ -92,10 +95,11 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  onChooseOption,
+  onOptionChoose,
   onDecisionRemove,
   onMessageAdd,
-  onEventActivate
+  onEventActivate,
+  onDelayAdd
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessagesScreen);

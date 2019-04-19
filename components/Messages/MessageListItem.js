@@ -11,7 +11,7 @@ export default class MessageListItem extends Component {
     const {navigation} = this.props
 
     return (
-      <TouchableHighlight style={styles.mailItem} underlayColor='#b771cf' onPress={() => {
+      <TouchableHighlight style={styles.mailItem} underlayColor='#999' onPress={() => {
           onPress(thread.id)
           navigation.navigate('MessageDetail', {itemId: thread.id, contact: thread.contact})
         }}>

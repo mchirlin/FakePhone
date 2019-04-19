@@ -26,7 +26,7 @@ export default class PhoneCallButton extends Component {
 
           if (phoneNumber) {
             phoneNumber.triggers.map((trigger) => {
-              onEventActivate(trigger.id)
+              onEventActivate(trigger.id);
             })
           }
         }}>

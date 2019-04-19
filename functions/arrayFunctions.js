@@ -17,6 +17,14 @@ export function updateObjectInArray(array, action) {
   })
 }
 
+export function removeObjectInArray(arr, index) {
+  if (index === undefined || index == -1) return arr;
+  return [
+    ...arr.slice(0, index),
+    ...arr.slice(index + 1)
+  ]
+}
+
 export function addObjectToArrayAfterIndex(arr, action) {
   return [
     ...arr.slice(0, action.index),

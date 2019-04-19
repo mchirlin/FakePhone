@@ -1,5 +1,5 @@
 import { createStore, combineReducers } from 'redux'
-import { persistStore, persistReducer } from 'redux-persist'
+import { persistStore, persistReducer, purgeStoredState } from 'redux-persist'
 import storage from 'redux-persist/lib/storage' // defaults to localStorage for web and AsyncStorage for react-native
 import autoMergeLevel2 from 'redux-persist/lib/stateReconciler/autoMergeLevel2'
 
@@ -18,6 +18,7 @@ import { calendar } from './calendarReducer'
 import { photos } from './photosReducer'
 import { stats } from './statsReducer'
 import { decision } from './decisionReducer'
+import { hint } from './hintReducer'
 import { event } from './eventReducer'
 
 const rootReducer = combineReducers({
@@ -34,6 +35,7 @@ const rootReducer = combineReducers({
   photos,
   stats,
   decision,
+  hint,
   event
 })
 

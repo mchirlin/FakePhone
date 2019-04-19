@@ -12,7 +12,7 @@ export default class SettingsListItem extends Component {
     return (
       <TouchableHighlight
         style={styles.settingsItem}
-        underlayColor='#b771cf'
+        underlayColor='#999'
         onPress={() => {
           navigation.navigate(item.screen)
         }}>

@@ -92,7 +92,8 @@ export const message = (state = initialState, action) => {
                     time: message.time,
                     isMe: message.isMe,
                     read: message.read?message.read:false,
-                    visible: message.visible?message.visible:true
+                    visible: message.visible?message.visible:true,
+                    decisionId: message.decisionId
                   }
                 }
               )
@@ -157,9 +158,9 @@ export const message = (state = initialState, action) => {
       const thread = threads[index];
 
       const readNumber = thread.messages.filter(message => {
-        return !message.read && message.decisionId == null && message.visible;
+        return !message.read && message.visible;
       }).length;
-      
+
       const badgeNum = badgeNumber - readNumber;
 
       return {
@@ -174,7 +175,7 @@ export const message = (state = initialState, action) => {
               messages: thread.messages.map(message => {
                 return {
                   ...message,
-                  read: (message.visible && message.decisionId == null)?true:false
+                  read: (message.visible)?true:false
                 }
               })
             }

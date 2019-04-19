@@ -7,7 +7,6 @@ import { Asset, AppLoading, Font, Icon, Location, Notifications, Permissions, Sp
 import { CacheManager } from 'react-native-expo-image-cache';
 
 import AppNavigator from './navigation/AppNavigator';
-import NavigationService from './navigation/NavigationService';
 import {updateObjectInArray} from './functions/arrayFunctions'
 import {getTimerActions, getLocationActions, getNotificationMessage, handleActions} from './functions/actionFunctions'
 import persistConfig from './reducers/index'
@@ -33,13 +32,14 @@ class FakePhone extends Component {
   }
 
   async componentDidMount() {
-    const {map} = this.store.getState()
+    const {map} = this.store.getState();
 
     this.timerID = setInterval(async () => {
       let actions = getTimerActions(this.store.getState());
+      let screen = this.store.getState().home.screen;
       if (actions.length > 0) {
-        let notification = getNotificationMessage(actions);
-        if (!this.alertPresent) {
+        let notification = getNotificationMessage(actions, screen);
+        if (!this.alertPresent && notification) {
           this.alertPresent = true;
           Alert.alert(
             notification.title,
@@ -94,7 +94,10 @@ class FakePhone extends Component {
       return (
         <View style={styles.container}>
           {Platform.OS === 'ios' && <StatusBar barStyle="default" />}
-          <AppNavigator unlocked={unlocked}/>
+          <AppNavigator
+            unlocked={unlocked}
+            store={store}
+          />
         </View>
       );
     }
@@ -165,6 +168,7 @@ export default class RootComponent extends Component {
             <FakePhone
               persistor={this.persistor}
               store={this.store}
+              navigation={this.props.navigation}
             />
           </PersistGate>
         </Provider>

@@ -5,18 +5,22 @@ export const types = {
   EVENT_COMPLETE: 'EVENT_COMPLETE',
   EVENT_ACTIVATE: 'EVENT_ACTIVATE',
   EVENT_TIMER_START: 'EVENT_TIMER_START',
+  EVENT_ADD: 'EVENT_ADD'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
 export const actionCreators = {
-  complete: (event) => {
+  eventComplete: (event) => {
     return {type: types.EVENT_COMPLETE, payload: event}
   },
-  activate: (id) => {
+  eventActivate: (id) => {
     return {type: types.EVENT_ACTIVATE, payload: id}
   },
-  timerStart: () => {
+  eventTimerStart: () => {
     return {type: types.EVENT_TIMER_START}
+  },
+  eventAdd: (event) => {
+    return {type: types.EVENT_ADD, payload: event}
   }
 }
 
@@ -92,19 +96,46 @@ export const event = (state = initialState, action) => {
         }
       }
     }
+    case types.EVENT_ADD: {
+      return {
+        ...state,
+        events: [
+          ...events,
+          payload
+        ]
+      }
+    }
   }
 
   return state
 }
 
 export function onEventComplete(event) {
-  return actionCreators.complete(event)
+  return actionCreators.eventComplete(event);
 }
 
 export function onEventActivate(id) {
-  return actionCreators.activate(id)
+  if (id.startsWith("HINT")) {
+    let hintId = id.replace(/.*([0-9]+)/, '$1');
+    return actionCreators.eventAdd(
+      {
+        id: id,
+        status: "active",
+        delay: 0,
+        action: {
+          type: "HINT",
+          payload: hintId
+        },
+        startedOn: (new Date()).getTime() - 1000
+      }
+    );
+  } else return actionCreators.eventActivate(id);
 }
 
 export function onEventTimerStart() {
-  return actionCreators.timerStart()
+  return actionCreators.eventTimerStart();
+}
+
+export function onEventAdd(event) {
+  return actionCreators.eventAdd(event);
 }

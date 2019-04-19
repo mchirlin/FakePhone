@@ -25,6 +25,7 @@ class MessagesScreen extends Component {
       <View style={styles.listSeparator} />
     )
   }
+  
   render() {
     const {navigation, threads, onThreadOpen} = this.props;
 

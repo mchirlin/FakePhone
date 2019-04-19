@@ -14,10 +14,12 @@ class StatsScreen extends Component {
       title: 'Stats',
       headerLeft: (
         <TouchableOpacity style={styles.homeIcon} onPress={() => navigation.navigate('Home')}>
-          <Entypo name="home" size={30} color="#000" />
+          <Entypo name="home" size={30} color="#fff" />
         </TouchableOpacity>
       ),
-      headerTitleStyle: styles.textLarge
+      headerTitleStyle: styles.textLarge,
+      headerStyle: styles.statsHeader,
+      headerTintColor: '#fff'
     }
   };
 
@@ -41,20 +43,24 @@ class StatsScreen extends Component {
   }
 
   render() {
-    const {navigation, timeStart, timeEnd, distanceWalked, locationsFound, locationsTotal} = this.props
+    const {navigation, timeStart, timeEnd, delays, distanceWalked, locationsFound, locationsTotal} = this.props;
+
+    let totalTime = (timeEnd?timeEnd:this.state.now) - timeStart;
+
+    if(delays) {
+      delays.map((delay) => totalTime += delay.delay);
+    }
 
     return (
       <View style={[styles.lightContainer, styles.centeredContainer]}>
         <FlatList
           data={[
-            {key: 'Elapsed Time', icon: 'timer', value: formatSeconds(
-              ((timeEnd?timeEnd:this.state.now) - timeStart)/1000
-            )},
+            {key: 'Total Time', icon: 'timer', value: formatSeconds(totalTime/1000)},
             {key: 'Distance Walked', icon: 'map-marker-distance', value: parseFloat(distanceWalked/1000).toFixed(1) + 'km'},
             {key: 'Locations Found', icon: 'map-marker-radius', value: (locationsFound?locationsFound:0) + '/' + locationsTotal}
           ]}
           renderItem={({item}) => (
-            <StatsListItem item={item} />
+            <StatsListItem item={item} navigation={navigation} />
           )}
           ItemSeparatorComponent={this.renderSeparator}
           ListFooterComponent={this.renderSeparator}
@@ -68,6 +74,7 @@ const mapStateToProps = state => {
   return {
     timeStart: state.home.timeStart,
     timeEnd: state.home.timeEnd,
+    delays: state.home.delays,
     distanceWalked: state.map.distanceWalked,
     locationsFound: state.map.markers.filter(marker => marker.found && marker.visible).length,
     locationsTotal: state.map.locationsTotal
