@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { Text, View } from 'react-native'
+import { Text, ScrollView } from 'react-native'
 import { Button } from 'react-native-elements'
 import { connect } from 'react-redux';
 
@@ -14,7 +14,7 @@ class StartScreen extends Component {
     const {navigation, instructions, buttonTitle} = this.props
 
     return (
-      <View style={styles.startContainer}>
+      <ScrollView style={styles.startContainer}>
         {
           instructions?instructions.map((instruction, index) => (
             <Text key={index} style={styles.startInstruction}>{instruction}</Text>
@@ -28,7 +28,7 @@ class StartScreen extends Component {
             navigation.navigate('Lock')
           }}
         />
-      </View>
+      </ScrollView>
     )
   }
 }

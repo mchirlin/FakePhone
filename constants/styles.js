@@ -177,7 +177,6 @@ const styles = StyleSheet.create({
     backgroundColor: colors.blue
   },
   messagesList: {
-    marginTop: 20
   },
   buttonOption: {
     backgroundColor: colors.blue
@@ -397,7 +396,6 @@ export const messageStyles = {
       flex: 1,
       alignItems: 'flex-start',
       marginLeft: 20,
-      marginTop: 10
     },
     wrapper: {
       borderRadius: 15,
@@ -424,7 +422,6 @@ export const messageStyles = {
       flex: 1,
       alignItems: 'flex-end',
       marginRight: 20,
-      marginTop: 10
     },
     wrapper: {
       borderRadius: 15,

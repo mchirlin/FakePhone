@@ -16,18 +16,20 @@ export default class PhoneCallButton extends Component {
 
     return (
       <TouchableOpacity style={[styles.button, styles.buttonCall]} onPress={() => {
-          navigation.navigate('PhoneCall')
-          onPress(number)
+          if(number.length > 0) {
+            navigation.navigate('PhoneCall')
+            onPress(number)
 
-          // If phoneNumber is in list of phoneNumbers then activate all triggers
-          const phoneNumber = numbers.find((item) => {
-            return item.number === number
-          })
-
-          if (phoneNumber) {
-            phoneNumber.triggers.map((trigger) => {
-              onEventActivate(trigger.id);
+            // If phoneNumber is in list of phoneNumbers then activate all triggers
+            const phoneNumber = numbers.find((item) => {
+              return item.number === number
             })
+
+            if (phoneNumber) {
+              phoneNumber.triggers.map((trigger) => {
+                onEventActivate(trigger);
+              })
+            }
           }
         }}>
         <Entypo name="phone" size={50} color="#fff" />

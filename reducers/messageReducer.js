@@ -89,6 +89,7 @@ export const message = (state = initialState, action) => {
                   item: {
                     id: 'MESSAGE' + (thread.messages.length + 1),
                     message: message.message,
+                    image: message.image,
                     time: message.time,
                     isMe: message.isMe,
                     read: message.read?message.read:false,

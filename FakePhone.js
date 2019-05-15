@@ -210,14 +210,16 @@ export default class RootComponent extends Component {
 }
 
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
-  if (error) {
-    // Error occurred - check `error.message` for more details.
-    return;
-  }
-  if (data && globalStore) {
-    const { locations } = data;
+  try {
+    if (error) {
+      // Error occurred - check `error.message` for more details.
+      return;
+    }
+    if (data && globalStore) {
+      const { locations } = data;
 
-    let actions = getLocationActions(globalStore.getState(), locations[0]);
-    handleActions(globalStore, actions);
-  }
+      let actions = getLocationActions(globalStore.getState(), locations[0]);
+      handleActions(globalStore, actions);
+    }
+  } catch {}
 });

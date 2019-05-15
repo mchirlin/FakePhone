@@ -18,14 +18,26 @@ class PhoneCallScreen extends Component{
 
   render() {
     const {navigation} = this.props
-    const {phoneNumber} = this.props
-    const {timer} = this.props
+    const {phoneNumber, phoneNumbers} = this.props
+    const {timerSeconds, timer} = this.props
     const {onCallEnd, onTimerUpdate} = this.props
+
+    let pn = phoneNumbers.filter( pn => pn.number === phoneNumber);
+    if (pn.length > 0) callLength = pn[0].callLength;
+    console.log("Phone Numbers", phoneNumbers);
+    console.log("Call Length", callLength);
 
     return (
       <View style={styles.darkContainer}>
         <PhoneNumber color='textWhite' number={phoneNumber} />
-        <PhoneCallTimer timer={timer} onTimerUpdate={onTimerUpdate} />
+        <PhoneCallTimer
+          timer={timer}
+          timerSeconds={timerSeconds}
+          onTimerUpdate={onTimerUpdate}
+          onCallEnd={onCallEnd}
+          callLength={callLength}
+          navigation={navigation}
+        />
         <PhoneEndButton navigation={navigation} onPressItem={onCallEnd} />
       </View>
     )
@@ -36,7 +48,9 @@ const mapStateToProps = state => {
   const timerSeconds = state.phone.timerSeconds?state.phone.timerSeconds:0
   return {
     phoneNumber: state.phone.phoneNumber,
-    timer: formatSeconds(timerSeconds)
+    phoneNumbers: state.phone.phoneNumbers,
+    timer: formatSeconds(timerSeconds),
+    timerSeconds: timerSeconds
    };
 };
 

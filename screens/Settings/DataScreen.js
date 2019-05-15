@@ -18,7 +18,11 @@ class DataScreen extends Component {
 
   render() {
     return (
-      <Button buttonStyle={styles.buttonDestruction} title="Reset Game" onPress={() => {
+      <Button
+        icon={{name: 'delete-forever', color: 'white'}}
+        buttonStyle={styles.buttonDestruction}
+        title="Reset Game"
+        onPress={() => {
         Alert.alert(
           'Reset Game',
           'This will delete all data and restart the application',

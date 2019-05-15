@@ -13,8 +13,8 @@ export const actionCreators = {
   eventComplete: (event) => {
     return {type: types.EVENT_COMPLETE, payload: event}
   },
-  eventActivate: (id) => {
-    return {type: types.EVENT_ACTIVATE, payload: id}
+  eventActivate: (trigger) => {
+    return {type: types.EVENT_ACTIVATE, payload: trigger}
   },
   eventTimerStart: () => {
     return {type: types.EVENT_TIMER_START}
@@ -60,8 +60,28 @@ export const event = (state = initialState, action) => {
       }
     }
     case types.EVENT_ACTIVATE: {
-      const indices = events.map((item, i) => item.id === payload ? i : '').filter(String)
+      let indices = events.map((item, i) => item.id === payload.id ? i : '').filter(String)
       let updatedEvents = events;
+
+      // If the events doesn't exist, create it
+      if (indices.length == 0) {
+        let payloadString = calculatePayloadString(payload);
+        updatedEvents.push(
+          {
+            id: payload.id,
+            status: payload.status?payload.status:'pending',
+            delay: payload.delay?payload.delay:0,
+            action: {
+              type: payload.type,
+              payload: payloadString,
+            }
+          }
+        );
+
+        indices = [updatedEvents.length - 1];
+      }
+
+      console.log("EVENT_ACTIVATE", updatedEvents[indices]);
 
       indices.forEach((ind) => {
 
@@ -114,12 +134,12 @@ export function onEventComplete(event) {
   return actionCreators.eventComplete(event);
 }
 
-export function onEventActivate(id) {
-  if (id.startsWith("HINT")) {
-    let hintId = id.replace(/.*([0-9]+)/, '$1');
+export function onEventActivate(trigger) {
+  if (trigger.id.startsWith("HINT")) {
+    let hintId = trigger.id.replace(/.*([0-9]+)/, '$1');
     return actionCreators.eventAdd(
       {
-        id: id,
+        id: trigger.id,
         status: "active",
         delay: 0,
         action: {
@@ -129,7 +149,7 @@ export function onEventActivate(id) {
         startedOn: (new Date()).getTime() - 1000
       }
     );
-  } else return actionCreators.eventActivate(id);
+  } else return actionCreators.eventActivate(trigger);
 }
 
 export function onEventTimerStart() {
@@ -138,4 +158,28 @@ export function onEventTimerStart() {
 
 export function onEventAdd(event) {
   return actionCreators.eventAdd(event);
+}
+
+function calculatePayloadString(payload) {
+  let payloadStr =  "{";
+
+  switch(payload.type) {
+    case "MESSAGE_VISIBLE":
+      payloadStr += "\"message\": \"" + payload.id + "\", \"thread\": \"" + payload.thread + "\"";
+      break;
+    case "REGION_VISIBLE":
+        payloadStr += "\"id\": \"" + payload.region + "\"";
+        break;
+    default:
+      payloadStr +=  "\"id\": \"" + payload.id + "\""
+      break;
+  }
+
+  if (payload.visible !=  null) {
+    payloadStr += ", \"visible\": " + payload.visible + "}";
+  } else {
+    payloadStr += ", \"visible\": true}";
+  }
+
+  return payloadStr;
 }

@@ -1,8 +1,9 @@
-import { Notifications } from 'expo'
-import { getDistance} from 'geolib'
-import { onEventActivate, onEventComplete, onEventAdd } from '../reducers/eventReducer'
-import { onOptionAdd, onOptionRemove } from '../reducers/decisionReducer'
-import { onLocationUpdate, onMarkerFound } from '../reducers/mapReducer'
+import { Notifications } from 'expo';
+import { getDistance} from 'geolib';
+import { onEventActivate, onEventComplete, onEventAdd } from '../reducers/eventReducer';
+import { onOptionAdd, onOptionRemove } from '../reducers/decisionReducer';
+import { onLocationUpdate, onMarkerFound } from '../reducers/mapReducer';
+import { onHintActivate } from '../reducers/hintReducer';
 import NavigationService from '../navigation/NavigationService';
 
 export function getLocationActions (state, coords) {
@@ -15,8 +16,8 @@ export function getLocationActions (state, coords) {
     event.events.forEach((item, index) => {
       if(item.location && item.status === 'pending') {
         if (getDistance(item.location, coords.coords) < item.distance) {
-          actions.push(onEventActivate(item.id));
-          if (item.action.type == "MARKER_VISIBLE") {
+          actions.push(onEventActivate(item));
+          if (item.action.type == "MARKER_VISIBLE" || item.action.type == "MARKER_DISCOVERABLE") {
             markersFound.push(JSON.parse(item.action.payload).id);
           }
         }
@@ -26,12 +27,12 @@ export function getLocationActions (state, coords) {
 
   if (map.markers) {
     map.markers.forEach((marker, index) => {
-      if(!marker.found && (marker.visible || markersFound.indexOf(marker.id) > -1)) {
+      if(!marker.found && (marker.visible || marker.discoverable || markersFound.indexOf(marker.id) > -1)) {
         if(getDistance(marker, coords.coords) < marker.distance) {
           actions.push(onMarkerFound(marker.id));
 
           marker.triggers.map((trigger) => {
-            actions.push(onEventActivate(trigger.id));
+            actions.push(onEventActivate(trigger));
           });
         }
       }
@@ -102,66 +103,74 @@ function handleHint(store, id) {
     return hint.id == id
   });
   let hint = hints[index];
-  // Create all of the hint actions
-  let actions = hint.hints.flatMap((h, i) => {
-    let text;
-    let response;
-    switch(i) {
-      case 0:
-        text = "Small";
-        response = "Give me a little hint";
-        break;
-      case 1:
-        text = "Medium";
-        response = "Give me a medium hint";
-        break;
-      case 2:
-        text = "Big";
-        response = "Give me a big hint";
-        break;
-      default:
-        text = "???";
-        response = "Give me something";
-        break;
-    };
-    return [
-      onEventComplete({
-        id: "AHINT" + i
-      }),
-      onOptionRemove(
-        "hints",
-        i.toString()
-      ),
-      onOptionAdd(
-        "hints",
-        {
-          "id": i.toString(),
-          "text": text,
-          "response": response,
-          "status": "pending",
-          "triggers": [
-            {"id": "AHINT" + i}
-          ]
-        }
-      ),
-      onEventAdd({
-        id: "AHINT" + i,
-        status: "pending",
-        delay: 1000,
-        action: {
-          type: "MESSAGE_ADD",
-          payload: "{\"thread\": \"GA\", \"message\": {\"message\": \"" + h + "\", \"isMe\": false, \"decisionId\": \"hints\"}}"
-        }
-      })
-    ];
-  });
-  return actions;
+  if (hint.status != 'active') {
+    // Create all of the hint actions
+    let actions = hint.hints.flatMap((h, i) => {
+      let text;
+      let response;
+      switch(i) {
+        case 0:
+          text = "Small";
+          response = "Give me a little hint";
+          break;
+        case 1:
+          text = "Medium";
+          response = "Give me a medium hint";
+          break;
+        case 2:
+          text = "Big";
+          response = "Give me a big hint";
+          break;
+        default:
+          text = "???";
+          response = "Give me something";
+          break;
+      };
+      return [
+        onEventComplete({
+          id: "AHINT" + i
+        }),
+        onOptionRemove(
+          "hints",
+          i.toString()
+        ),
+        onOptionAdd(
+          "hints",
+          {
+            id: i.toString(),
+            text: text,
+            response: {
+              message: response
+            },
+            status: "pending",
+            triggers: [
+              {id: "AHINT" + i}
+            ]
+          }
+        ),
+        onEventAdd({
+          id: "AHINT" + i,
+          status: "pending",
+          delay: 1000,
+          action: {
+            type: "MESSAGE_ADD",
+            payload: "{\"thread\": \"GA\", \"message\": {\"message\": \"" + h + "\", \"isMe\": false, \"decisionId\": \"hints\"}}"
+          }
+        })
+      ];
+    });
+    actions.push(onHintActivate(hint.id));
+    return actions;
+  }
+  return [];
 }
 
 export function getNotificationMessage(actions, screen) {
-  actions = actions.filter(action => action.type != 'EVENT_COMPLETE' && action.type != 'EVENT_ACTIVATE');
-
-  console.log("Notification Message", actions);
+  actions = actions.filter(action =>
+    action.type != 'EVENT_COMPLETE' &&
+    action.type != 'EVENT_ACTIVATE' &&
+    action.type != 'HINT' &&
+    action.type != 'MARKER_DISCOVERABLE');
 
   if (actions.length == 0) {
     return null;
@@ -171,9 +180,10 @@ export function getNotificationMessage(actions, screen) {
       body: 'You have received updates, check your home screen'
     }
   } else {
+    // No alert if making some invisible
+    if (actions[0].payload.visible === false) return null;
+
     switch (actions[0].type) {
-      case "HINT":
-        return null;
       case "MESSAGE_ADD":
       case "MESSAGE_VISIBLE":
       case "THREAD_VISIBLE":
@@ -194,6 +204,7 @@ export function getNotificationMessage(actions, screen) {
           body: 'You have received a new email'
         }
       case "REGION_VISIBLE":
+        if (actions[0].payload)
         return {
           title: 'New Region',
           body: 'A new region has been discovered on your map'

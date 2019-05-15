@@ -108,7 +108,7 @@ class BankPayScreen extends Component {
               if(result) {
                 if (result.triggers) {
                   result.triggers.map((trigger) => {
-                    onEventActivate(trigger.id)
+                    onEventActivate(trigger)
                   })
                 }
                 navigation.navigate('Home')

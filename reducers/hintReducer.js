@@ -1,6 +1,9 @@
+import {updateObjectInArray} from '../functions/arrayFunctions'
+
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
-  HINT_ADD: 'HINT_ADD'
+  HINT_ADD: 'HINT_ADD',
+  HINT_ACTIVATE: 'HINT_ACTIVATE'
 }
 
 // Helper functions to dispatch actions, optionally with payloads
@@ -35,30 +38,23 @@ export const hint  = (state = initialState, action) => {
       }
     }
     case types.HINT_ACTIVATE: {
-      const indices = hints.map((item, i) => item.id === payload ? i : '').filter(String)
-      let updatedHints = hints;
-
-      indices.forEach((ind) => {
-
-        let hint = updatedHints[ind];
-
-        if(hint.status != 'completed') {
-          updatedHints = updateObjectInArray(
-            updatedHints,
-            {
-              index: ind,
-              item: {
-                ...hint,
-                status: hint.status === 'inactive'?'pending':'active'
-              }
-            }
-          );
-        }
+      const hintIndex = hints.findIndex((hint) => {
+        return hint.id == payload;
       });
+      const hint = hints[hintIndex];
 
       return {
         ...state,
-        hints: updatedHints
+        hints: updateObjectInArray(
+          hints,
+          {
+            index: hintIndex,
+            item: {
+              ...hint,
+              status: 'active'
+            }
+          }
+        )
       }
     }
   }

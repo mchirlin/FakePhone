@@ -5,9 +5,16 @@ import styles from '../../constants/styles'
 
 export default class PhoneCallTimer extends Component {
   componentDidMount() {
-    const {onTimerUpdate} = this.props
+    const {onTimerUpdate, onCallEnd, navigation} = this.props
 
-    this.timerID = setInterval(onTimerUpdate, 1000);
+    this.timerID = setInterval(() => {
+      console.log("Timer Seconds", this.props.timerSeconds);
+      onTimerUpdate();
+      if (this.props.timerSeconds >= this.props.callLength) {
+        navigation.goBack();
+        onCallEnd();
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {

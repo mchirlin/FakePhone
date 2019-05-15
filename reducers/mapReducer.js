@@ -6,6 +6,7 @@ export const types = {
   MARKER_ADD: 'MARKER_ADD',
   MARKER_FOUND: 'MARKER_FOUND',
   MARKER_VISIBLE: 'MARKER_VISIBLE',
+  MARKER_DISCOVERABLE: 'MARKER_DISCOVERABLE',
   REGION_ADD: 'REGION_ADD',
   REGION_FOUND: 'REGION_FOUND',
   REGION_VISIBLE: 'REGION_VISIBLE',
@@ -23,6 +24,12 @@ export const actionCreators = {
   },
   markerVisible: (id, visible) => {
     return {type: types.MARKER_VISIBLE, payload: {
+      id: id,
+      visible: visible
+    }}
+  },
+  markerDiscoverable: (id, visible) => {
+    return {type: types.MARKER_DISCOVERABLE, payload: {
       id: id,
       visible: visible
     }}
@@ -80,11 +87,13 @@ export const map = (state = initialState, action) => {
 
       return {
         ...state,
+        badgeNumber: markers[index].visible?badgeNumber:badgeNumber + 1,
         markers: updateObjectInArray(
           markers,
           {index: index, item: {
             ...markers[index],
-            found: true
+            found: true,
+            visible: true
           }}
         )
       }
@@ -102,6 +111,22 @@ export const map = (state = initialState, action) => {
           {index: index, item: {
             ...markers[index],
             visible: payload.visible
+          }}
+        )
+      }
+    }
+    case types.MARKER_DISCOVERABLE: {
+      const index = markers.findIndex((marker) => {
+        return marker.id === payload.id
+      });
+
+      return {
+        ...state,
+        markers: updateObjectInArray(
+          markers,
+          {index: index, item: {
+            ...markers[index],
+            discoverable: payload.visible
           }}
         )
       }
@@ -194,7 +219,11 @@ export function onMarkerFound(id) {
 }
 
 export function onMarkerVisible(id, visible) {
-  return actionCreators.markerVisible(id)
+  return actionCreators.markerVisible(id, visible)
+}
+
+export function onMarkerDiscoverable(id, visible) {
+  return actionCreators.markerDiscoverable(id, visible)
 }
 
 export function onRegionAdd(payload) {

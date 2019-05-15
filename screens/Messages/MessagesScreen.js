@@ -25,13 +25,16 @@ class MessagesScreen extends Component {
       <View style={styles.listSeparator} />
     )
   }
-  
+
   render() {
     const {navigation, threads, onThreadOpen} = this.props;
 
     return (
       <View style={[styles.lightContainer, styles.centeredContainer]}>
-        <FlatList style={styles.list} data={threads.filter(thread => thread.visible)}
+        <FlatList
+          style={styles.list}
+          contentContainerStyle={{paddingBottom:10}}
+          data={threads.filter(thread => thread.visible)}
           renderItem={({item}) => (
             <MessageListItem
               thread={item}
@@ -42,7 +45,6 @@ class MessagesScreen extends Component {
           )}
           keyExtractor={(item, index) => 'list-item' + item.id}
           ItemSeparatorComponent={this.renderSeparator}
-          ListFooterComponent={this.renderSeparator}
         />
       </View>
     );

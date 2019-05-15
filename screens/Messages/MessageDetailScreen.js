@@ -18,22 +18,39 @@ class MessagesScreen extends Component {
     return {
       headerStyle: [
         styles.messagesHeader,
-        {height: 60}
+        {height: 70}
       ],
       headerTintColor: 'white',
       headerTitle: (
         <View style={{alignItems: 'center'}}>
           <Avatar
-            // containerStyle={{flex: 1}}
+            containerStyle={{marginBottom: 5}}
             size="small"
             rounded
             title={contact.initials}
             activeOpacity={0.7}
+            source={contact.avatar?{uri: contact.avatar}:null}
           />
           <Text style={[styles.textMedium, styles.textWhite]}>{contact.name}</Text>
         </View>
       )
     }
+  }
+
+  renderSeparator = () => {
+    return (
+      <View style={{marginBottom: 10}} />
+    )
+  }
+
+  getItemLayout = (data, index) => (
+    { length: 10, offset: 10 * index, index }
+  );
+
+  componentDidMount() {
+    setTimeout(() => {
+      this.flatListRef.scrollToEnd();
+    });
   }
 
   render() {
@@ -53,20 +70,27 @@ class MessagesScreen extends Component {
       return thread.id === itemId
     })[0];
 
-    const messages = thread.messages.filter(message => message.visible);
-
-    const decision = decisions.filter((decision) => {
-      return decision.id === messages[messages.length - 1].decisionId;
-    })[0];
+    const messages = thread.messages.filter(message => message.visible).reverse();
+    let decision = null;
+    if (messages.length > 0) {
+      decision = decisions.filter((decision) => {
+        return decision.id === messages[0].decisionId;
+      })[0];
+    }
 
     return (
       <View style={{flex: 1, flexDirection: 'columns'}}>
-        <FlatList style={[styles.messagesList, {flex:1}]}
+        <FlatList
+          ref={(ref) => { this.flatListRef = ref; }}
+          contentContainerStyle={{ padding: 10 }}
+          style={[styles.messagesList, {flex:1}]}
           data={messages}
           renderItem={({item}) => (
             <Message message={item} />
           )}
+          inverted
           keyExtractor={item => item.id}
+          ItemSeparatorComponent={this.renderSeparator}
         />
         {
           decision?(
@@ -80,7 +104,7 @@ class MessagesScreen extends Component {
               threadId={thread.id}
               messageId={messages[messages.length - 1].id}
             />
-          ):null
+          ):<View style={{marginBottom: 50}}/>
         }
       </View>
     );

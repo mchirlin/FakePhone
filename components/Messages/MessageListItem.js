@@ -18,17 +18,18 @@ export default class MessageListItem extends Component {
         <View style={styles.rowLayout}>
           <Avatar
             containerStyle={styles.avatar}
-            size="small"
+            size="medium"
             rounded
             title={thread.contact.initials}
             activeOpacity={0.7}
+            source={thread.contact.avatar?{uri: thread.contact.avatar}:null}
           />
         <View style={styles.baseContainer}>
             <View style={styles.mailItemHeader}>
-              <Text style={lastMessage.read?styles.textLarge:styles.textLargeBold}>{thread.contact.name}</Text>
-              <Text style={styles.textMedium}>{lastMessage.time}</Text>
+              <Text style={lastMessage&&lastMessage.read?styles.textLarge:styles.textLargeBold}>{thread.contact.name}</Text>
+              <Text style={styles.textMedium}>{lastMessage?lastMessage.time:null}</Text>
             </View>
-            <Text style={styles.textSmall}>{lastMessage.message}</Text>
+            <Text style={styles.textSmall}>{lastMessage?(lastMessage.message?lastMessage.message:"[Picture attached]"):null}</Text>
           </View>
         </View>
       </TouchableHighlight>

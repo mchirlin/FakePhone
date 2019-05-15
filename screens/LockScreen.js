@@ -64,7 +64,7 @@ class LockScreen extends Component {
             success={() => {
               if (triggers) {
                 triggers.map((trigger) => {
-                  onEventActivate(trigger.id);
+                  onEventActivate(trigger);
                 })
               }
               onUnlock();

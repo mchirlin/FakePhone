@@ -37,7 +37,7 @@ class CameraScreen extends Component {
       navigation.navigate('Home')
 
       if (data.startsWith('FunEvents')) {
-        onEventActivate(data.substr(10))
+        onEventActivate({id: data.substr(10)})
       } else {
         alert('Invalid Code')
       }

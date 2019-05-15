@@ -64,7 +64,8 @@ export default class MessageDecision extends Component {
             onOptionChoose(decision.id, decision.options[selectedIndex].id);
             onMessageAdd(threadId, {
               isMe: true,
-              message: decision.options[selectedIndex].response,
+              message: decision.options[selectedIndex].response.message,
+              image: decision.options[selectedIndex].response.image,
               read: true,
               visible: true
             });
@@ -73,7 +74,7 @@ export default class MessageDecision extends Component {
               onDelayAdd(getHintDelay(selectedIndex));
             }
             decision.options[selectedIndex].triggers.map((trigger) => {
-              onEventActivate(trigger.id);
+              onEventActivate(trigger);
             });
           }}
         />
