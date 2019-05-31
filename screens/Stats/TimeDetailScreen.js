@@ -1,7 +1,6 @@
 import React, { Component } from 'react';;
 import { FlatList, Text, TouchableOpacity, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Entypo } from '@expo/vector-icons';
 
 import TimeListItem from '../../components/Stats/TimeListItem';
 import styles from '../../constants/styles';
@@ -37,13 +36,13 @@ class TimeDetailScreen extends Component {
   }
 
   render() {
-    let {delays, timeStart, timeEnd} = this.props;
+    let {penalties, timeStart, timeEnd} = this.props;
 
     let timeElapsed = (timeEnd?timeEnd:this.state.now) - timeStart;
     let totalTime = timeElapsed;
 
-    if(delays) {
-      delays.map((delay) => totalTime += delay.delay);
+    if(penalties) {
+      penalties.map((penalty) => totalTime += penalty.penalty);
     }
 
     let listItems = [
@@ -55,20 +54,25 @@ class TimeDetailScreen extends Component {
       }
     ];
 
-    if(delays) {
-      delays.map((delay, index) => {
+    if(penalties) {
+      penalties.map((penalty, index) => {
         let iconSize;
-        if (delay.name == "Small Hint") iconSize = 30;
-        else if (delay.name == "Medium Hint") iconSize = 40;
+        if (penalty.name == "Small Hint") iconSize = 30;
+        else if (penalty.name == "Medium Hint") iconSize = 40;
         else iconSize = 50;
+
+        let icon;
+        if (penalty.name.includes("Hint")) icon = "comment-question-outline";
+        else if (penalty.name.includes("Answer")) icon = "close-box-outline";
+        else icon = "comment-question-outline";
 
         listItems.push(
           {
-            icon: "comment-question-outline",
+            icon: icon,
             iconSize: iconSize,
-            key: delay.name + index,
-            label: delay.name,
-            value: formatSeconds(delay.delay/1000)
+            key: penalty.name + index,
+            label: penalty.name,
+            value: formatSeconds(penalty.penalty/1000)
           }
         )
       });
@@ -100,7 +104,7 @@ const mapStateToProps = state => {
   return {
     timeStart: state.home.timeStart,
     timeEnd: state.home.timeEnd,
-    delays: state.home.delays
+    penalties: state.home.penalties
   }
 };
 

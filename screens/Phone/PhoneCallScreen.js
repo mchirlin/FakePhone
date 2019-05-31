@@ -24,8 +24,7 @@ class PhoneCallScreen extends Component{
 
     let pn = phoneNumbers.filter( pn => pn.number === phoneNumber);
     if (pn.length > 0) callLength = pn[0].callLength;
-    console.log("Phone Numbers", phoneNumbers);
-    console.log("Call Length", callLength);
+    else callLength = 10;
 
     return (
       <View style={styles.darkContainer}>

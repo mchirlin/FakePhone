@@ -81,8 +81,6 @@ export const event = (state = initialState, action) => {
         indices = [updatedEvents.length - 1];
       }
 
-      console.log("EVENT_ACTIVATE", updatedEvents[indices]);
-
       indices.forEach((ind) => {
 
         let event = updatedEvents[ind];
@@ -135,7 +133,7 @@ export function onEventComplete(event) {
 }
 
 export function onEventActivate(trigger) {
-  if (trigger.id.startsWith("HINT")) {
+  if (trigger.id != null && trigger.id.startsWith("HINT")) {
     let hintId = trigger.id.replace(/.*([0-9]+)/, '$1');
     return actionCreators.eventAdd(
       {
@@ -165,11 +163,14 @@ function calculatePayloadString(payload) {
 
   switch(payload.type) {
     case "MESSAGE_VISIBLE":
-      payloadStr += "\"message\": \"" + payload.id + "\", \"thread\": \"" + payload.thread + "\"";
+      payloadStr += "\"message\": \"" + payload.message + "\", \"thread\": \"" + payload.thread + "\"";
       break;
     case "REGION_VISIBLE":
-        payloadStr += "\"id\": \"" + payload.region + "\"";
-        break;
+      payloadStr += "\"id\": \"" + payload.region + "\"";
+      break;
+    case "PENALTY_ADD":
+      payloadStr += "\"penalty\":  " + payload.penalty + ", \"name\": \"" + payload.name + "\"";
+      break;
     default:
       payloadStr +=  "\"id\": \"" + payload.id + "\""
       break;
@@ -178,7 +179,7 @@ function calculatePayloadString(payload) {
   if (payload.visible !=  null) {
     payloadStr += ", \"visible\": " + payload.visible + "}";
   } else {
-    payloadStr += ", \"visible\": true}";
+    payloadStr += "}";
   }
 
   return payloadStr;

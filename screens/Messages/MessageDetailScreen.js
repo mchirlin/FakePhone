@@ -8,7 +8,8 @@ import MessageDecision from '../../components/Messages/MessageDecision'
 import { onOptionChoose } from '../../reducers/decisionReducer'
 import { onEventActivate } from '../../reducers/eventReducer'
 import { onMessageAdd, onDecisionRemove } from '../../reducers/messageReducer'
-import { onDelayAdd } from '../../reducers/homeReducer'
+import { onPenaltyAdd } from '../../reducers/homeReducer'
+import { onThreadOpen } from '../../reducers/messageReducer'
 import styles from '../../constants/styles'
 
 class MessagesScreen extends Component {
@@ -47,10 +48,17 @@ class MessagesScreen extends Component {
     { length: 10, offset: 10 * index, index }
   );
 
-  componentDidMount() {
-    setTimeout(() => {
-      this.flatListRef.scrollToEnd();
-    });
+  componentDidUpdate() {
+    const { threads, onThreadOpen, navigation } = this.props;
+    const itemId = navigation.getParam('itemId', 0);
+
+    const thread = threads.filter((thread) => {
+      return thread.id === itemId
+    })[0];
+
+    if (!thread.messages.filter(message => message.visible).every(message => message.read)) {
+      onThreadOpen(itemId);
+    }
   }
 
   render() {
@@ -62,7 +70,7 @@ class MessagesScreen extends Component {
       onMessageAdd,
       onDecisionRemove,
       onEventActivate,
-      onDelayAdd
+      onPenaltyAdd
     } = this.props
     const itemId = navigation.getParam('itemId', 0);
 
@@ -100,7 +108,7 @@ class MessagesScreen extends Component {
               onDecisionRemove={onDecisionRemove}
               onMessageAdd={onMessageAdd}
               onEventActivate={onEventActivate}
-              onDelayAdd={onDelayAdd}
+              onPenaltyAdd={onPenaltyAdd}
               threadId={thread.id}
               messageId={messages[messages.length - 1].id}
             />
@@ -123,7 +131,8 @@ const mapDispatchToProps = {
   onDecisionRemove,
   onMessageAdd,
   onEventActivate,
-  onDelayAdd
+  onPenaltyAdd,
+  onThreadOpen
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessagesScreen);

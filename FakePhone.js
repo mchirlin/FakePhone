@@ -5,15 +5,20 @@ import { purgeStoredState } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
 import { Asset, AppLoading, Font, Icon, Location, Notifications, Permissions, SplashScreen, TaskManager } from 'expo';
 import { CacheManager } from 'react-native-expo-image-cache';
+import { Audio } from 'expo'
 
 import AppNavigator from './navigation/AppNavigator';
+
+import { settings } from './constants/sounds'
+import { mapAudioTrackToSound } from './functions/soundFunctions'
 import {updateObjectInArray} from './functions/arrayFunctions'
-import {getTimerActions, getLocationActions, getNotificationMessage, handleActions} from './functions/actionFunctions'
+import {getTimerActions, getLocationActions, getNotification, handleActions} from './functions/actionFunctions'
 import persistConfig from './reducers/index'
 
 import { LOCATION_TASK_NAME } from './constants/tasks'
 
 globalStore = null;
+soundPlaying = false;
 
 class FakePhone extends Component {
 
@@ -29,18 +34,28 @@ class FakePhone extends Component {
     this.store = store;
     this._loadResourcesAsync = this._loadResourcesAsync.bind(this);
     this.alertPresent = false;
+    this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
   }
 
   async componentDidMount() {
-    const {map} = this.store.getState();
+    const { map, notification } = this.store.getState();
 
     this.timerID = setInterval(async () => {
       let actions = getTimerActions(this.store.getState());
       let screen = this.store.getState().home.screen;
+      handleActions(this.store, actions);
       if (actions.length > 0) {
-        let notification = getNotificationMessage(actions, screen);
+        let notification = getNotification(actions, screen, this.store.getState());
+        console.log("notification", notification);
         if (!this.alertPresent && notification) {
           this.alertPresent = true;
+
+          if (notification.sound && !soundPlaying) {
+            soundPlaying = true;
+            await this.soundObject.loadAsync({uri: notification.sound});
+            await this.soundObject.playAsync();
+          }
+
           Alert.alert(
             notification.title,
             notification.body,
@@ -57,7 +72,6 @@ class FakePhone extends Component {
           );
         }
       }
-      handleActions(this.store, actions);
     }, 1000);
 
     let { status : locationStatus } = await Permissions.askAsync(Permissions.LOCATION);
@@ -69,6 +83,10 @@ class FakePhone extends Component {
     if (notificationStatus !== 'granted') {
       console.warn('Permission to notifications was denied');
     }
+
+    Audio.setAudioModeAsync(settings);
+    this.soundObject = new Audio.Sound()
+    this.soundObject.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
   }
 
   componentWillUnmount() {
@@ -145,6 +163,13 @@ class FakePhone extends Component {
     this.setState({ isLoadingComplete: true });
     SplashScreen.hide()
   };
+
+  onPlaybackStatusUpdate (playbackStatus) {
+    if (playbackStatus.didJustFinish) {
+      this.soundObject.unloadAsync();
+      soundPlaying = false;
+    }
+  }
 }
 
 const styles = StyleSheet.create({

@@ -43,12 +43,14 @@ class StatsScreen extends Component {
   }
 
   render() {
-    const {navigation, timeStart, timeEnd, delays, distanceWalked, locationsFound, locationsTotal} = this.props;
+    const {navigation, timeStart, timeEnd, penalties, distanceWalked, locationsFound, locationsTotal} = this.props;
 
     let totalTime = (timeEnd?timeEnd:this.state.now) - timeStart;
 
-    if(delays) {
-      delays.map((delay) => totalTime += delay.delay);
+    if(penalties) {
+      penalties.map((penalty) => {
+        totalTime += penalty.penalty;
+      });
     }
 
     return (
@@ -74,7 +76,7 @@ const mapStateToProps = state => {
   return {
     timeStart: state.home.timeStart,
     timeEnd: state.home.timeEnd,
-    delays: state.home.delays,
+    penalties: state.home.penalties,
     distanceWalked: state.map.distanceWalked,
     locationsFound: state.map.markers.filter(marker => marker.found && marker.visible).length,
     locationsTotal: state.map.locationsTotal

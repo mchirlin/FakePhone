@@ -4,6 +4,7 @@ import { onEventActivate, onEventComplete, onEventAdd } from '../reducers/eventR
 import { onOptionAdd, onOptionRemove } from '../reducers/decisionReducer';
 import { onLocationUpdate, onMarkerFound } from '../reducers/mapReducer';
 import { onHintActivate } from '../reducers/hintReducer';
+import { onlyUnique } from './arrayFunctions';
 import NavigationService from '../navigation/NavigationService';
 
 export function getLocationActions (state, coords) {
@@ -165,19 +166,21 @@ function handleHint(store, id) {
   return [];
 }
 
-export function getNotificationMessage(actions, screen) {
+export function getNotification(actions, screen, state) {
   actions = actions.filter(action =>
     action.type != 'EVENT_COMPLETE' &&
     action.type != 'EVENT_ACTIVATE' &&
+    action.type != 'PENALTY_ADD' &&
     action.type != 'HINT' &&
     action.type != 'MARKER_DISCOVERABLE');
 
   if (actions.length == 0) {
     return null;
-  } else if (actions.length > 1) {
+  } else if (actions.map(action => action.type).filter(onlyUnique).length > 1) {
     return {
       title: 'New Updates',
-      body: 'You have received updates, check your home screen'
+      body: 'You have received updates, check your home screen',
+      sound: state.home.sound
     }
   } else {
     // No alert if making some invisible
@@ -190,40 +193,53 @@ export function getNotificationMessage(actions, screen) {
         if(screen == 'Messages' || screen == 'MessageDetail') return null;
         return {
           title: 'New Text Message',
-          body: 'You have received a new text message'
+          body: 'You have received a new text message',
+          sound: state.message.sound
         }
       case "IMAGE_VISIBLE":
         return {
           title: 'New Image',
-          body: 'You have received a new image'
+          body: 'You have received a new image',
+          sound: state.photos.sound
         }
       case "MAIL_VISIBLE":
         if(screen == 'Mail' || screen == 'MailDetail') return null;
         return {
           title: 'New Email',
-          body: 'You have received a new email'
+          body: 'You have received a new email',
+          sound: state.mail.sound
         }
       case "REGION_VISIBLE":
         if (actions[0].payload)
         return {
           title: 'New Region',
-          body: 'A new region has been discovered on your map'
+          body: 'A new region has been discovered on your map',
+          sound: state.map.sound
         }
       case "MARKER_VISIBLE":
         return {
           title: 'New Location',
-          body: 'A new location has been discovered on your map'
+          body: 'A new location has been discovered on your map',
+          sound: state.map.sound
+        }
+      case "MARKER_FOUND":
+        return {
+          title: 'New Location',
+          body: 'A new location has been visited on your map',
+          sound: state.map.sound
         }
       case "DATE_VISIBLE":
       case "DATE_ADD":
         return {
           title: 'New Event',
-          body: 'A new event has been added to your calendar'
+          body: 'A new event has been added to your calendar',
+          sound: state.calendar.sound
         }
     }
     return {
       title: 'New Updates',
-      body: 'You have received updates, check your home screen'
+      body: 'You have received updates, check your home screen',
+      sound: state.home.sound
     }
   }
 }

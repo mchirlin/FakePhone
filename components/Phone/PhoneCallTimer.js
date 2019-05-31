@@ -8,7 +8,6 @@ export default class PhoneCallTimer extends Component {
     const {onTimerUpdate, onCallEnd, navigation} = this.props
 
     this.timerID = setInterval(() => {
-      console.log("Timer Seconds", this.props.timerSeconds);
       onTimerUpdate();
       if (this.props.timerSeconds >= this.props.callLength) {
         navigation.goBack();

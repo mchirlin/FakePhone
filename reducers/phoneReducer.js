@@ -51,6 +51,7 @@ export const phone = (state = initialState, action) => {
 
   switch (type) {
     case types.NUMBER_ADD: {
+      console.log("Number Add", payload);
       return {
         ...state,
         phoneNumber: (phoneNumber?phoneNumber:'') + payload,

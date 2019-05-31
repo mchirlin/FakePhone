@@ -1,4 +1,4 @@
-import {updateObjectInArray, addObjectToArrayAfterIndex} from '../functions/arrayFunctions'
+import {updateObjectInArray, addObjectToArrayAfterIndex, moveObjectFromToIndex} from '../functions/arrayFunctions'
 
 // The types of actions that you can dispatch to modify the state of the store
 export const types = {
@@ -123,15 +123,19 @@ export const message = (state = initialState, action) => {
             index: threadIndex,
             item: {
               ...thread,
-              messages: updateObjectInArray(
-                thread.messages,
-                {
-                  index: messageIndex,
-                  item: {
-                    ...message,
-                    visible: true
+              messages: moveObjectFromToIndex(
+                updateObjectInArray(
+                  thread.messages,
+                  {
+                    index: messageIndex,
+                    item: {
+                      ...message,
+                      visible: true
+                    }
                   }
-                }
+                ),
+                messageIndex,
+                thread.messages.length
               )
             }
           }

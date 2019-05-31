@@ -15,36 +15,36 @@ export default class MessageDecision extends Component {
       onMessageAdd,
       onDecisionRemove,
       onEventActivate,
-      onDelayAdd
+      onPenaltyAdd
     } = this.props
 
     const buttons = decision.options.map(item => item.text);
     const selectedStatuses = decision.options.map((item, index) => item.status=="selected"?index:null);
     const selectedIndices = selectedStatuses.filter(item => item != null);
 
-    function getHintDelay(index) {
-      let delay;
+    function getHintPenalty(index) {
+      let penalty;
       let name;
       switch (index) {
         case 0:
-          delay = 30000;
+          penalty = 30000;
           name = "Small Hint";
           break;
         case 1:
-          delay = 120000;
+          penalty = 120000;
           name = "Medium Hint";
           break;
         case 2:
-          delay = 300000;
+          penalty = 300000;
           name = "Big Hint";
           break;
         default:
-          delay = 1000000;
+          penalty = 1000000;
           name = "Unknown Hint";
       }
 
       return {
-        delay: delay,
+        penalty: penalty,
         name: name
       };
     }
@@ -71,7 +71,7 @@ export default class MessageDecision extends Component {
             });
             onDecisionRemove(threadId, messageId);
             if (decision.id === "hints") {
-              onDelayAdd(getHintDelay(selectedIndex));
+              onPenaltyAdd(getHintPenalty(selectedIndex));
             }
             decision.options[selectedIndex].triggers.map((trigger) => {
               onEventActivate(trigger);
