@@ -40,17 +40,6 @@ export function getLocationActions (state, coords) {
     })
   }
 
-  if (actions.length > 0) {
-    let message = getNotificationMessage(actions, null);
-    if (message) {
-      Notifications.presentLocalNotificationAsync({
-        title: message.title,
-        body: message.body
-      });
-      Notifications.setBadgeNumberAsync(1);
-    }
-  }
-
   actions.push(onLocationUpdate(coords));
 
   return actions;
@@ -169,10 +158,13 @@ function handleHint(store, id) {
 export function getNotification(actions, screen, state) {
   actions = actions.filter(action =>
     action.type != 'EVENT_COMPLETE' &&
+    action.type != 'EVENT_ADD' &&
     action.type != 'EVENT_ACTIVATE' &&
     action.type != 'PENALTY_ADD' &&
     action.type != 'HINT' &&
-    action.type != 'MARKER_DISCOVERABLE');
+    action.type != 'MARKER_DISCOVERABLE' &&
+    action.type != 'LOCATION_UPDATE'
+  );
 
   if (actions.length == 0) {
     return null;

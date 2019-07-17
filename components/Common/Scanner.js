@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Button, View } from 'react-native';
-import { Camera, Permissions, BarCodeScanner } from 'expo';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
 
 import styles from '../../constants/styles'
 

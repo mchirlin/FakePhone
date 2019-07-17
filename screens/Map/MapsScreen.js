@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
-import { Location, MapView } from 'expo'
+import MapView from 'react-native-maps';
+import * as Location from 'expo-location';
 import { connect } from 'react-redux'
 import { Button } from 'react-native-elements';
 
@@ -61,12 +62,12 @@ class MapsScreen extends Component {
         </View>
         <View style={styles.listSeparator}/>
         <MapView
-          provider={MapView.PROVIDER_GOOGLE}
-          customMapStyle={mapStyle}
+          /*provider={MapView.PROVIDER_GOOGLE}
+          customMapStyle={mapStyle}*/
           style={{ flex: 1 }}
           initialRegion={initialRegion?initialRegion:{
-            latitude: -33.8733152,
-            longitude: 151.2249823,
+            latitude: currentLocation.latitude,
+            longitude: currentLocation.longitude,
             latitudeDelta: 0.045,
             longitudeDelta: 0.030,
           }}

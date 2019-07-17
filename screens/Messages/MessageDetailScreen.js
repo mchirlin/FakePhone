@@ -87,7 +87,7 @@ class MessagesScreen extends Component {
     }
 
     return (
-      <View style={{flex: 1, flexDirection: 'columns'}}>
+      <View style={{flex: 1, flexDirection: 'column'}}>
         <FlatList
           ref={(ref) => { this.flatListRef = ref; }}
           contentContainerStyle={{ padding: 10 }}

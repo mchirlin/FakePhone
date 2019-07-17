@@ -13,9 +13,10 @@ import styles from '../../constants/styles'
 class BankPayScreen extends Component {
 
   state = {
-    correct: 0,
     account: '',
-    amount: ''
+    accountCorrect: false,
+    amount: '',
+    amountCorrect: false
   };
 
   static navigationOptions = ({ navigation }) => {
@@ -34,6 +35,8 @@ class BankPayScreen extends Component {
           return accountNumber.accountNumber == value;
         case "amount":
           return accountNumber.amount == value;
+        case "both":
+          return accountNumber.accountNumber == value[0] && accountNumber.amount == value[1];
       }
 
       return false;
@@ -42,7 +45,7 @@ class BankPayScreen extends Component {
     if(results.length > 0) {
       return results[0];
     } else {
-      return null;
+      return false;
     }
   }
 
@@ -58,19 +61,19 @@ class BankPayScreen extends Component {
           label="Account Number"
           onChange={(text) => {
             if(this.validateDetails("account", text, accountNumbers)) {
-              this.setState({account: text, correct: 1})
+              this.setState({account: text, accountCorrect: 1})
             } else {
-              this.setState({account: text, correct: 0})
+              this.setState({account: text, accountCorrect: 0})
             }
           }}
           value={this.state.account}
           keyboardType="numeric"
           inputStyle={
-            this.state.correct == 0?
+            this.state.accountCorrect == 0?
             styles.bankInput:
             [
               styles.textLargeBold,
-              (this.state.correct == -1)?styles.textRed:styles.textGreen,
+              (this.state.accountCorrect == -1)?styles.textRed:styles.textGreen,
               styles.marginBottom
             ]
           }
@@ -79,19 +82,19 @@ class BankPayScreen extends Component {
           label="Amount"
           onChange={(text) => {
             if(this.validateDetails("amount", text, accountNumbers)) {
-              this.setState({amount: text, correct: 1})
+              this.setState({amount: text, amountCorrect: 1})
             } else {
-              this.setState({amount: text, correct: 0})
+              this.setState({amount: text, amountCorrect: 0})
             }
           }}
           value={this.state.amount}
           keyboardType="numeric"
           inputStyle={
-            this.state.correct == 0?
+            this.state.amountCorrect == 0?
             styles.bankInput:
             [
               styles.textLargeBold,
-              (this.state.correct == -1)?styles.textRed:styles.textGreen,
+              (this.state.amountCorrect == -1)?styles.textRed:styles.textGreen,
               styles.marginBottom
             ]
           }
@@ -103,7 +106,7 @@ class BankPayScreen extends Component {
             titleStyle={styles.textLarge}
             buttonStyle={styles.buttonSubmit}
             onPress={() => {
-              let result = this.validateDetails(this.state.account, this.state.amount, accountNumbers);
+              let result = this.validateDetails("both", [this.state.account, this.state.amount], accountNumbers);
 
               if(result) {
                 if (result.triggers) {
@@ -113,7 +116,7 @@ class BankPayScreen extends Component {
                 }
                 navigation.navigate('Home')
               } else {
-                this.setState({correct: -1})
+                this.setState({accountCorrect: -1, amountCorrect: -1})
               }
             }} />
         </View>

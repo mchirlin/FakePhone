@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View } from 'react-native';
+import { ScrollView } from 'react-native';
 import { connect } from 'react-redux'
 
 import Mail from '../../components/Mail/Mail'
@@ -24,9 +24,9 @@ class MailDetailScreen extends Component {
     })[0];
 
     return (
-      <View style={styles.mailDetailContainer}>
+      <ScrollView  style={styles.mailDetailContainer}>
         <Mail email={email} />
-      </View>
+      </ScrollView>
     );
   }
 }

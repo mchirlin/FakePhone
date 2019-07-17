@@ -4,6 +4,10 @@ import { connect } from 'react-redux'
 import { purgeStoredState } from 'redux-persist'
 import { Updates } from 'expo'
 import { Button } from 'react-native-elements';
+import * as TaskManager from 'expo-task-manager';
+import * as Location from 'expo-location';
+
+import { LOCATION_TASK_NAME } from '../../constants/tasks'
 
 import { persistConfig } from '../../reducers/index'
 import styles from '../../constants/styles'
@@ -32,6 +36,8 @@ class DataScreen extends Component {
               text: 'OK',
               onPress: () => {
                 purgeStoredState(persistConfig)
+                Location.stopLocationUpdatesAsync(LOCATION_TASK_NAME);
+                TaskManager.unregisterAllTasksAsync()
                 Updates.reload()
               }
             },

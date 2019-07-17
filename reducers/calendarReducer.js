@@ -37,7 +37,7 @@ export const calendar = (state = initialState, action) => {
     case types.DATE_ADD: {
       return {
         ...state,
-        badgeNumber: badgeNumber + 1,
+        badgeNumber: payload.markedDate.read?badgeNumber:badgeNumber + 1,
         markedDates: {
           ...markedDates,
           [payload.date]: payload.markedDate

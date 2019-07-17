@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
-import { Video } from 'expo'
+import { Video } from 'expo-av';
 import { Image } from 'react-native-expo-image-cache';
 
 import styles from '../../constants/styles'

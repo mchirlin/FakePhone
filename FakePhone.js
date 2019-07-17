@@ -3,22 +3,30 @@ import { Alert, Button, Image, ImageBackground, Platform, StatusBar, StyleSheet,
 import { connect, Provider } from 'react-redux'
 import { purgeStoredState } from 'redux-persist'
 import { PersistGate } from 'redux-persist/integration/react'
-import { Asset, AppLoading, Font, Icon, Location, Notifications, Permissions, SplashScreen, TaskManager } from 'expo';
+import { AppLoading, Notifications, SplashScreen } from 'expo';
+import { Audio } from 'expo-av';
+import * as TaskManager from 'expo-task-manager';
+import * as Permissions from 'expo-permissions';
+import * as Location from 'expo-location';
+import * as Icon from '@expo/vector-icons';
+import * as Font from 'expo-font';
+import { Asset } from 'expo-asset';
 import { CacheManager } from 'react-native-expo-image-cache';
-import { Audio } from 'expo'
-
 import AppNavigator from './navigation/AppNavigator';
+import { AppState } from 'react-native';
 
 import { settings } from './constants/sounds'
 import { mapAudioTrackToSound } from './functions/soundFunctions'
-import {updateObjectInArray} from './functions/arrayFunctions'
-import {getTimerActions, getLocationActions, getNotification, handleActions} from './functions/actionFunctions'
+import { updateObjectInArray} from './functions/arrayFunctions'
+import { getTimerActions, getLocationActions, getNotification, handleActions } from './functions/actionFunctions'
 import persistConfig from './reducers/index'
 
 import { LOCATION_TASK_NAME } from './constants/tasks'
 
 globalStore = null;
 soundPlaying = false;
+soundObject = null;
+alertPresent = false;
 
 class FakePhone extends Component {
 
@@ -33,60 +41,56 @@ class FakePhone extends Component {
 
     this.store = store;
     this._loadResourcesAsync = this._loadResourcesAsync.bind(this);
-    this.alertPresent = false;
     this.onPlaybackStatusUpdate = this.onPlaybackStatusUpdate.bind(this);
   }
 
   async componentDidMount() {
     const { map, notification } = this.store.getState();
 
-    this.timerID = setInterval(async () => {
-      let actions = getTimerActions(this.store.getState());
-      let screen = this.store.getState().home.screen;
-      handleActions(this.store, actions);
-      if (actions.length > 0) {
-        let notification = getNotification(actions, screen, this.store.getState());
-        console.log("notification", notification);
-        if (!this.alertPresent && notification) {
-          this.alertPresent = true;
-
-          if (notification.sound && !soundPlaying) {
-            soundPlaying = true;
-            await this.soundObject.loadAsync({uri: notification.sound});
-            await this.soundObject.playAsync();
-          }
-
-          Alert.alert(
-            notification.title,
-            notification.body,
-            [
-              {
-                text: 'OK',
-                onPress: () => {
-                  this.alertPresent = false;
-                  Notifications.setBadgeNumberAsync(0);
-                }
-              }
-            ],
-            { cancelable: false }
-          );
-        }
-      }
-    }, 1000);
-
-    let { status : locationStatus } = await Permissions.askAsync(Permissions.LOCATION);
-    if (locationStatus !== 'granted') {
+    let { status, permissions } = await Permissions.askAsync(
+      Permissions.LOCATION,
+      Permissions.USER_FACING_NOTIFICATIONS,
+      Permissions.CAMERA
+    );
+    if (status !== 'granted') {
+      alert("You haven't granted location, notification, and camera permissions! Please update the app settings for the app to work correctly.");
+    }
+    /*
+    // Get location permissions
+    let { status : status } = await Permissions.askAsync(Permissions.LOCATION);
+    if (status !== 'granted') {
       console.warn('Permission to access location was denied');
     }
 
+    // Get notification permissions
     let { status : notificationStatus } = await Permissions.askAsync(Permissions.USER_FACING_NOTIFICATIONS);
     if (notificationStatus !== 'granted') {
       console.warn('Permission to notifications was denied');
     }
 
+    // Get camera permissions
+    const { status : cameraStatus } = await Permissions.askAsync(Permissions.CAMERA);
+    if (cameraStatus !== 'granted') {
+      console.warn('Permission to camera was denied');
+    }
+
+    */
+
     Audio.setAudioModeAsync(settings);
-    this.soundObject = new Audio.Sound()
-    this.soundObject.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
+    soundObject = new Audio.Sound()
+    soundObject.setOnPlaybackStatusUpdate(this.onPlaybackStatusUpdate);
+
+    this.timerID = setInterval(async () => {
+      let actions = getTimerActions(this.store.getState());
+      let screen = this.store.getState().home.screen;
+      handleActions(this.store, actions);
+
+      if (actions.length > 0) {
+        let notification = getNotification(actions, screen, this.store.getState());
+        handleSound(notification);
+        handleAlert(notification);
+      }
+    }, 1000);
   }
 
   componentWillUnmount() {
@@ -166,9 +170,48 @@ class FakePhone extends Component {
 
   onPlaybackStatusUpdate (playbackStatus) {
     if (playbackStatus.didJustFinish) {
-      this.soundObject.unloadAsync();
+      soundObject.unloadAsync();
       soundPlaying = false;
     }
+  }
+}
+
+async function handleSound(notification) {
+  if (notification && notification.sound && !soundPlaying) {
+    soundPlaying = true;
+    await soundObject.loadAsync({uri: notification.sound});
+    await soundObject.playAsync();
+  }
+}
+
+function handleAlert(notification) {
+  if (notification && !alertPresent) {
+    alertPresent = true;
+
+    Alert.alert(
+      notification.title,
+      notification.body,
+      [
+        {
+          text: 'OK',
+          onPress: () => {
+            alertPresent = false;
+            Notifications.setBadgeNumberAsync(0);
+          }
+        }
+      ],
+      { cancelable: false }
+    );
+  }
+}
+
+async function handleBackgroundAlert(notification) {
+  if (notification) {
+    await Notifications.presentLocalNotificationAsync({
+      title: notification.title,
+      body: notification.body
+    });
+    await Notifications.setBadgeNumberAsync(1);
   }
 }
 
@@ -237,7 +280,7 @@ export default class RootComponent extends Component {
 TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
   try {
     if (error) {
-      // Error occurred - check `error.message` for more details.
+      console.error("Location Update Error", data);
       return;
     }
     if (data && globalStore) {
@@ -245,6 +288,16 @@ TaskManager.defineTask(LOCATION_TASK_NAME, ({ data, error }) => {
 
       let actions = getLocationActions(globalStore.getState(), locations[0]);
       handleActions(globalStore, actions);
+
+      if (actions.length > 0) {
+        let notification = getNotification(actions, null, globalStore.getState());
+        if (AppState.currentState == 'active') {
+          handleSound(notification);
+          handleAlert(notification);
+        } else {
+          handleBackgroundAlert(notification);
+        }
+      }
     }
   } catch {}
 });

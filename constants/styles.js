@@ -155,9 +155,6 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   mailDetailContainer: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'stretch',
     backgroundColor: colors.lightBackground,
   },
   mailDetailBackground: {

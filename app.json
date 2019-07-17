@@ -4,12 +4,12 @@
     "description": "Used in conjunction with Fun Events Group(c) lead outdoor events",
     "slug": "FakePhone",
     "privacy": "unlisted",
-    "sdkVersion": "32.0.0",
+    "sdkVersion": "33.0.0",
     "platforms": [
       "ios",
       "android"
     ],
-    "version": "1.0.6",
+    "version": "1.0.11",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -18,7 +18,7 @@
       "backgroundColor": "#ffffff"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 30000
     },
     "assetBundlePatterns": [
       "**/*"
@@ -31,13 +31,30 @@
       },
       "infoPlist": {
         "NSCameraUsageDescription": "This app uses the camera to scan QR codes to trigger storyline events",
-        "NSLocationWhenInUseUsageDescription": "This app uses your location to trigger storyline events"
+        "NSLocationWhenInUseUsageDescription": "This app uses your location to trigger storyline events",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "This app uses your location to trigger storyline events",
+        "NSLocationAlwaysUsageDescription": "This app uses your location to trigger storyline events",
+        "UIBackgroundModes": [
+          "location"
+        ]
       }
     },
     "android": {
       "package": "com.mchirlin.fakephone",
-      "versionCode": 3,
+      "versionCode": 11,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.mchirlin.fakephone"
+    },
+    "hooks": {
+      "postPublish": [
+        {
+          "file": "sentry-expo/upload-sourcemaps",
+          "config": {
+            "organization": "michael-chirlin",
+            "project": "fun-events-group",
+            "authToken": "f09cbd0aaf9440e1ad21a7ba134703373f9b8bdae29b41f18e26259f21115cf7"
+          }
+        }
+      ]
     }
   }
 }

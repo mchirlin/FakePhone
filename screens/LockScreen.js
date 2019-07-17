@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { KeyboardAvoidingView, StyleSheet, Dimensions, Text, View } from 'react-native';
 import { Header } from 'react-navigation'
 import { connect } from 'react-redux';
-import { Location } from 'expo';
+import * as Location from 'expo-location';
 
 import CodePin from '../components/Common/CodePin';
 import {onLocationUpdate} from '../reducers/mapReducer'

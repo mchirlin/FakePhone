@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
 import { View, Text } from 'react-native';
 import { connect } from 'react-redux'
-import { Camera, Permissions, BarCodeScanner } from 'expo';
+import { BarCodeScanner } from 'expo-barcode-scanner';
+import * as Permissions from 'expo-permissions';
+import { Camera } from 'expo-camera';
 
 import HomeButton from '../../components/Common/HomeButton'
 import { onEventActivate } from '../../reducers/eventReducer'
@@ -24,11 +26,6 @@ class CameraScreen extends Component {
     }
   }
 
-  async componentDidMount() {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    this.setState({ hasCameraPermission: status === 'granted' });
-  }
-
   render() {
     const { hasCameraPermission } = this.state;
     const { navigation, onEventActivate } = this.props
@@ -43,45 +40,39 @@ class CameraScreen extends Component {
       }
     }
 
-    if (hasCameraPermission === null) {
-      return <View />;
-    } else if (hasCameraPermission === false) {
-      return <Text>No access to camera</Text>;
-    } else {
-      return (
-        <View style={{ flex: 1 }}>
-          <Camera
-            style={{ flex: 1 }} type={this.state.type}
-            barCodeScannerSettings={{
-              barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
-            }}
-            onBarCodeScanned={handleBarCodeScanned}
-            >
-            {/* <View
+    return (
+      <View style={{ flex: 1 }}>
+        <Camera
+          style={{ flex: 1 }} type={this.state.type}
+          barCodeScannerSettings={{
+            barCodeTypes: [BarCodeScanner.Constants.BarCodeType.qr]
+          }}
+          onBarCodeScanned={handleBarCodeScanned}
+          >
+          {/* <View
+            style={{
+              flex: 1,
+              backgroundColor: 'transparent',
+              flexDirection: 'row',
+            }}>
+            <TouchableOpacity
               style={{
-                flex: 1,
-                backgroundColor: 'transparent',
-                flexDirection: 'row',
+                flex: 0.1,
+                alignSelf: 'flex-end',
+                alignItems: 'center',
+              }}
+              onPress={() => {
+                this.setState({
+                  type: this.state.type === Camera.Constants.Type.back
+                    ? Camera.Constants.Type.front
+                    : Camera.Constants.Type.back,
+                });
               }}>
-              <TouchableOpacity
-                style={{
-                  flex: 0.1,
-                  alignSelf: 'flex-end',
-                  alignItems: 'center',
-                }}
-                onPress={() => {
-                  this.setState({
-                    type: this.state.type === Camera.Constants.Type.back
-                      ? Camera.Constants.Type.front
-                      : Camera.Constants.Type.back,
-                  });
-                }}>
-              </TouchableOpacity>
-            </View> */}
-          </Camera>
-        </View>
-      );
-    }
+            </TouchableOpacity>
+          </View> */}
+        </Camera>
+      </View>
+    );
   }
 }
 

@@ -1,4 +1,4 @@
-import { Audio } from 'expo'
+import { Audio } from 'expo-av';
 
 export const tones = [
   require('../assets/sounds/1.wav'),
@@ -24,5 +24,6 @@ export const settings = {
   interruptionModeIOS: Audio.INTERRUPTION_MODE_IOS_MIX_WITH_OTHERS,
   shouldDuckAndroid: true,
   interruptionModeAndroid: Audio.INTERRUPTION_MODE_ANDROID_DUCK_OTHERS,
-  playThroughEarpieceAndroid: true
+  playThroughEarpieceAndroid: false,
+  staysActiveInBackground: false
 }

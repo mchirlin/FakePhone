@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Text, View } from 'react-native';
 import { connect } from 'react-redux';
-import { Audio } from 'expo'
+import { Audio } from 'expo-av';
 
 import PhoneNumber from '../../components/Phone/PhoneNumber'
 import PhoneButtonRow from '../../components/Phone/PhoneButtonRow'
@@ -96,8 +96,6 @@ const mapStateToProps = state => {
   const phoneNumber = state.phone.phoneNumber?state.phone.phoneNumber:''
 
   const track = mapAudioTrackToSound(state.phone.audioTrack, state.phone.phoneNumbers);
-
-  console.log("Audio Track", state.phone.audioTrack);
 
   return {
     phoneNumber: phoneNumber,
