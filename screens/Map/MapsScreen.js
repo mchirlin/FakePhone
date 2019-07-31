@@ -66,8 +66,8 @@ class MapsScreen extends Component {
           customMapStyle={mapStyle}*/
           style={{ flex: 1 }}
           initialRegion={initialRegion?initialRegion:{
-            latitude: currentLocation.latitude,
-            longitude: currentLocation.longitude,
+            latitude: currentLocation?currentLocation.latitude:initialRegion.latitude,
+            longitude: currentLocation?currentLocation.longitude:initialRegion.longitude,
             latitudeDelta: 0.045,
             longitudeDelta: 0.030,
           }}

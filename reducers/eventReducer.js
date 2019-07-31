@@ -134,7 +134,7 @@ export function onEventComplete(event) {
 
 export function onEventActivate(trigger) {
   if (trigger.id != null && trigger.id.startsWith("HINT")) {
-    let hintId = trigger.id.replace(/.*([0-9]+)/, '$1');
+    let hintId = trigger.id.substring(4);
     return actionCreators.eventAdd(
       {
         id: trigger.id,

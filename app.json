@@ -9,7 +9,7 @@
       "ios",
       "android"
     ],
-    "version": "1.0.11",
+    "version": "1.0.12",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "splash": {
@@ -41,7 +41,7 @@
     },
     "android": {
       "package": "com.mchirlin.fakephone",
-      "versionCode": 11,
+      "versionCode": 12,
       "playStoreUrl": "https://play.google.com/store/apps/details?id=com.mchirlin.fakephone"
     },
     "hooks": {

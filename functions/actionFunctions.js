@@ -93,7 +93,7 @@ function handleHint(store, id) {
     return hint.id == id
   });
   let hint = hints[index];
-  if (hint.status != 'active') {
+  if (hint && hint.status != 'active') {
     // Create all of the hint actions
     let actions = hint.hints.flatMap((h, i) => {
       let text;
@@ -163,7 +163,9 @@ export function getNotification(actions, screen, state) {
     action.type != 'PENALTY_ADD' &&
     action.type != 'HINT' &&
     action.type != 'MARKER_DISCOVERABLE' &&
-    action.type != 'LOCATION_UPDATE'
+    action.type != 'LOCATION_UPDATE' &&
+    action.type != 'TIMER_STOP' &&
+    action.type != 'QR_FOUND'
   );
 
   if (actions.length == 0) {

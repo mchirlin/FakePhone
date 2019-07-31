@@ -76,7 +76,7 @@ class LockScreen extends Component {
                 const location = await Location.getCurrentPositionAsync();
                 onLocationUpdate(location);
                 await Location.startLocationUpdatesAsync(LOCATION_TASK_NAME, {
-                  accuracy: Location.Accuracy.High,
+                  accuracy: Location.Accuracy.Highest,
                   showsBackgroundLocationIndicator: true
                 });
               })();

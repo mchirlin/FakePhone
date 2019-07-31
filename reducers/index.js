@@ -13,6 +13,7 @@ import { mail } from './mailReducer'
 import { phone } from './phoneReducer'
 import { message } from './messageReducer'
 import { map } from './mapReducer'
+import { camera } from './cameraReducer'
 import { bank } from './bankReducer'
 import { calendar } from './calendarReducer'
 import { photos } from './photosReducer'
@@ -30,6 +31,7 @@ const rootReducer = combineReducers({
   mail,
   message,
   map,
+  camera,
   bank,
   calendar,
   photos,

@@ -5,9 +5,10 @@ import { BarCodeScanner } from 'expo-barcode-scanner';
 import * as Permissions from 'expo-permissions';
 import { Camera } from 'expo-camera';
 
-import HomeButton from '../../components/Common/HomeButton'
-import { onEventActivate } from '../../reducers/eventReducer'
-import styles from '../../constants/styles'
+import HomeButton from '../../components/Common/HomeButton';
+import { onEventActivate } from '../../reducers/eventReducer';
+import { onQrFound } from '../../reducers/cameraReducer';
+import styles from '../../constants/styles';
 
 class CameraScreen extends Component {
 
@@ -28,13 +29,25 @@ class CameraScreen extends Component {
 
   render() {
     const { hasCameraPermission } = this.state;
-    const { navigation, onEventActivate } = this.props
+    const { qrCodes, navigation, onEventActivate, onQrFound } = this.props
 
     const handleBarCodeScanned = ({ data }) => {
       navigation.navigate('Home')
 
       if (data.startsWith('FunEvents')) {
-        onEventActivate({id: data.substr(10)})
+        let id = data.substr(10);
+        onEventActivate({id: id});
+
+        const qrCode = qrCodes.find((qrCode) => {
+          return qrCode.id === id
+        })
+
+        if (qrCode && !qrCode.found) {
+          onQrFound(qrCode);
+          qrCode.triggers.map((trigger) => {
+            onEventActivate(trigger);
+          })
+        }
       } else {
         alert('Invalid Code')
       }
@@ -78,12 +91,13 @@ class CameraScreen extends Component {
 
 const mapStateToProps = state => {
   return {
-
+    qrCodes: state.camera.qrCodes
   }
 };
 
 const mapDispatchToProps = {
-  onEventActivate
+  onEventActivate,
+  onQrFound
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(CameraScreen);
