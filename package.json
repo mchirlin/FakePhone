@@ -10,7 +10,7 @@
   },
   "dependencies": {
     "@expo/vector-icons": "^10.0.2",
-    "expo": "^33.0.0",
+    "expo": "^46.0.14",
     "expo-asset": "^5.0.1",
     "expo-av": "^5.0.2",
     "expo-barcode-scanner": "^5.0.1",
